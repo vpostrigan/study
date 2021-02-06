@@ -1,10 +1,7 @@
-package com.videal.ZzzVertxTest;
+package study_vertx;
 
 import java.util.Optional;
-import java.util.Set;
 import java.util.regex.Pattern;
-
-import com.videal.ZzzVertxTest.Course02Callbacks.User;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Handler;
@@ -13,7 +10,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.Message;
-import io.vertx.core.net.NetSocket;
 
 public class Course02Callbacks {
 

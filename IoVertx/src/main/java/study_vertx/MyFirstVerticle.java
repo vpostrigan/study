@@ -1,4 +1,4 @@
-package com.videal.ZzzVertxTest;
+package study_vertx;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
