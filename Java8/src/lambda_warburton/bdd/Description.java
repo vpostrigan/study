@@ -1,0 +1,33 @@
+/* (c) Copyright Selerity, Inc. 2009-2018. All rights reserved. This source code is confidential 
+and proprietary information of Selerity Inc. and may be used only by a recipient designated 
+by and for the purposes permitted by Selerity Inc. in writing.  Reproduction of, dissemination 
+of, modifications to or creation of derivative works from this source code, whether in source 
+or binary forms, by any means and in any form or manner, is expressly prohibited, except with 
+the prior written permission of Selerity Inc..  THIS CODE AND INFORMATION ARE PROVIDED "AS IS"
+WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED
+WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE. This notice may not be 
+removed from the software by any user thereof.*/
+package bdd;
+
+public class Description {
+
+    public Description(String name) {
+    }
+
+    public static void describe(String name, Suite behavior) {
+        Description description = new Description(name);
+        behavior.specifySuite(description);
+    }
+
+    public void should(String description, Specification specification) {
+        try {
+            Expect expect = new Expect();
+            specification.specifyBehaviour(expect);
+            //Runner.current.recordSuccess(suite, description);
+        } catch (AssertionError cause) {
+            //Runner.current.recordFailure(suite, description, cause);
+        } catch (Throwable cause) {
+            //Runner.current.recordError(suite, description, cause);
+        }
+    }
+}
