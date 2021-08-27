@@ -10,11 +10,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.spring_boot</groupId>
-    <artifactId>spring_boot</artifactId>
+    <groupId>com.swagger_openapi_springboot</groupId>
+    <artifactId>swagger_openapi_springboot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring_boot</name>
-    <description>spring_boot</description>
+    <name>swagger_openapi_springboot</name>
+    <description>swagger_openapi_springboot</description>
     <properties>
         <java.version>11</java.version>
     </properties>
