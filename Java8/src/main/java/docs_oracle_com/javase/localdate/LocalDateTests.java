@@ -1,5 +1,6 @@
 package docs_oracle_com.javase.localdate;
 
+import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -7,12 +8,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.MonthDay;
+import java.time.OffsetDateTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +65,12 @@ public class LocalDateTests {
         localTime();
 
         zoneIdAndZoneOffset();
+
+        timezones();
+
+        offsetDateTime();
+
+        instant();
     }
 
     private static void dayOfWeekAndMonth_Enums() {
@@ -141,6 +151,73 @@ public class LocalDateTests {
                 System.out.printf(out);
             }
         }
+    }
+
+    private static void timezones() {
+        System.out.println("\ntimezones:");
+
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d yyyy  hh:mm a", Locale.ENGLISH);
+
+        // Leaving from San Francisco on July 20, 2013, at 7:30 p.m.
+        LocalDateTime leaving = LocalDateTime.of(2013, Month.JULY, 20, 19, 30);
+        ZoneId leavingZone = ZoneId.of("America/Los_Angeles");
+        ZonedDateTime departure = ZonedDateTime.of(leaving, leavingZone);
+
+        try {
+            String out1 = departure.format(format); // LEAVING:  Jul 20 2013  07:30 PM (America/Los_Angeles)
+            System.out.printf("LEAVING:  %s (%s)%n", out1, leavingZone);
+        } catch (DateTimeException exc) {
+            System.out.printf("%s can't be formatted!%n", departure);
+            throw exc;
+        }
+
+        // Flight is 10 hours and 50 minutes, or 650 minutes
+        ZoneId arrivingZone = ZoneId.of("Asia/Tokyo");
+        ZonedDateTime arrival = departure.withZoneSameInstant(arrivingZone).plusMinutes(650);
+
+        try {
+            String out2 = arrival.format(format);
+            System.out.printf("ARRIVING: %s (%s)%n", out2, arrivingZone); // ARRIVING: Jul 21 2013  10:20 PM (Asia/Tokyo)
+        } catch (DateTimeException exc) {
+            System.out.printf("%s can't be formatted!%n", arrival);
+            throw exc;
+        }
+
+        if (arrivingZone.getRules().isDaylightSavings(arrival.toInstant()))
+            System.out.printf("  (%s daylight saving time will be in effect.)%n", arrivingZone);
+        else
+            System.out.printf("  (%s standard time will be in effect.)%n", arrivingZone);
+    }
+
+    private static void offsetDateTime() {
+        System.out.println("\noffsetDateTime:");
+
+        // Find the last Thursday in July 2013.
+        LocalDateTime localDate = LocalDateTime.of(2013, Month.JULY, 20, 19, 30, 59);
+        ZoneOffset offset = ZoneOffset.of("-08:00");
+
+        OffsetDateTime offsetDate = OffsetDateTime.of(localDate, offset);
+        System.out.println("offsetDate: " + offsetDate);
+        OffsetDateTime lastThursday = offsetDate.with(TemporalAdjusters.lastInMonth(DayOfWeek.THURSDAY));
+        System.out.printf("The last Thursday in July 2013 is the %sth.%n", lastThursday.getDayOfMonth());
+    }
+
+    private static void instant() {
+        System.out.println("\ninstant:");
+
+        Instant now = Instant.now();
+        System.out.println(now);
+
+        Instant oneHourLater = Instant.now().plus(1, ChronoUnit.HOURS);
+        System.out.println(oneHourLater);
+
+        long secondsFromEpoch = Instant.ofEpochSecond(0L).until(Instant.now(), ChronoUnit.SECONDS);
+        System.out.println("secondsFromEpoch: " + secondsFromEpoch);
+
+        Instant timestamp = Instant.now();
+        LocalDateTime ldt = LocalDateTime.ofInstant(timestamp, ZoneId.systemDefault());
+        System.out.printf("%s %d %d at %d:%d%n", ldt.getMonth(), ldt.getDayOfMonth(),
+                ldt.getYear(), ldt.getHour(), ldt.getMinute());
     }
 
 }
