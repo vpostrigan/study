@@ -19,8 +19,12 @@ import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.TemporalQueries;
+import java.time.temporal.TemporalQuery;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -238,6 +242,71 @@ public class LocalDateTests {
             date = LocalDate.of(2013, Month.JUNE, 18);
             System.out.println("Given the date: " + date + " the next payday: " +
                     date.with(new PaydayAdjuster())); // 2013-06-28
+            System.out.println();
+
+            // Predefined Queries
+            // The precision query returns the smallest ChronoUnit
+            TemporalQuery<TemporalUnit> query = TemporalQueries.precision();
+            System.out.printf("LocalDate precision is %s%n", LocalDate.now().query(query));
+            System.out.printf("LocalDateTime precision is %s%n", LocalDateTime.now().query(query));
+            System.out.printf("Year precision is %s%n", Year.now().query(query));
+            System.out.printf("YearMonth precision is %s%n", YearMonth.now().query(query));
+            System.out.printf("Instant precision is %s%n", Instant.now().query(query));
+
+            // Custom Queries
+            class FamilyVacations implements TemporalQuery<Boolean> {
+                // Returns true if the passed-in date occurs during one of the
+                // family vacations. Because the query compares the month and day only,
+                // the check succeeds even if the Temporal types are not the same.
+                public Boolean queryFrom(TemporalAccessor date) {
+                    int month = date.get(ChronoField.MONTH_OF_YEAR);
+                    int day = date.get(ChronoField.DAY_OF_MONTH);
+
+                    // Disneyland over Spring Break
+                    if ((month == Month.APRIL.getValue()) && ((day >= 3) && (day <= 8)))
+                        return Boolean.TRUE;
+
+                    // Smith family reunion on Lake Saugatuck
+                    if ((month == Month.AUGUST.getValue()) && ((day >= 8) && (day <= 14)))
+                        return Boolean.TRUE;
+
+                    return Boolean.FALSE;
+                }
+            }
+            class FamilyBirthdays {
+                // Returns true if the passed-in date is the same as one of the
+                // family birthdays. Because the query compares the month and day only,
+                // the check succeeds even if the Temporal types are not the same.
+                public Boolean isFamilyBirthday(TemporalAccessor date) {
+                    int month = date.get(ChronoField.MONTH_OF_YEAR);
+                    int day = date.get(ChronoField.DAY_OF_MONTH);
+
+                    // Angie's birthday is on April 3.
+                    if ((month == Month.APRIL.getValue()) && (day == 3))
+                        return Boolean.TRUE;
+
+                    // Sue's birthday is on June 18.
+                    if ((month == Month.JUNE.getValue()) && (day == 18))
+                        return Boolean.TRUE;
+
+                    // Joe's birthday is on May 29.
+                    if ((month == Month.MAY.getValue()) && (day == 29))
+                        return Boolean.TRUE;
+
+                    return Boolean.FALSE;
+                }
+            }
+
+            // Invoking the query without using a lambda expression.
+            Boolean isFamilyVacation = date.query(new FamilyVacations());
+
+            // Invoking the query using a lambda expression.
+            Boolean isFamilyBirthday = date.query(new FamilyBirthdays()::isFamilyBirthday);
+
+            if (isFamilyVacation.booleanValue() || isFamilyBirthday.booleanValue())
+                System.out.printf("%s is an important date!%n", date);
+            else
+                System.out.printf("%s is not an important date.%n", date);
         }
     }
 
