@@ -2,6 +2,7 @@ package docs_oracle_com.javase.localdate;
 
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.time.LocalTime;
 import java.time.Month;
 import java.time.MonthDay;
 import java.time.OffsetDateTime;
+import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -48,7 +50,7 @@ import java.util.Set;
  */
 public class LocalDateTests {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         {
             LocalDate today = LocalDate.now();
             System.out.println(today);
@@ -307,6 +309,52 @@ public class LocalDateTests {
                 System.out.printf("%s is an important date!%n", date);
             else
                 System.out.printf("%s is not an important date.%n", date);
+        }
+        { // Period and Duration
+            System.out.println("\n[Duration]:");
+
+            //  the duration between two instants
+            Instant t1 = Instant.now();
+            Thread.sleep(10);
+            Instant t2 = Instant.now();
+            long ns = Duration.between(t1, t2).toNanos();
+            System.out.println("Duration.between: " + ns + "ns");
+
+            // adds 10 seconds to an Instant
+            Instant start = Instant.now();
+            System.out.println("before 'adds 10 seconds': " + start);
+            Duration gap = Duration.ofSeconds(10);
+            Instant later = start.plus(gap);
+            System.out.println("adds 10 seconds: " + later);
+
+            System.out.println("\n[ChronoUnit]:");
+            long gap2 = ChronoUnit.MILLIS.between(Instant.now().minus(Duration.ofSeconds(10)), Instant.now());
+            System.out.println("\ngap2: " + gap2 + "ms");
+
+            System.out.println("\n[Period]:");
+            // how old you are, assuming that you were born on January 1, 1960.
+            LocalDate today = LocalDate.now();
+            LocalDate birthday = LocalDate.of(1960, Month.JANUARY, 1);
+
+            Period p = Period.between(birthday, today);
+            long p2 = ChronoUnit.DAYS.between(birthday, today);
+            System.out.println("You are" +
+                    " " + p.getYears() + " years," +
+                    " " + p.getMonths() + " months, and" +
+                    " " + p.getDays() + " days old." +
+                    " (" + p2 + " days total)");
+
+            // how long it is until your next birthday
+            LocalDate nextBDay = birthday.withYear(today.getYear());
+            // If your birthday has occurred this year already, add 1 to the year.
+            if (nextBDay.isBefore(today) || nextBDay.isEqual(today)) {
+                nextBDay = nextBDay.plusYears(1);
+            }
+            p = Period.between(today, nextBDay);
+            p2 = ChronoUnit.DAYS.between(today, nextBDay);
+            System.out.println("There are " +
+                    p.getMonths() + " months, and " +
+                    p.getDays() + " days until your next birthday. (" + p2 + " total)");
         }
     }
 
