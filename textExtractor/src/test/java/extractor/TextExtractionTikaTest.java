@@ -1,13 +1,11 @@
 package extractor;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -38,9 +36,9 @@ public class TextExtractionTikaTest {
             try (InputStream is = this.getClass().getResourceAsStream(s)) {
                 TextExtractionTika r = new TextExtractionTika(is);
 
-                String expected = getResourceAsString(this.getClass(), s + ".ResultPoi.txt", StandardCharsets.UTF_8.name());
-                FileUtils.write(new File(s + ".ResultPoi.txt"), r.getText(), StandardCharsets.UTF_8.name());
-                //Assertions.assertEquals(expected, r.getText());
+                String expected = getResourceAsString(this.getClass(), s + ".ResultTika.txt", StandardCharsets.UTF_8.name());
+                // FileUtils.write(new File(s + ".ResultTika.txt"), r.getText(), StandardCharsets.UTF_8.name());
+                Assertions.assertEquals(expected, r.getText());
             }
         }
     }
