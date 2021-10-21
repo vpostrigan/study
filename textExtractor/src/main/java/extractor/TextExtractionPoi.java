@@ -1,4 +1,4 @@
-package msftdoc;
+package extractor;
 
 import org.apache.poi.extractor.POIOLE2TextExtractor;
 import org.apache.poi.extractor.POITextExtractor;
@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextExtraction {
+public class TextExtractionPoi {
 
     public static List<String> extractText(String inputFile) throws IOException, OpenXML4JException, XmlException {
         try (FileInputStream fis = new FileInputStream(inputFile)) {
