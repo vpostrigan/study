@@ -1,5 +1,6 @@
 package docs_oracle_com.javase.localdate;
 
+import java.time.Clock;
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -52,6 +53,14 @@ public class LocalDateTests {
 
     public static void main(String[] args) throws InterruptedException {
         {
+            LocalDateTime time = LocalDateTime.ofInstant(Instant.now(), ZoneOffset.UTC);
+            System.out.println(time);
+
+            time = LocalDateTime.now();
+            System.out.println(time);
+        }
+        {
+            System.out.println("\n[nLocalDate]:");
             LocalDate today = LocalDate.now();
             System.out.println(today);
 
@@ -355,6 +364,13 @@ public class LocalDateTests {
             System.out.println("There are " +
                     p.getMonths() + " months, and " +
                     p.getDays() + " days until your next birthday. (" + p2 + " total)");
+        }
+        { // Period and Duration
+            System.out.println("\n[Clock]:");
+            System.out.println(Clock.systemUTC()); // SystemClock[Z]
+            System.out.println("instant: " + Clock.systemUTC().instant()); // instant: 2021-11-23T18:59:49.716Z
+            System.out.println("zone: " + Clock.systemUTC().getZone()); // zone: Z
+            System.out.println("millis: " + Clock.systemUTC().millis()); // millis: 1637693989716
         }
     }
 

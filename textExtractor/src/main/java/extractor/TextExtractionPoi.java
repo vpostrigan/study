@@ -51,29 +51,29 @@ public class TextExtractionPoi {
         return parse(referenceToType(reference), is);
     }
 
-    private Type referenceToType(String reference) {
+    private Type referenceToType(String file0) {
         Type type = null;
-        String referenceInLowerCase = reference.toLowerCase();
+        String file = file0.toLowerCase();
 
-        if (referenceInLowerCase.endsWith(".pdf") || referenceInLowerCase.equals("application/pdf")) {
+        if (file.endsWith(".pdf") || file.equals("application/pdf")) {
             type = Type.PDF;
-        } else if (referenceInLowerCase.endsWith(".doc") || referenceInLowerCase.equals("application/msword")) {
+        } else if (file.endsWith(".doc") || file.equals("application/msword")) {
             type = Type.DOC;
-        } else if (referenceInLowerCase.endsWith(".docx") || referenceInLowerCase.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+        } else if (file.endsWith(".docx") || file.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
             type = Type.DOCX;
-        } else if (referenceInLowerCase.endsWith(".rtf") || referenceInLowerCase.equals("application/rtf")) {
+        } else if (file.endsWith(".rtf") || file.equals("application/rtf")) {
             type = Type.RTF;
-        } else if (referenceInLowerCase.endsWith(".xls") || referenceInLowerCase.equals("application/vnd.ms-excel")) {
+        } else if (file.endsWith(".xls") || file.equals("application/vnd.ms-excel")) {
             type = Type.XLS;
-        } else if (referenceInLowerCase.endsWith(".xlsx") || referenceInLowerCase.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
+        } else if (file.endsWith(".xlsx") || file.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
             type = Type.XLSX;
-        } else if (referenceInLowerCase.endsWith(".ppt") || referenceInLowerCase.equals("application/vnd.ms-powerpoint")) {
+        } else if (file.endsWith(".ppt") || file.equals("application/vnd.ms-powerpoint")) {
             type = Type.PPT;
-        } else if (referenceInLowerCase.endsWith(".pptx") || referenceInLowerCase.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")) {
+        } else if (file.endsWith(".pptx") || file.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")) {
             type = Type.PPTX;
-        } else if (referenceInLowerCase.endsWith(".vsd") || referenceInLowerCase.equals("application/vnd.visio")) {
+        } else if (file.endsWith(".vsd") || file.equals("application/vnd.visio")) {
             type = Type.VSD;
-        } else if (referenceInLowerCase.endsWith(".vsdx") || referenceInLowerCase.equals("application/vnd.ms-visio.drawing.main+xml")) {
+        } else if (file.endsWith(".vsdx") || file.equals("application/vnd.ms-visio.drawing.main+xml")) {
             type = Type.VSDX;
         }
 
