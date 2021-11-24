@@ -17,6 +17,10 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.chrono.HijrahDate;
+import java.time.chrono.JapaneseDate;
+import java.time.chrono.MinguoDate;
+import java.time.chrono.ThaiBuddhistDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoField;
@@ -29,7 +33,9 @@ import java.time.temporal.TemporalQueries;
 import java.time.temporal.TemporalQuery;
 import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -371,6 +377,65 @@ public class LocalDateTests {
             System.out.println("instant: " + Clock.systemUTC().instant()); // instant: 2021-11-23T18:59:49.716Z
             System.out.println("zone: " + Clock.systemUTC().getZone()); // zone: Z
             System.out.println("millis: " + Clock.systemUTC().millis()); // millis: 1637693989716
+        }
+        { // Non-ISO Date Conversion
+            System.out.println("\n[Non-ISO Date Conversion]:");
+            LocalDateTime date = LocalDateTime.of(2013, Month.JULY, 20, 19, 30);
+
+            JapaneseDate jdate = JapaneseDate.from(date);
+            HijrahDate hdate = HijrahDate.from(date);
+            MinguoDate mdate = MinguoDate.from(date);
+            ThaiBuddhistDate tdate = ThaiBuddhistDate.from(date);
+            System.out.println("JapaneseDate: " + jdate);
+            System.out.println("HijrahDate: " + hdate);
+            System.out.println("MinguoDate: " + mdate);
+            System.out.println("ThaiBuddhistDate: " + tdate);
+
+            // Converting to an ISO-Based Date
+            System.out.println("\n[Converting to an ISO-Based Date]:");
+            LocalDate date2 = LocalDate.from(JapaneseDate.now());
+            System.out.println(date2); // will show today's date 2021-11-24
+        }
+        { // Legacy Date-Time Code
+            System.out.println("\n[Legacy Date-Time Code]:");
+            Calendar now = Calendar.getInstance();
+            ZonedDateTime zdt = ZonedDateTime.ofInstant(now.toInstant(), ZoneId.systemDefault());
+            System.out.println("ZonedDateTime: " + zdt); // ZonedDateTime: 2021-11-24T15:11:33.053+02:00[Europe/Helsinki]
+
+            Instant inst = new Date().toInstant();
+            Date newDate = Date.from(inst);
+            System.out.println("Instant: " + inst); // Instant: 2021-11-24T13:11:33.056Z
+            System.out.println("Date from Instant: " + newDate); // Date from Instant: Wed Nov 24 15:11:33 EET 2021
+        }
+
+        { // Exercises
+            System.out.println("\n[for a given year, reports the length of each month within that year]:");
+            Year year = Year.of(2021);
+            System.out.printf("For the year %s:%n", year);
+            for (Month month : Month.values()) {
+                YearMonth ym = YearMonth.of(year.getValue(), month);
+                System.out.printf("%s: %d days%n", month, ym.lengthOfMonth());
+            }
+
+            System.out.println("\n[for a given month of the current year, lists all of the Mondays in that month]:");
+            Month month = Month.valueOf("March".toUpperCase());
+            System.out.printf("For the month of %s:%n", month);
+            LocalDate date = Year.now().atMonth(month).atDay(1).
+                    with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
+            while (date.getMonth() == month) {
+                System.out.printf("%s%n", date);
+                date = date.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+            }
+
+            System.out.println("\n[tests whether a given date occurs on Friday the 13th]:");
+            month = Month.valueOf("August".toUpperCase());
+            int day = 13;
+            date = Year.now().atMonth(month).atDay(day);
+
+            System.out.println(date.query(date0 ->
+                    (date0.get(ChronoField.DAY_OF_MONTH) == 13) &&
+                            (date0.get(ChronoField.DAY_OF_WEEK) == 5)
+            ).toString());
         }
     }
 
