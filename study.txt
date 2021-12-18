@@ -1,0 +1,160 @@
+﻿
+
+SoftDev
+https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
+
+
+
+
+
+http://docs.grails.org/4.0.x/guide/single.html
+7 Object Relational Mapping (GORM)
+
+Upgrade Hibernate
+
+
+https://www.tutorialkart.com/
+http://tutorials.jenkov.com/
+https://howtodoinjava.com/
+
+
+
+Эффективная работа с кодом в IntelliJ IDEA, или Знаете ли вы свою IDE как знаем её мы?
+https://www.youtube.com/watch?v=tpv5n2jWHlw    [+]
+
+Refactoring to Java 8
+https://www.youtube.com/watch?v=2xOtyGUTpQU
+IntelliJ IDEA Tips and Tricks 2021. By Hadi Hariri (2021)
+https://www.youtube.com/watch?v=41CC-F6KRP8
+
+Brainoteka Light
+Git + frontend
+https://www.youtube.com/channel/UCZ2voF_7s6UrSHMr0r0-NEg/videos
+
+GitLab
+https://www.youtube.com/channel/UCnMGQ8QHMAnVIsI3xJrihhg
+
+Уроки Java
+https://www.youtube.com/user/husivm/videos?view=0&sort=dd&flow=grid
+
+Основы Git. Подключение к GitHub
+https://www.youtube.com/watch?v=2VQfRn1H8HE
+
+DJava Tech
+https://www.youtube.com/channel/UCVloqGshVXfQk5Q6Q_1Xr2A/videos
+
+Git Полный курс
+https://www.youtube.com/playlist?list=PL4rYLeYunVf3d_RChabguoaKRptGxKTOo
+
+Git уроки
+https://www.youtube.com/playlist?list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh
+
+LearnQA: Онлайн обучение тестировщиков
+https://www.youtube.com/user/comolder/videos
+
+Programming spot
+https://www.youtube.com/channel/UCNFWLo2holxVrZ0u5lSYK4g/playlists
+
+Работа с Git-ом
+https://www.youtube.com/playlist?list=PLUYH9oDZsrZ2-p9I_GPrzFCzLH_RUglI_
+
+https://github.com/vpostrigan/git_study
+https://github.com/vpostrigan/git_study/tree/master/src/main/java/com/test
+
+Гоша Дударь
+https://www.youtube.com/user/PlurrimiTube/videos?reload=9
+
+https://habr.com/ru/post/106912/
+https://habr.com/ru/post/189046/
+
+Скринкаст по Git
+https://www.youtube.com/playlist?list=PLDyvV36pndZHkDRik6kKF6gSb0N0W995h
+
+Sagar S
+https://www.youtube.com/user/Sagarclips/search?query=git
+
+Курс "Git. Быстрый старт"
+https://www.youtube.com/playlist?list=PLmRNNqEA7JoM77hOJkPrLOfJQGizCLR3P
+
+Devcolibri
+https://www.youtube.com/c/devcolibri/playlists
+
+Git, Git Flow, TDD
+https://www.youtube.com/playlist?list=PLlWXhlUMyooYE1nvMUMdorkFVvUgWClUY
+
+https://learngitbranching.js.org/?locale=ru_RU
+
+Антон Григорьев, Git-flow: как построить процесс разработки и быстро получать любую версию продукта
+https://www.youtube.com/watch?v=rC6varfUhCo
+
+Самый тупой туториал по git... других не нашёл
+https://www.youtube.com/watch?v=wzTwn249Wnw
+
+Хороший программист
+https://www.youtube.com/c/goodprogrammer_ru/search?query=git
+
+
+https://git-scm.com/book/ru/v2/%D0%92%D0%B5%D1%82%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-Git-%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%B2%D0%B5%D1%82%D0%BA%D0%B0%D0%BC%D0%B8
+
+Основы Docker. Большой практический выпуск
+https://www.youtube.com/watch?v=QF4ZF857m44
+
+https://ru.wikisource.org/wiki/%D0%9E%D0%BD%D0%B0%D0%BD%D0%B8%D0%B7%D0%BC_(%D0%A0%D0%BE%D0%BB%D0%B5%D0%B4%D0%B5%D1%80)
+
+https://www.jetbrains.com/help/idea/discover-intellij-idea.html?keymap=primary_eclipse#developer-tools
+
+https://www.youtube.com/user/ESLTeacherTom/videos?reload=9
+https://www.youtube.com/watch?v=5_ISf2QDT4k
+
+Github для самых маленьких #3 | Практика – GitHub terminal | Работа с Git в терминале
+https://www.youtube.com/watch?v=fYFiQ7lpfiE
+https://www.youtube.com/watch?reload=9&v=hyUBMmL0WtA
+
+https://wiki.eclipse.org/EGit/User_Guide#Managing_Repositories
+https://www.vogella.com/tutorials/EclipseGit/article.html
+https://saros-project.github.io/legacy_docs/dev-environment-reqs.html#common
+
+
+
+wireshark
+Vladimir 14:26
+https://www.youtube.com/watch?v=qvj7Uzj8QPY
+
+
+Vladimir 20:04
+https://www.youtube.com/c/hak5/search?query=wireshark
+
+
+Vladimir 20:40
+https://www.youtube.com/watch?v=68t07-KOH9Y
+
+
+Vladimir 20:49
+https://www.youtube.com/watch?v=XzXJFuWOtcw
+
+https://www.youtube.com/watch?v=63J3E7DIocA
+
+
+Vladimir 23:11
+https://www.youtube.com/watch?v=_WQe36pZ3mA
+
+
+https://developers.google.com/machine-learning/guides/rules-of-ml
+
+
+https://refactoring.guru/ru/design-patterns/java
+
+
+Gradle
+https://www.youtube.com/playlist?list=PLMrCHxt7Eg1OOohbcP-YcW92E_q__wVhq
+https://www.youtube.com/watch?v=fHhf1xG0pIA
+https://www.youtube.com/watch?v=BwdkyrnJQsg
+
+
+https://3dnews.ru/934875
+
+
+antlr
+https://github.com/antlr/antlr4/blob/master/doc/lexer-rules.md
+https://docs.google.com/document/d/1gQ2lsidvN2cDUUsHEkT05L-wGbX5mROB7d70Aaj3R64/edit#heading=h.xr0jj8vcdsgc
+https://www.youtube.com/watch?v=f76y3Id0Ayo
