@@ -27,6 +27,9 @@ https://www.youtube.com/watch?v=2xOtyGUTpQU
 IntelliJ IDEA Tips and Tricks 2021. By Hadi Hariri (2021)
 https://www.youtube.com/watch?v=41CC-F6KRP8
 
+Debugger: A Hidden Gem. By Egor Ushakov (2021)
+https://www.youtube.com/watch?v=b85Y0R9UYhI
+
 Brainoteka Light
 Git + frontend
 https://www.youtube.com/channel/UCZ2voF_7s6UrSHMr0r0-NEg/videos
@@ -158,3 +161,14 @@ antlr
 https://github.com/antlr/antlr4/blob/master/doc/lexer-rules.md
 https://docs.google.com/document/d/1gQ2lsidvN2cDUUsHEkT05L-wGbX5mROB7d70Aaj3R64/edit#heading=h.xr0jj8vcdsgc
 https://www.youtube.com/watch?v=f76y3Id0Ayo
+
+
+- Docker
++ https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)
+
+Testcontainers – From Zero to Hero
+https://www.youtube.com/watch?v=v3eQCIWLYOw
+
+https://www.youtube.com/c/intellijidea/videos
+https://www.youtube.com/c/TechWorldwithNana/playlists?view=1&sort=dd&shelf_id=0
+https://www.youtube.com/watch?v=3c-iBn73dDE   Docker tutorial 2.45hours
