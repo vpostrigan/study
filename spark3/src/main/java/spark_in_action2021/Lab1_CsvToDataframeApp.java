@@ -14,9 +14,6 @@ public class Lab1_CsvToDataframeApp {
         app.start();
     }
 
-    /**
-     * The processing code.
-     */
     private void start() {
         // Creates a session on a local master
         SparkSession spark = SparkSession.builder()
@@ -31,6 +28,8 @@ public class Lab1_CsvToDataframeApp {
 
         // Shows at most 5 rows from the dataframe
         df.show(5);
+
+        spark.stop();
     }
 
 }

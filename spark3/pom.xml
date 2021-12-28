@@ -16,6 +16,8 @@
 
         <scala.version>2.12</scala.version>
         <spark.version>3.1.2</spark.version>
+        <postgresql.version>42.2.24</postgresql.version>
+        <mysql.version>8.0.27</mysql.version>
         <junit.version>4.13.1</junit.version>
     </properties>
 
@@ -70,6 +72,17 @@
                     <artifactId>slf4j-simple</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
         </dependency>
 
         <dependency>
