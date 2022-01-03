@@ -5,8 +5,8 @@ https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
 + https://www.youtube.com/watch?v=vfenFAjt0Ug   GIT | ДЛЯ ЧЕГО НУЖЕН GIT? | ВСТУПЛЕНИЕ | ОБЩИЙ ОБЗОР | ЧТО ТАКОЕ GIT? | КАК РАБОТАЕТ?
 + https://www.youtube.com/watch?v=afnUXlT3d6Y   GIT | СОСТОЯНИЯ ФАЙЛОВ В GIT | STAGING AREA | WORKING DIRECTORY
 + https://www.youtube.com/watch?v=WLTBoXN2IrQ   GIT | COMMIT | СТРУКТУРА COMMIT МЕССЕДЖА | COMMIT ФЛАГИ
-- https://www.youtube.com/watch?v=J29YZoLAZqA  10.22   GIT | ВСЕ ОСНОВНЫЕ КОМАНДЫ GIT В INTELLIJ IDEA
-
++ https://www.youtube.com/watch?v=J29YZoLAZqA   GIT | ВСЕ ОСНОВНЫЕ КОМАНДЫ GIT В INTELLIJ IDEA 2019
++ https://www.youtube.com/watch?v=9GWS5dyZfJw   JAVA | КАК ИЗБАВИТЬСЯ ОТ МНОЖЕСТВЕННЫХ IF ELSE
 
 http://docs.grails.org/4.0.x/guide/single.html
 7 Object Relational Mapping (GORM)

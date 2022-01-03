@@ -1,0 +1,25 @@
+https://dev.to/shree_j/how-to-install-and-run-psql-using-docker-41j2
+
+$ docker run --name postgresql-container -p 5432:5432 -e POSTGRES_PASSWORD=somePassword -d postgres
+$ docker ps -a
+
+connect to console
+# psql -U postgres
+
+$ psql -h localhost -p 5432 -U postgres -W
+Password for user postgres:
+psql (9.5.5, server 10.3 (Debian 10.3-1.pgdg90+1))
+WARNING: psql major version 9.5, server major version 10.
+Some psql features might not work.
+Type "help" for help.
+postgres=# \l
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |
+-----------+----------+----------+------------+------------+
+ mytestdb  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+           |          |          |            |            |
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 |
+           |          |          |            |            |
+(4 rows)

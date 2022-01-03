@@ -10,7 +10,8 @@
 	<modules>
 		<module>Java8</module>
 		<module>IoVertx</module>
-	</modules>
+        <module>aws-sdk-java-v2</module>
+    </modules>
 
 	<build>
 		<defaultGoal>install</defaultGoal>
