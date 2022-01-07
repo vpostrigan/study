@@ -7,6 +7,9 @@ https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
 + https://www.youtube.com/watch?v=WLTBoXN2IrQ   GIT | COMMIT | СТРУКТУРА COMMIT МЕССЕДЖА | COMMIT ФЛАГИ
 + https://www.youtube.com/watch?v=J29YZoLAZqA   GIT | ВСЕ ОСНОВНЫЕ КОМАНДЫ GIT В INTELLIJ IDEA 2019
 + https://www.youtube.com/watch?v=9GWS5dyZfJw   JAVA | КАК ИЗБАВИТЬСЯ ОТ МНОЖЕСТВЕННЫХ IF ELSE
++ https://www.youtube.com/watch?v=UuZoVgpW9pU   SPRING BOOT | DOCKER | AWS | ДЕПЛОЙ SPRING BOOT ПРИЛОЖЕНИЯ НА EC2 ИСПЛЬЗУЯ DOCKER
++ https://www.youtube.com/watch?v=bs1MN5obbmM   AWS | RDS | ПОДКЛЮЧИТЬСЯ К RDS ЧЕРЕЗ INTELLIJ IDEA | К УДАЛЕННОЙ БАЗЕ ДАННЫХ ЧЕРЕЗ ИНТЕРФЕЙС
++ https://www.youtube.com/watch?v=f792wPMW2f4   КОНСОЛЬ | ВСЕ ОСНОВНЫЕ КОМАНДЫ BASH
 
 http://docs.grails.org/4.0.x/guide/single.html
 7 Object Relational Mapping (GORM)
@@ -118,6 +121,14 @@ https://wiki.eclipse.org/EGit/User_Guide#Managing_Repositories
 https://www.vogella.com/tutorials/EclipseGit/article.html
 https://saros-project.github.io/legacy_docs/dev-environment-reqs.html#common
 
+ThinkJava - Лекции
+https://www.youtube.com/playlist?list=PL-hyhp2EKlhwuh61S9CTOU5CcUStTM3e3
+
+ADV-IT
+https://www.youtube.com/c/ADVIT4000/playlists
+
+AWS ECS Creation with Terraform | JayDemy
+https://www.youtube.com/watch?v=SVMTorsNrWg
 
 
 wireshark
@@ -173,3 +184,7 @@ https://www.youtube.com/watch?v=v3eQCIWLYOw
 https://www.youtube.com/c/intellijidea/videos
 https://www.youtube.com/c/TechWorldwithNana/playlists?view=1&sort=dd&shelf_id=0
 https://www.youtube.com/watch?v=3c-iBn73dDE   Docker tutorial 2.45hours
+
+
+android для чайников
+https://www.youtube.com/playlist?list=PLiyvK9bF4cUGt9cNj7r77w6zAm9rtUMYC

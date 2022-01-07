@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * https://www.youtube.com/watch?v=9GWS5dyZfJw
+ */
 public class Behavioral_Strategy {
 
     private static class CalculatorBefore {

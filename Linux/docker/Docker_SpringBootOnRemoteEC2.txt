@@ -1,0 +1,48 @@
+https://www.youtube.com/watch?v=UuZoVgpW9pU
+
+1) Создали SpringBoot проект в локальной папке testapp
+
+2) Подключились удаленно
+$ ssh -i "test.pem" ec2-user@ec2-35-170-...
+установить docker
+$ sudo yum update -y
+$ sudo yum install -y docker
+$ sudo service docker start
+docker установлен
+$ sudo docker ps
+чтобы без sudo
+$ newgrp docker
+$ docker ps
+CONTAINER ID    IMAGE
+...
+контейнеров нет
+
+3) копировать SpringBoot проект с локальной папки на удаленную машину
+$ scp -i "test.pem" -r testapp ec2-user@ec2-35-170-....com:/home/ec2-user
+
+// генерация .jar файла на удаленной машине
+// install jdk8
+testapp $ ./mvnw install
+создаст target/testapp-0.0.1-SNAPSHOT.jar
+
+4) Создание Docker файла на удаленной машине
+$ cd testapp/
+$ touch Dockerfile
+$ nano Dockerfile
+FROM openjdk:8
+ADD target/testapp-0.0.1-SNAPSHOT.jar testapp-0.0.1-SNAPSHOT.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "testapp-0.0.1-SNAPSHOT.jar"]
+$ cat Dockerfile    // покажет содержимое Dockerfile (проверили что сохранилось)
+
+5) build of image on remote machine (-t - имя тега, точка в конце - текущая директория)
+$ docker build -f Dockerfile -t spring-boot-app .
+$ docker images
+REPOSITORY          TAG ...
+spring-boot-app     latest
+openjdk             8   ...
+
+6) запуск image
+$ docker run -p 8080:8080 spring-boot-app
+
+теперь можно открыть приложение в браузере
