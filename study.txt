@@ -10,6 +10,8 @@ https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
 + https://www.youtube.com/watch?v=UuZoVgpW9pU   SPRING BOOT | DOCKER | AWS | ДЕПЛОЙ SPRING BOOT ПРИЛОЖЕНИЯ НА EC2 ИСПЛЬЗУЯ DOCKER
 + https://www.youtube.com/watch?v=bs1MN5obbmM   AWS | RDS | ПОДКЛЮЧИТЬСЯ К RDS ЧЕРЕЗ INTELLIJ IDEA | К УДАЛЕННОЙ БАЗЕ ДАННЫХ ЧЕРЕЗ ИНТЕРФЕЙС
 + https://www.youtube.com/watch?v=f792wPMW2f4   КОНСОЛЬ | ВСЕ ОСНОВНЫЕ КОМАНДЫ BASH
++ https://www.youtube.com/watch?v=Yym4aEWdOjg   GIT | BASH | КАК ЗАГРУЗИТЬ ФАЙЛЫ НА СЕРВЕР ($scp)
++ https://www.youtube.com/watch?v=0Wm6j4abLtw   JAVA | ПАТТЕРНЫ | БИЛДЕР
 
 http://docs.grails.org/4.0.x/guide/single.html
 7 Object Relational Mapping (GORM)

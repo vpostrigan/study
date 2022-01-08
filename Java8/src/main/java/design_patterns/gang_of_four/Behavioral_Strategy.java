@@ -1,4 +1,4 @@
-package patterns;
+package design_patterns.gang_of_four;
 
 import java.util.HashMap;
 import java.util.Map;
