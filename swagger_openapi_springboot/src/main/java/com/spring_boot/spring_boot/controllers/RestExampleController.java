@@ -48,8 +48,7 @@ public class RestExampleController {
     @GetMapping("/{id}")
     public Book findById(
             @Parameter(description = "id of book to be searched")
-            @PathVariable
-                    long id) {
+            @PathVariable long id) {
         Book book = new Book();
         book.setName("Name: " + id);
 
@@ -66,7 +65,8 @@ public class RestExampleController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Book updateBook(@PathVariable("id") final String id, @RequestBody final Book book) {
+    public Book updateBook(@PathVariable("id") final String id,
+                           @RequestBody final Book book) {
         return book;
     }
 

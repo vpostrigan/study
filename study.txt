@@ -12,6 +12,9 @@ https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
 + https://www.youtube.com/watch?v=f792wPMW2f4   КОНСОЛЬ | ВСЕ ОСНОВНЫЕ КОМАНДЫ BASH
 + https://www.youtube.com/watch?v=Yym4aEWdOjg   GIT | BASH | КАК ЗАГРУЗИТЬ ФАЙЛЫ НА СЕРВЕР ($scp)
 + https://www.youtube.com/watch?v=0Wm6j4abLtw   JAVA | ПАТТЕРНЫ | БИЛДЕР
++ https://www.youtube.com/watch?v=MFsXDkZj5Nc   JAVA | SPRING | КОНСТРУКТОР URL (URL BUILDER)
++ https://www.youtube.com/watch?v=ecbpTsajdWI   JAVA | SPRING | КАК ПРИСВОИТЬ СТАТУС КОД ИСКЛЮЧЕНИЮ
++ https://www.youtube.com/watch?v=1ia8B3SUie8   JAVA 8 | OPTIONAL | КАК ИЗБАВИТЬСЯ ОТ IF ELSE
 
 http://docs.grails.org/4.0.x/guide/single.html
 7 Object Relational Mapping (GORM)
@@ -160,6 +163,10 @@ https://developers.google.com/machine-learning/guides/rules-of-ml
 
 
 https://refactoring.guru/ru/design-patterns/java
+
+
+Основы функционирования компьютерных сетей
+https://www.youtube.com/watch?v=BJSITWkSDQg
 
 
 Gradle
