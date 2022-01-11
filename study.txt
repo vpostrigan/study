@@ -15,6 +15,8 @@ https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
 + https://www.youtube.com/watch?v=MFsXDkZj5Nc   JAVA | SPRING | КОНСТРУКТОР URL (URL BUILDER)
 + https://www.youtube.com/watch?v=ecbpTsajdWI   JAVA | SPRING | КАК ПРИСВОИТЬ СТАТУС КОД ИСКЛЮЧЕНИЮ
 + https://www.youtube.com/watch?v=1ia8B3SUie8   JAVA 8 | OPTIONAL | КАК ИЗБАВИТЬСЯ ОТ IF ELSE
++ https://www.youtube.com/watch?v=mZNq5ADknxU   Создание CRUD REST приложения на Spring Boot
+
 
 http://docs.grails.org/4.0.x/guide/single.html
 7 Object Relational Mapping (GORM)
