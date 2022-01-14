@@ -8,7 +8,7 @@
 	<version>0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>Java8</module>
+		<module>Java11</module>
 		<module>IoVertx</module>
         <module>aws-sdk-java-v2</module>
     </modules>

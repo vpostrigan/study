@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.study</groupId>
-    <artifactId>Java8</artifactId>
+    <artifactId>Java11</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -21,8 +21,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
+                    <release>11</release>
+                    <!--
                     <source>1.8</source>
                     <target>1.8</target>
+                    -->
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>
