@@ -1,7 +1,6 @@
 package spark_in_action2021;
 
 import static org.apache.spark.sql.functions.concat;
-import static org.apache.spark.sql.functions.length;
 import static org.apache.spark.sql.functions.lit;
 import static org.apache.spark.sql.functions.split;
 
@@ -15,11 +14,11 @@ import org.apache.spark.sql.SparkSession;
  *
  * @author jgp
  */
-public class Lab4_4DataframeUnionApp {
+public class Lab3_14DataframeUnionApp {
     private SparkSession spark;
 
     public static void main(String[] args) {
-        Lab4_4DataframeUnionApp app = new Lab4_4DataframeUnionApp();
+        Lab3_14DataframeUnionApp app = new Lab3_14DataframeUnionApp();
         app.start();
     }
 

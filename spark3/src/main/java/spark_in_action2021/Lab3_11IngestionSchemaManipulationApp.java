@@ -13,10 +13,10 @@ import org.apache.spark.sql.SparkSession;
  *
  * @author jgp
  */
-public class Lab3_1IngestionSchemaManipulationApp {
+public class Lab3_11IngestionSchemaManipulationApp {
 
     public static void main(String[] args) {
-        Lab3_1IngestionSchemaManipulationApp app = new Lab3_1IngestionSchemaManipulationApp();
+        Lab3_11IngestionSchemaManipulationApp app = new Lab3_11IngestionSchemaManipulationApp();
         app.start();
     }
 

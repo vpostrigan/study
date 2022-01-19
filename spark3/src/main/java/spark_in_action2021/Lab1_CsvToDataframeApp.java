@@ -16,20 +16,18 @@ public class Lab1_CsvToDataframeApp {
 
     private void start() {
         // Creates a session on a local master
-        SparkSession spark = SparkSession.builder()
+        try (SparkSession spark = SparkSession.builder()
                 .appName("CSV to Dataset")
                 .master("local")
-                .getOrCreate();
+                .getOrCreate();) {
+            // Reads a CSV file with header, called books.csv, stores it in a dataframe
+            Dataset<Row> df = spark.read().format("csv")
+                    .option("header", "true")
+                    .load("data/books.csv");
 
-        // Reads a CSV file with header, called books.csv, stores it in a dataframe
-        Dataset<Row> df = spark.read().format("csv")
-                .option("header", "true")
-                .load("data/books.csv");
-
-        // Shows at most 5 rows from the dataframe
-        df.show(5);
-
-        spark.stop();
+            // Shows at most 5 rows from the dataframe
+            df.show(5);
+        }
     }
 
 }

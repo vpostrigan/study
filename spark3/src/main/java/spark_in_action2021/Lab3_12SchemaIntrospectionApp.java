@@ -13,10 +13,10 @@ import org.apache.spark.sql.types.StructType;
  *
  * @author jgp
  */
-public class Lab3_2SchemaIntrospectionApp {
+public class Lab3_12SchemaIntrospectionApp {
 
     public static void main(String[] args) {
-        Lab3_2SchemaIntrospectionApp app = new Lab3_2SchemaIntrospectionApp();
+        Lab3_12SchemaIntrospectionApp app = new Lab3_12SchemaIntrospectionApp();
         app.start();
     }
 

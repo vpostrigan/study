@@ -14,10 +14,10 @@ import org.apache.spark.sql.SparkSession;
  *
  * @author jgp
  */
-public class Lab3_3JsonIngestionSchemaManipulationApp {
+public class Lab3_13JsonIngestionSchemaManipulationApp {
 
     public static void main(String[] args) {
-        Lab3_3JsonIngestionSchemaManipulationApp app = new Lab3_3JsonIngestionSchemaManipulationApp();
+        Lab3_13JsonIngestionSchemaManipulationApp app = new Lab3_13JsonIngestionSchemaManipulationApp();
         app.start();
     }
 
