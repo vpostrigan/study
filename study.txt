@@ -1,22 +1,19 @@
 ﻿
 
-SoftDev
-https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
-+ https://www.youtube.com/watch?v=vfenFAjt0Ug   GIT | ДЛЯ ЧЕГО НУЖЕН GIT? | ВСТУПЛЕНИЕ | ОБЩИЙ ОБЗОР | ЧТО ТАКОЕ GIT? | КАК РАБОТАЕТ?
-+ https://www.youtube.com/watch?v=afnUXlT3d6Y   GIT | СОСТОЯНИЯ ФАЙЛОВ В GIT | STAGING AREA | WORKING DIRECTORY
-+ https://www.youtube.com/watch?v=WLTBoXN2IrQ   GIT | COMMIT | СТРУКТУРА COMMIT МЕССЕДЖА | COMMIT ФЛАГИ
-+ https://www.youtube.com/watch?v=J29YZoLAZqA   GIT | ВСЕ ОСНОВНЫЕ КОМАНДЫ GIT В INTELLIJ IDEA 2019
-+ https://www.youtube.com/watch?v=9GWS5dyZfJw   JAVA | КАК ИЗБАВИТЬСЯ ОТ МНОЖЕСТВЕННЫХ IF ELSE
-+ https://www.youtube.com/watch?v=UuZoVgpW9pU   SPRING BOOT | DOCKER | AWS | ДЕПЛОЙ SPRING BOOT ПРИЛОЖЕНИЯ НА EC2 ИСПЛЬЗУЯ DOCKER
-+ https://www.youtube.com/watch?v=bs1MN5obbmM   AWS | RDS | ПОДКЛЮЧИТЬСЯ К RDS ЧЕРЕЗ INTELLIJ IDEA | К УДАЛЕННОЙ БАЗЕ ДАННЫХ ЧЕРЕЗ ИНТЕРФЕЙС
-+ https://www.youtube.com/watch?v=f792wPMW2f4   КОНСОЛЬ | ВСЕ ОСНОВНЫЕ КОМАНДЫ BASH
-+ https://www.youtube.com/watch?v=Yym4aEWdOjg   GIT | BASH | КАК ЗАГРУЗИТЬ ФАЙЛЫ НА СЕРВЕР ($scp)
-+ https://www.youtube.com/watch?v=0Wm6j4abLtw   JAVA | ПАТТЕРНЫ | БИЛДЕР
-+ https://www.youtube.com/watch?v=MFsXDkZj5Nc   JAVA | SPRING | КОНСТРУКТОР URL (URL BUILDER)
-+ https://www.youtube.com/watch?v=ecbpTsajdWI   JAVA | SPRING | КАК ПРИСВОИТЬ СТАТУС КОД ИСКЛЮЧЕНИЮ
-+ https://www.youtube.com/watch?v=1ia8B3SUie8   JAVA 8 | OPTIONAL | КАК ИЗБАВИТЬСЯ ОТ IF ELSE
-+ https://www.youtube.com/watch?v=mZNq5ADknxU   Создание CRUD REST приложения на Spring Boot
 
+
+
+Git & GitHub
+https://www.youtube.com/playlist?list=PLWKjhJtqVAbkFiqHnNaxpOPhh9tSWMXIF
+
+Coding with John
+https://www.youtube.com/c/CodingwithJohn/videos
+
+Java Tutorials
+https://www.youtube.com/playlist?list=PLWKjhJtqVAbnRT_hue-3zyiuIYj0OlpyG
+
+Amigoscode
+https://www.youtube.com/c/amigoscode/playlists
 
 http://docs.grails.org/4.0.x/guide/single.html
 7 Object Relational Mapping (GORM)
@@ -50,9 +47,6 @@ https://www.youtube.com/channel/UCnMGQ8QHMAnVIsI3xJrihhg
 
 Уроки Java
 https://www.youtube.com/user/husivm/videos?view=0&sort=dd&flow=grid
-
-Основы Git. Подключение к GitHub
-https://www.youtube.com/watch?v=2VQfRn1H8HE
 
 DJava Tech
 https://www.youtube.com/channel/UCVloqGshVXfQk5Q6Q_1Xr2A/videos
@@ -186,8 +180,8 @@ https://docs.google.com/document/d/1gQ2lsidvN2cDUUsHEkT05L-wGbX5mROB7d70Aaj3R64/
 https://www.youtube.com/watch?v=f76y3Id0Ayo
 
 
-- Docker
-+ https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)
+Docker для Начинающих - Полный Курс [2021]
+https://www.youtube.com/watch?v=n9uCgUzfeRQ
 
 Testcontainers – From Zero to Hero
 https://www.youtube.com/watch?v=v3eQCIWLYOw
@@ -199,3 +193,34 @@ https://www.youtube.com/watch?v=3c-iBn73dDE   Docker tutorial 2.45hours
 
 android для чайников
 https://www.youtube.com/playlist?list=PLiyvK9bF4cUGt9cNj7r77w6zAm9rtUMYC
+
+
+
+Processed
+
+  GitHub
++ https://www.youtube.com/watch?v=2VQfRn1H8HE  Основы Git. Подключение к GitHub (старая дока по Git, всего пара базовых команд)
+
+  Docker
++ https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)
+
+  Typescript
++ https://www.youtube.com/watch?v=tej4MeqT1SE  Основы Typescript и для чего он нужен
+
+SoftDev
+https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
++ https://www.youtube.com/watch?v=vfenFAjt0Ug   GIT | ДЛЯ ЧЕГО НУЖЕН GIT? | ВСТУПЛЕНИЕ | ОБЩИЙ ОБЗОР | ЧТО ТАКОЕ GIT? | КАК РАБОТАЕТ?
++ https://www.youtube.com/watch?v=afnUXlT3d6Y   GIT | СОСТОЯНИЯ ФАЙЛОВ В GIT | STAGING AREA | WORKING DIRECTORY
++ https://www.youtube.com/watch?v=WLTBoXN2IrQ   GIT | COMMIT | СТРУКТУРА COMMIT МЕССЕДЖА | COMMIT ФЛАГИ
++ https://www.youtube.com/watch?v=J29YZoLAZqA   GIT | ВСЕ ОСНОВНЫЕ КОМАНДЫ GIT В INTELLIJ IDEA 2019
++ https://www.youtube.com/watch?v=9GWS5dyZfJw   JAVA | КАК ИЗБАВИТЬСЯ ОТ МНОЖЕСТВЕННЫХ IF ELSE
++ https://www.youtube.com/watch?v=UuZoVgpW9pU   SPRING BOOT | DOCKER | AWS | ДЕПЛОЙ SPRING BOOT ПРИЛОЖЕНИЯ НА EC2 ИСПЛЬЗУЯ DOCKER
++ https://www.youtube.com/watch?v=bs1MN5obbmM   AWS | RDS | ПОДКЛЮЧИТЬСЯ К RDS ЧЕРЕЗ INTELLIJ IDEA | К УДАЛЕННОЙ БАЗЕ ДАННЫХ ЧЕРЕЗ ИНТЕРФЕЙС
++ https://www.youtube.com/watch?v=f792wPMW2f4   КОНСОЛЬ | ВСЕ ОСНОВНЫЕ КОМАНДЫ BASH
++ https://www.youtube.com/watch?v=Yym4aEWdOjg   GIT | BASH | КАК ЗАГРУЗИТЬ ФАЙЛЫ НА СЕРВЕР ($scp)
++ https://www.youtube.com/watch?v=0Wm6j4abLtw   JAVA | ПАТТЕРНЫ | БИЛДЕР
++ https://www.youtube.com/watch?v=MFsXDkZj5Nc   JAVA | SPRING | КОНСТРУКТОР URL (URL BUILDER)
++ https://www.youtube.com/watch?v=ecbpTsajdWI   JAVA | SPRING | КАК ПРИСВОИТЬ СТАТУС КОД ИСКЛЮЧЕНИЮ
++ https://www.youtube.com/watch?v=1ia8B3SUie8   JAVA 8 | OPTIONAL | КАК ИЗБАВИТЬСЯ ОТ IF ELSE
++ https://www.youtube.com/watch?v=mZNq5ADknxU   Создание CRUD REST приложения на Spring Boot
++ https://www.youtube.com/watch?v=XNEJo0IiJeg   КАК ЗАМЕНИТЬ IF ELSE И SWITCH CASE В JAVA 11 | РЕФАКТОРИНГ

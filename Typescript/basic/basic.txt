@@ -13,3 +13,17 @@ $ npm install -g typescript     -g install globally
 $ tsc -v
 Version 4.5.5
 
+4) запуск
+$  D:\workspace_study\study\Typescript\basic>node index_legacy.js
+   [
+     {
+       firstName: 'First Name 0',
+       lastName: 'Last Name 0',
+       job: 'Job 0',
+       isValid: true
+     },
+
+5) перевести в TypeScript.
+Переименовать index_legacy.js в index.ts
+компиляция:  $ tsc index.ts
+запуск:  $ node index.js
