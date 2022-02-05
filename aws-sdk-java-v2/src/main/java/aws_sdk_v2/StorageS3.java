@@ -37,6 +37,8 @@ import java.util.concurrent.ExecutionException;
 import static java.util.function.Predicate.not;
 
 /**
+ * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html
+ *
  * TODO all methods weren't checked, only main method
  */
 public class StorageS3 {

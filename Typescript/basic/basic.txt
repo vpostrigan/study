@@ -1,0 +1,15 @@
+
+https://www.youtube.com/watch?v=tej4MeqT1SE
+Основы Typescript и для чего он нужен
+
+1) Typescript = "Type" + Javascript
+компилятор Typescript обрабатует любой валидный Javascript
+(можно взять любой рабочий javascript проект и постепенно внедрять в него Typescript)
+
+2) установка Typescript
+$ npm install -g typescript     -g install globally
+
+3) компилятор
+$ tsc -v
+Version 4.5.5
+
