@@ -1,10 +1,18 @@
 ﻿
+Git уроки
+https://www.youtube.com/playlist?list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh
+
+https://www.youtube.com/playlist?list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh
+https://www.youtube.com/watch?v=H89BTFZIAlU&list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh&index=4     Git - #4 - как работают ветки
+
+
+https://www.youtube.com/watch?v=-AZOi3kP9Js   Про Kafka (основы)
+https://www.youtube.com/playlist?list=PL8D2P0ruohOAR7DAkEjhOqlQreg9rxBMu    Apache Kafka, открытый базовый курс
+https://www.youtube.com/playlist?list=PL8D2P0ruohOB654j4crPB5HFZOrQ2y1hn    Открытые темы курса «Ansible: от первых шагов до большого проекта»
+https://www.youtube.com/playlist?list=PL8D2P0ruohOBSA_CDqJLflJ8FLJNe26K-    Открытая вечерняя школа. Kubernetes для разработчиков (Осень 2021)
 
 
 
-
-Git & GitHub
-https://www.youtube.com/playlist?list=PLWKjhJtqVAbkFiqHnNaxpOPhh9tSWMXIF
 
 Coding with John
 https://www.youtube.com/c/CodingwithJohn/videos
@@ -53,9 +61,6 @@ https://www.youtube.com/channel/UCVloqGshVXfQk5Q6Q_1Xr2A/videos
 
 Git Полный курс
 https://www.youtube.com/playlist?list=PL4rYLeYunVf3d_RChabguoaKRptGxKTOo
-
-Git уроки
-https://www.youtube.com/playlist?list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh
 
 LearnQA: Онлайн обучение тестировщиков
 https://www.youtube.com/user/comolder/videos
@@ -196,10 +201,13 @@ https://www.youtube.com/playlist?list=PLiyvK9bF4cUGt9cNj7r77w6zAm9rtUMYC
 
 
 
+
 Processed
 
   GitHub
 + https://www.youtube.com/watch?v=2VQfRn1H8HE  Основы Git. Подключение к GitHub (старая дока по Git, всего пара базовых команд)
+
++ https://www.youtube.com/playlist?list=PLWKjhJtqVAbkFiqHnNaxpOPhh9tSWMXIF  Git & GitHub.  (Основы git на доске)
 
   Docker
 + https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)

@@ -12,7 +12,7 @@ import spark_in_action2021.model_scala.Book
   *
   * @author rambabu.posa
   */
-object CsvToDatasetBookToDataframeScalaApp {
+object Lab3_23CsvToDatasetBookToDataframeScalaApp {
 
   /**
     * This is a mapper class that will convert a Row to an instance of Book.
