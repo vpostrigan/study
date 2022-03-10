@@ -375,8 +375,41 @@ prudent     расчетливый              no prudent money manager would a
                                      ни один предусмотрительный управляющий деньгами не разрешит ссуду, не зная ее цели.
 debt        долг                  a way to reduce Third World debt / способ уменьшить долг третьего мира
 distress    бедствие           I didn't mean to distress you / Я не хотел тебя огорчать
-
-
+inextricable   безвыходный
+embodiment   ОБЪЕДИНЕНИЕ
+embody       ОЛИЦЕТВОРЯТЬ
+polymorphic
+coarse-grained    ГРУБЫЙ/КРУПНОЗЕРНИСТЫЙ/НЕОТЕСАННЫЙ
+overly       ЧРЕЗМЕРНО
+over         ЧЕРЕЗ
+lowly        СКРОМНО
+inhaled      ВДЫХАТЬ
+astounded    ПОТРЯСЕН
+tumultuous   БЕСПОРЯДОЧНЫЙ
+precious     ДРАГОЦЕННЫЙ
+conceive     ПОСТИГАТЬ
+interrogate  ДОПРОСИТЬ
+aghast       ОГЛУШЕН
+craftsmen    МАСТЕРА
+pretend      ПРЕТЕНДОВАТЬ
+quirks       КАЛАМБУРЫ
+intricate    ЗАПУТАН
+confluence   ПЕРЕСЕЧЕНИЕ/СЛИЯНИЕ
+plague       ЗАМУЧИТЬ
+credible     ВЕРОЯТЕН
+orifice      ОТВЕРСТИЕ
+shove        ТОЛКАТЬ
+superlative  ВЕЛИЧАЙШИЙ/КРУПНЕЙШИЙ
+masterpiece  ШЕДЕВР
+goo          СЕНТИМЕНТАЛЬНОСТЬ
+incessant    НЕПРЕРЫВНЫЙ
+perverse     ИСКОВЕРКАН
+abuzz        ДЕЯТЕЛЬНЫЙ
+implication  ВКЛЮЧЕНИЕ
+intrusive    НАЗОЙЛИВЫЙ
+immense      БЕЗМЕРНЫЙ
+bang         ГРОХНУТЬ
+concert      КОНЦЕРТ / СОГЛАСИЕ
 
 
 

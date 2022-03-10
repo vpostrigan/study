@@ -1,9 +1,7 @@
 ﻿
-Git уроки
-https://www.youtube.com/playlist?list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh
 
-https://www.youtube.com/playlist?list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh
-https://www.youtube.com/watch?v=H89BTFZIAlU&list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh&index=4     Git - #4 - как работают ветки
+
+
 
 
 https://www.youtube.com/watch?v=-AZOi3kP9Js   Про Kafka (основы)
@@ -11,7 +9,7 @@ https://www.youtube.com/playlist?list=PL8D2P0ruohOAR7DAkEjhOqlQreg9rxBMu    Apac
 https://www.youtube.com/playlist?list=PL8D2P0ruohOB654j4crPB5HFZOrQ2y1hn    Открытые темы курса «Ansible: от первых шагов до большого проекта»
 https://www.youtube.com/playlist?list=PL8D2P0ruohOBSA_CDqJLflJ8FLJNe26K-    Открытая вечерняя школа. Kubernetes для разработчиков (Осень 2021)
 
-
+https://www.youtube.com/watch?v=UbY6cuf0bzI
 
 
 Coding with John
@@ -77,8 +75,7 @@ https://github.com/vpostrigan/git_study/tree/master/src/main/java/com/test
 Гоша Дударь
 https://www.youtube.com/user/PlurrimiTube/videos?reload=9
 
-https://habr.com/ru/post/106912/
-https://habr.com/ru/post/189046/
+
 
 Скринкаст по Git
 https://www.youtube.com/playlist?list=PLDyvV36pndZHkDRik6kKF6gSb0N0W995h
@@ -209,8 +206,25 @@ Processed
 
 + https://www.youtube.com/playlist?list=PLWKjhJtqVAbkFiqHnNaxpOPhh9tSWMXIF  Git & GitHub.  (Основы git на доске)
 
++ https://www.youtube.com/watch?v=2aTc37XwSj0    Самые распространенные ошибки в работе с git. Как исправить?
+  -- amend / revert/reset / checkout some commit
+
+  Git уроки
++ https://www.youtube.com/playlist?list=PLIcAMDxr6tpqJ3FHGVpYVn-puu6CJiOKh
+  Git - #1 - Начинаем работать с гитом
+  Git - #2 - Разбираемся с командами diff и show
+  Git - #3 - Заливаем гит репозиторий на гитхаб
+  Git - #4 - как работают ветки
+  Git - #5 - учимся работать с правильным workflow
+  Git - #6 - Оптимизируем работу с помощью gitflow
+  Git - #7 - merge конфликтов
+  Git - #8 - изучаем команды pull и push
+  Git - #9 - настройки и алиасы
+
   Docker
 + https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)
+
++ https://habr.com/ru/company/ruvds/blog/450312/   Руководство по Docker Compose для начинающих
 
   Typescript
 + https://www.youtube.com/watch?v=tej4MeqT1SE  Основы Typescript и для чего он нужен
