@@ -3,11 +3,11 @@ package advanced_java2_deitel.chapter2_swing;
 import javax.swing.*;
 import java.awt.*;
 
-public class WebBrowser extends JFrame {
+public class MainWebBrowser extends JFrame {
     private WebToolBar toolBar;
     private WebBrowserPane browserPane;
 
-    public WebBrowser() {
+    public MainWebBrowser() {
         super("Deitel Web Browser");
 
         browserPane = new WebBrowserPane();
@@ -19,7 +19,7 @@ public class WebBrowser extends JFrame {
     }
 
     public static void main(String[] args) {
-        WebBrowser browser = new WebBrowser();
+        MainWebBrowser browser = new MainWebBrowser();
         browser.setDefaultCloseOperation(EXIT_ON_CLOSE);
         browser.setSize(640, 480);
         browser.setVisible(true);
