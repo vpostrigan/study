@@ -14,9 +14,17 @@ import java.util.List;
 /**
  * Compute Pi on a cluster.
  *
- * It is not recommended to run this application from the IDE.
+ * 1) Start cluster
+ * $ cd /opt/apache-spark/sbin
+ * $ ./start-master.sh
+ * $ ./start-slave.sh spark://un:7077  // un - one
+ * $ ./start-slave.sh spark://deux:7077  // deux - two
  *
- * @author jgp
+ * windows
+ * $ D:\program_files\spark-3.1.3-bin-hadoop3.2\bin>spark-class org.apache.spark.deploy.master.Master
+ * $ D:\program_files\spark-3.1.3-bin-hadoop3.2\bin>spark-class org.apache.spark.deploy.worker.Worker spark://10.254.15.99:7077
+ *
+ * 2) Run App. It will connect to cluster and run task
  */
 public class Lab5_21PiComputeClusterApp implements Serializable {
     private static long counter = 0;
@@ -36,7 +44,7 @@ public class Lab5_21PiComputeClusterApp implements Serializable {
         long t0 = System.currentTimeMillis();
         SparkSession spark = SparkSession.builder()
                 .appName("JavaSparkPi on a cluster")
-                .master("spark://un:7077")
+                .master("spark://10.254.15.99:7077") // spark://un:7077
                 .config("spark.executor.memory", "4g")
                 // Uncomment the next block if you want to run your application from the IDE
                 // - note that you will have to deploy the jar first to *every* worker.

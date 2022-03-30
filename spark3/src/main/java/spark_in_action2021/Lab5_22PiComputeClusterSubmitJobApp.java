@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Compute Pi on a cluster.
- *
- * It is not recommended to run this application from the IDE.
- *
- * @author jgp
+ * 1) start cluster
+ * <p>
+ * 2) submit jar and task
+ * D:\program_files\spark-3.1.3-bin-hadoop3.2\bin>SET JAVA_HOME=C:\Progra~1\Java\jdk-11_amazon_corretto
+ * D:\program_files\spark-3.1.3-bin-hadoop3.2\bin>SET SPARK_HOME=D:\program_files\spark-3.1.3-bin-hadoop3.2
+ * D:\program_files\spark-3.1.3-bin-hadoop3.2\bin>spark-submit --class spark_in_action2021.Lab5_22PiComputeClusterSubmitJobApp --master "spark://10.254.15.99:7077" D:\workspace_study\study\spark3\target\spark3-0.0.1-SNAPSHOT-uber.jar
  */
 public class Lab5_22PiComputeClusterSubmitJobApp implements Serializable {
     private static long counter = 0;
