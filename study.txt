@@ -1,6 +1,15 @@
 ﻿
+Git Полный курс
+https://www.youtube.com/playlist?list=PL4rYLeYunVf3d_RChabguoaKRptGxKTOo
++ https://www.youtube.com/watch?v=EJGL-_5B_nI   Git. Создание репозитория. Уроки для новичков
++ https://www.youtube.com/watch?v=3QL-pTWlEuI   Git. Настройка, первый коммит. Уроки для новичков
 
 
+TypeScript для начинающих. Полный курс для старта работы на Angular
+https://www.youtube.com/playlist?list=PL4rYLeYunVf03ipmEcQAPWGmX26_IrVMQ
+
+Быстрый курс по SQL для начинающих
+https://www.youtube.com/playlist?list=PL4rYLeYunVf3DCrXe4XHdKAg8UJj0yzxG
 
 
 
@@ -56,9 +65,6 @@ https://www.youtube.com/user/husivm/videos?view=0&sort=dd&flow=grid
 
 DJava Tech
 https://www.youtube.com/channel/UCVloqGshVXfQk5Q6Q_1Xr2A/videos
-
-Git Полный курс
-https://www.youtube.com/playlist?list=PL4rYLeYunVf3d_RChabguoaKRptGxKTOo
 
 LearnQA: Онлайн обучение тестировщиков
 https://www.youtube.com/user/comolder/videos
@@ -195,8 +201,8 @@ https://www.youtube.com/watch?v=3c-iBn73dDE   Docker tutorial 2.45hours
 
 android для чайников
 https://www.youtube.com/playlist?list=PLiyvK9bF4cUGt9cNj7r77w6zAm9rtUMYC
-
-
+ https://www.youtube.com/watch?v=S8wAd3kCT70
+1-8
 
 
 Processed
