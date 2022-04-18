@@ -21,6 +21,7 @@ intrinsic   внутренний / присущий / свойственный
 adage
 elevate
 conceive   постигать
+conceived   задумал
 squint   щуриться
 subroutines   подпрограммы
 relieved   облегчение
@@ -195,6 +196,8 @@ compose   сочинять/составить    a very talented and composed yo
 virtue   добродетель
 obscurity   неясность
 inevitably   неизбежно
+intangible   нематериальный/неосязаемый     intangible business property like trademarks and patents
+                                      нематериальная коммерческая собственность, такая как товарные знаки и патенты
 indistinct   нечеткий           his speech was slurred and indistinct  / речь его была невнятной и неразборчивой
 inconstant   непостоянный
 augmented    дополненный
@@ -228,6 +231,8 @@ riddle     загадка
 tidbit     лакомый кусочек
 floppy     гибкий
 thwart     мешать/препятствовать
+             the government had been able to thwart all attempts by opposition leaders to form new parties
+			 правительству удалось пресечь все попытки лидеров оппозиции создать новые партии
 flair     талант
 withdraw   изымать/отзывать
 withdrawn  отозван/снят
@@ -412,6 +417,9 @@ bang         ГРОХНУТЬ
 concert      КОНЦЕРТ / СОГЛАСИЕ
 
 toe   носок/палец на ноге/
+
+transient    кратковременный       a transient cold spell/временное похолодание
+evanescent   быстро исчезающий
 
 
 

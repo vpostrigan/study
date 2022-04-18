@@ -3,6 +3,7 @@ Git Полный курс
 https://www.youtube.com/playlist?list=PL4rYLeYunVf3d_RChabguoaKRptGxKTOo
 + https://www.youtube.com/watch?v=EJGL-_5B_nI   Git. Создание репозитория. Уроки для новичков
 + https://www.youtube.com/watch?v=3QL-pTWlEuI   Git. Настройка, первый коммит. Уроки для новичков
++ https://www.youtube.com/watch?v=f6-Jl16huY4   Git. PHPStorm и просмотр истории коммитов. git log. Уроки для новичков
 
 
 TypeScript для начинающих. Полный курс для старта работы на Angular

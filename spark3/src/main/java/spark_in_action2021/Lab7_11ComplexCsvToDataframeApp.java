@@ -23,7 +23,7 @@ public class Lab7_11ComplexCsvToDataframeApp {
                 .getOrCreate();
         System.out.println("Using Apache Spark v" + spark.version());
 
-        Dataset<Row> df = spark.read().format("csv")
+        Dataset<Row> df = spark.read()
                 .option("header", "true")
                 .option("multiline", "true")
                 .option("sep", ";")
@@ -31,6 +31,7 @@ public class Lab7_11ComplexCsvToDataframeApp {
                 .option("dateFormat", "M/d/yyyy")
                 .option("inferSchema", true)
                 .option("comment", "#")
+                .format("csv")
                 .load("data/chapter7/books.csv");
 
         System.out.println("Excerpt of the dataframe content:");

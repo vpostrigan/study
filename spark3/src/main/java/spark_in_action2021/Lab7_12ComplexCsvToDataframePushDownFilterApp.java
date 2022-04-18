@@ -17,7 +17,7 @@ public class Lab7_12ComplexCsvToDataframePushDownFilterApp {
                 .master("local")
                 .getOrCreate();
 
-        Dataset<Row> df = spark.read().format("csv")
+        Dataset<Row> df = spark.read()
                 .option("header", "true")
                 .option("multiline", true)
                 .option("sep", ";")
@@ -25,6 +25,7 @@ public class Lab7_12ComplexCsvToDataframePushDownFilterApp {
                 .option("dateFormat", "M/d/yyyy")
                 .option("inferSchema", true)
                 .option("comment", "#")
+                .format("csv")
                 .load("data/chapter7/books.csv")
                 .filter("authorId = 1");
 
