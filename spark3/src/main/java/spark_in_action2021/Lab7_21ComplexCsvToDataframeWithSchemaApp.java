@@ -42,14 +42,13 @@ public class Lab7_21ComplexCsvToDataframeWithSchemaApp {
 //        {"type":"struct","fields":[{"name":"id","type":"integer","nullable":false,"metadata":{}},{"name":"authordId","type":"integer","nullable":true,"metadata":{}},{"name":"bookTitle","type":"string","nullable":false,"metadata":{}},{"name":"releaseDate","type":"date","nullable":true,"metadata":{}},{"name":"url","type":"string","nullable":false,"metadata":{}}]}
 
         // Reads a CSV file with header, called books.csv, stores it in a dataframe
-        Dataset<Row> df = spark.read()
+        Dataset<Row> df = spark.read().format("csv")
                 .option("header", "true")
                 .option("multiline", true)
                 .option("sep", ";")
                 .option("dateFormat", "M/d/yyyy")
                 .option("quote", "*")
                 .option("comment", "#")
-                .format("csv")
                 .schema(schema)
                 .load("data/chapter7/books.csv");
 

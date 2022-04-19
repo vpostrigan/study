@@ -30,8 +30,7 @@ public class Lab7_32JsonLinesToDataframeWithLinearizationApp {
                 .getOrCreate();
 
         // Reads a CSV file with header, called books.csv, stores it in a dataframe
-        Dataset<Row> df = spark.read()
-                .format("json")
+        Dataset<Row> df = spark.read().format("json")
                 .load("data/chapter7/durham-nc-foreclosure-2006-2016.json");
 
         df = df.withColumn("year", col("fields.year"));

@@ -25,8 +25,7 @@ public class Lab7_51TextToDataframeApp {
                 .master("local")
                 .getOrCreate();
 
-        Dataset<Row> df = spark.read()
-                .format("text")
+        Dataset<Row> df = spark.read().format("text")
                 .load("data/chapter7/romeo-juliet-pg1777.txt");
 
         // Shows at most 10 rows from the dataframe

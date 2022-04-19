@@ -6,7 +6,7 @@ import org.apache.spark.sql.SparkSession;
 
 /**
  * CSV ingestion in a dataframe.
- *
+ * <p>
  * https://github.com/jgperrin/net.jgp.books.spark.ch07/
  */
 public class Lab7_11ComplexCsvToDataframeApp {
@@ -23,7 +23,7 @@ public class Lab7_11ComplexCsvToDataframeApp {
                 .getOrCreate();
         System.out.println("Using Apache Spark v" + spark.version());
 
-        Dataset<Row> df = spark.read()
+        Dataset<Row> df = spark.read().format("csv")
                 .option("header", "true")
                 .option("multiline", "true")
                 .option("sep", ";")
@@ -31,7 +31,6 @@ public class Lab7_11ComplexCsvToDataframeApp {
                 .option("dateFormat", "M/d/yyyy")
                 .option("inferSchema", true)
                 .option("comment", "#")
-                .format("csv")
                 .load("data/chapter7/books.csv");
 
         System.out.println("Excerpt of the dataframe content:");

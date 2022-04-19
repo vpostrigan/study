@@ -27,9 +27,8 @@ public class Lab7_41XmlToDataframeApp {
 
         // Reads a XML file with header, called nasa-patents.xml,
         // stores it in a dataframe
-        Dataset<Row> df = spark.read()
+        Dataset<Row> df = spark.read().format("xml")
                 .option("rowTag", "row")
-                .format("xml")
                 .load("data/chapter7/nasa-patents.xml");
 
         // Shows at most 5 rows from the dataframe

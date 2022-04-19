@@ -48,8 +48,7 @@ public class Lab7_34MultilineJsonToDataframeWithCorruptRecordApp {
 
         // Reads a JSON, called countrytravelinfo.json, stores it in a dataframe,
         // without specifying the multiline option
-        Dataset<Row> df = spark.read()
-                .format("json")
+        Dataset<Row> df = spark.read().format("json")
                 .load("data/chapter7/countrytravelinfo.json");
 
         // Shows at most 3 rows from the dataframe

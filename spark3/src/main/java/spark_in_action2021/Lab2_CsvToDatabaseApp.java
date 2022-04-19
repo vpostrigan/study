@@ -54,8 +54,7 @@ public class Lab2_CsvToDatabaseApp {
         // ---------
 
         // Reads a CSV file with header, called authors.csv, stores it in a dataframe
-        Dataset<Row> df = spark.read()
-                .format("csv")
+        Dataset<Row> df = spark.read().format("csv")
                 .option("header", "true")
                 .load("data/authors.csv");
 
@@ -115,8 +114,7 @@ public class Lab2_CsvToDatabaseApp {
         // ---------
 
         // Reads a CSV file with header, called authors.csv, stores it in a dataframe
-        Dataset<Row> df = spark.read()
-                .format("csv")
+        Dataset<Row> df = spark.read().format("csv")
                 .option("header", true)
                 .load("data/authors.csv");
 
@@ -140,14 +138,13 @@ public class Lab2_CsvToDatabaseApp {
         }
 
         // Write in a table called ch02lab900
-        df.write()
+        df.write().format("jdbc")
                 .mode(SaveMode.Overwrite)
                 .option("dbtable", "ch02lab900")
                 .option("url", props.getProperty("url"))
                 .option("driver", props.getProperty("driver"))
                 .option("user", props.getProperty("username"))
                 .option("password", props.getProperty("password"))
-                .format("jdbc")
                 .save();
 
         spark.stop();
