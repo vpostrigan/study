@@ -86,3 +86,25 @@ console.log('Dir name: ', path.dirname(__filename))
 // File name:  path.js
 // Dir name:  D:\workspace_study\study\JavaScript\NodeJS\basic\demo
 
+9) $ D:\workspace_study\study\JavaScript\NodeJS\basic>node demo/http
+не будет видеть новый код, для того чтобы был автоматический редеплой
+
+a)
+в package.json добавили
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+b)
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+заменили
+  "scripts": {
+    "start": "node demo/http.js",
+    "dev": "nodemon demo/http.js"
+  },
+c) старт
+$ npm run dev
+
+10) npm check and update package if needed
+https://stackoverflow.com/questions/16525430/npm-check-and-update-package-if-needed
