@@ -17,8 +17,12 @@
         <scala.version>2.12</scala.version>
         <spark.version>3.1.3</spark.version>
         <spark-xml.version>0.13.0</spark-xml.version>
+
         <postgresql.version>42.2.24</postgresql.version>
-        <mysql.version>8.0.28</mysql.version>
+        <mysql.version>8.0.29</mysql.version>
+        <informix-jdbc.version>4.10.8.1</informix-jdbc.version>
+        <elasticsearch-spark.version>7.17.3</elasticsearch-spark.version>
+
         <junit.version>4.13.1</junit.version>
     </properties>
 
@@ -321,6 +325,16 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.informix</groupId>
+            <artifactId>jdbc</artifactId>
+            <version>${informix-jdbc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-spark-30_${scala.version}</artifactId>
+            <version>${elasticsearch-spark.version}</version>
         </dependency>
 
         <dependency>
