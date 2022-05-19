@@ -35,7 +35,6 @@ package docs_oracle_com.javase;
 public class Operators {
 
     public static void main(String[] args) throws Exception {
-
         { // Arithmetic
             int a = 10;
             int b = 5;
@@ -232,16 +231,16 @@ public class Operators {
                 result = result >>> 1;
                 System.out.println(result + " " + Integer.toBinaryString(result));
                 // 123456 11110001001000000
-                // 61728  1111000100100000
-                // 30864  111100010010000
-                // 15432  11110001001000
-                // 7716   1111000100100
-                // 3858   111100010010
-                // 1929   11110001001
-                // 964    1111000100
-                // 482    111100010
-                // 241    11110001
-                // 120    1111000
+                // 61728   1111000100100000
+                // 30864    111100010010000
+                // 15432     11110001001000
+                // 7716       1111000100100
+                // 3858        111100010010
+                // 1929         11110001001
+                // 964           1111000100
+                // 482            111100010
+                // 241             11110001
+                // 120              1111000
             }
 
             // For positive number, >> and >>> works same
