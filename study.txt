@@ -1,13 +1,8 @@
 ﻿
-Git Полный курс
-https://www.youtube.com/playlist?list=PL4rYLeYunVf3d_RChabguoaKRptGxKTOo
-+ https://www.youtube.com/watch?v=EJGL-_5B_nI   Git. Создание репозитория. Уроки для новичков
-+ https://www.youtube.com/watch?v=3QL-pTWlEuI   Git. Настройка, первый коммит. Уроки для новичков
-+ https://www.youtube.com/watch?v=f6-Jl16huY4   Git. PHPStorm и просмотр истории коммитов. git log. Уроки для новичков
-
 
 TypeScript для начинающих. Полный курс для старта работы на Angular
 https://www.youtube.com/playlist?list=PL4rYLeYunVf03ipmEcQAPWGmX26_IrVMQ
++ https://www.youtube.com/watch?v=01iNswZC6P8   TypeScript. Знакомство. Базовая настройка
 
 Быстрый курс по SQL для начинающих
 https://www.youtube.com/playlist?list=PL4rYLeYunVf3DCrXe4XHdKAg8UJj0yzxG
@@ -198,10 +193,6 @@ https://www.youtube.com/c/TechWorldwithNana/playlists?view=1&sort=dd&shelf_id=0
 https://www.youtube.com/watch?v=3c-iBn73dDE   Docker tutorial 2.45hours
 
 
-android для чайников
-https://www.youtube.com/playlist?list=PLiyvK9bF4cUGt9cNj7r77w6zAm9rtUMYC
- https://www.youtube.com/watch?v=S8wAd3kCT70
-1-8
 
 
 Processed
@@ -225,6 +216,20 @@ Processed
   Git - #7 - merge конфликтов
   Git - #8 - изучаем команды pull и push
   Git - #9 - настройки и алиасы
+
+  Git Полный курс
++ https://www.youtube.com/playlist?list=PL4rYLeYunVf3d_RChabguoaKRptGxKTOo
++ https://www.youtube.com/watch?v=EJGL-_5B_nI   Git. Создание репозитория. Уроки для новичков
++ https://www.youtube.com/watch?v=3QL-pTWlEuI   Git. Настройка, первый коммит. Уроки для новичков
++ https://www.youtube.com/watch?v=f6-Jl16huY4   Git. PHPStorm и просмотр истории коммитов. git log. Уроки для новичков
++ https://www.youtube.com/watch?v=QiEylgxOLYE   Git. GitHub и работа с удаленным репозиторием
++ https://www.youtube.com/watch?v=ltGL4TBOxJ8   Git. Что такое ветки и коммиты в репозиториях
++ https://www.youtube.com/watch?v=F45R8fRmg3g   Git. Иерархия коммитов и комунникация с GitHub
++ https://www.youtube.com/watch?v=Gcxtb25Pk0M   Git. Ветки и разработка в команде
++ https://www.youtube.com/watch?v=th5sr3qTIFc   Git. Git flow, разработка по Канбану
++ https://www.youtube.com/watch?v=BPdQDWGX9mQ   Git. revert | reset hard/soft
++ https://www.youtube.com/watch?v=2zSl3mHjrik   Git. Cherry pick, исправляем ошибки ветвления
+
 
   Docker
 + https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)
@@ -257,10 +262,14 @@ https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
 + https://www.youtube.com/watch?v=mZNq5ADknxU   Создание CRUD REST приложения на Spring Boot
 + https://www.youtube.com/watch?v=XNEJo0IiJeg   КАК ЗАМЕНИТЬ IF ELSE И SWITCH CASE В JAVA 11 | РЕФАКТОРИНГ
 
+CSS
++ https://www.youtube.com/watch?v=i-odJ-svB1Q   Сила селектора CSS
+
+
 JetBrainsTV
 https://www.youtube.com/user/JetBrainsTV/videos
-+ https://www.youtube.com/watch?v=tpv5n2jWHlw    Эффективная работа с кодом в IntelliJ IDEA, или Знаете ли вы свою IDE как знаем её мы?
++ https://www.youtube.com/watch?v=tpv5n2jWHlw   Эффективная работа с кодом в IntelliJ IDEA, или Знаете ли вы свою IDE как знаем её мы?
 IntelliJ IDEA by JetBrains
 https://www.youtube.com/c/intellijidea/videos
 (https://www.youtube.com/channel/UC4ogdcPcIAOOMJktgBMhQnQ)
-+ https://www.youtube.com/watch?v=2xOtyGUTpQU    Refactoring to Java 8
++ https://www.youtube.com/watch?v=2xOtyGUTpQU   Refactoring to Java 8

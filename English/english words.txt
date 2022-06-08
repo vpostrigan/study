@@ -40,6 +40,8 @@ moreover    более того
 fade   увядать
 empirical    эмпирический (основанный на опыте)
 deem  считать
+deemed  считается
+stunning   оглушительный
 The implications of this fact are stunning   Последствия этого факта потрясающие
 endeavor   стремление/стараться
 strive    стараться/добиваться/прилагать усилия
@@ -280,7 +282,7 @@ diverse    разнообразный
 attain     достичь
 attainable   достижимый
 peer       равный/сверстник
-covenant   завет/соглашение
+covenant   завет/соглашение    the landlord covenants to repair the property/арендодатель обязуется отремонтировать имущество
 arch       арка/свод
 overarching   всеохватывающий
 hodgepodge    мешанина
@@ -420,8 +422,23 @@ toe   носок/палец на ноге/
 
 transient    кратковременный       a transient cold spell/временное похолодание
 evanescent   быстро исчезающий
-
-
-
+demand generation   формирование спроса
+vivid        яркий
+melee        ближний бой      several people were hurt in the melee       несколько человек пострадали в рукопашной
+handover     передача
+rigorously   строго    the court rigorously scrutinizes the settlement/суд тщательно изучает мировое соглашение    
+tuck     засовывать   he tucked his shirt into his trousers/он заправил рубашку в брюки
+premature    преждевременный    it would be premature to do so at this stage/было бы преждевременно делать это на данном этапе
+digestive tract   пищеварительный тракт
+retract      втягивать/убрать
+encumbrance  бремя    for parents, childhood is too long a period of encumbrance/для родителей детство слишком долгий период обременения
+babel    вавилон
+Kudos to Patryk    Слава Патрику
+polysemantic   многозначный
+walnut    грецкий орех
+bagel     бублик
+cinnamon   корица
+tardiness  опоздание
+infix
 
 
