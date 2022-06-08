@@ -153,7 +153,7 @@ public class MainEncipherDecipher extends JFrame {
             byte contents = (byte) in.read();
 
             while (contents != -1) {
-                fileBytes.add(new Byte(contents));
+                fileBytes.add(Byte.valueOf(contents));
                 contents = (byte) in.read();
             }
         } catch (IOException exception) {

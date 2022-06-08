@@ -1,4 +1,4 @@
-package advanced_java2_deitel.chapter7_security;
+package advanced_java2_deitel.chapter7_security.security_policy;
 
 import java.io.*;
 
