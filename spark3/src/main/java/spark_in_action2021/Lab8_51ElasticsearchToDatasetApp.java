@@ -6,58 +6,79 @@ import org.apache.spark.sql.SparkSession;
 
 /**
  * Connects Spark and Elasticsearch, ingests data from Elasticsearch in Spark.
- *
+ * <p>
  * Input data
  * https://github.com/elastic/examples/tree/master/Exploring%20Public%20Datasets/nyc_restaurants
  * http://download.elasticsearch.org/demos/nyc_restaurants/nyc_restaurants-5-4-3.tar.gz
- *
+ * <p>
  * install ES and start (D:\program_files\es_elasticsearch-6.8.23\bin)
  * $ curl -H "Content-Type: application/json" -XPUT 'http://localhost:9200/_snapshot/restaurants_backup' -d '{    "type": "fs",    "settings": {        "location": "D:/program_files/es_elasticsearch-6.8.23/nyc_restaurants/",        "compress": true,        "max_snapshot_bytes_per_sec": "1000mb",        "max_restore_bytes_per_sec": "1000mb"    }}'
  * $ curl -XPOST "localhost:9200/_snapshot/restaurants_backup/snapshot_1/_restore"
  * $ curl -H "Content-Type: application/json" -XGET localhost:9200/nyc_restaurants/_count -d '{	"query": {		"match_all": {}        }}'
+ * <p>
+ * состояние сервера:
+ * $ curl -H "Content-Type: application/json" http://localhost:9200
+ * <p>
+ * вывод структуры индекса:
+ * $ curl -H "Content-Type: application/json" http://localhost:9200/nyc_restaurants | python -m json.tool
+ * <p>
+ * <p>
+ * Концепция в реляционной БД | Elasticsearch
+ * База данных (Database)     | Индекс (Index)
+ * Раздел (Partition)         | Сегмент (Shard)
+ * Таблица (Table)            | Тип (Type)
+ * Строка (Row)               | Документ (Document)
+ * Столбец (Column)           | Поле (Field)
+ * Схема (Schema)             | Отображение (Mapping)
+ * SQL                        | Query DSL
+ * Представление (View)       | Отфильтрованный псевдоним (Filtered alias)
+ * Триггер (Trigger)          | Watch API (через X-Pack)
+ * <p>
+ * index; constraint;         | нету
+ * primary keys; foreign keys | нету
  *
  * @author jgp
  */
 public class Lab8_51ElasticsearchToDatasetApp {
 
     /**
-     *   "hits": { -
-     *     "total": 473039,
-     *     "max_score": 1,
-     *     "hits": [ -
-     *       { -
-     *         "_index": "nyc_restaurants",
-     *         "_type": "inspection",
-     *         "_id": "113450",
-     *         "_score": 1,
-     *         "_source": { -
-     *           "Dba": "SHUN FOO CHINESE RESTAURANT",
-     *           "Inspection_Type": "Cycle Inspection / Re-inspection",
-     *           "Inspection_Date": [ -
-     *             "2014-08-07T00:00:00"
-     *           ],
-     *           "Action": "Violations were cited in the following area(s).",
-     *           "Violation_Code": "08A",
-     *           "Score": null,
-     *           "Building": "13507",
-     *           "Grade_Date": "2014-08-07T00:00:00",
-     *           "Critical_Flag": "Not Critical",
-     *           "Camis": 41030732,
-     *           "Zipcode": 11420,
-     *           "Violation_Description": "Facility not vermin proof. Harborage or conditions conducive to attracting vermin to the premises and/or allowing vermin to exist.",
-     *           "Phone": "7188437074",
-     *           "Cuisine_Description": "Chinese",
-     *           "Grade": "",
-     *           "Street": "LEFFERTS BOULEVARD",
-     *           "Coord": [ -
-     *             -73.8206948,
-     *             40.670218
-     *           ],
-     *           "Record_Date": "2016-03-21T00:00:00",
-     *           "Address": "13507 LEFFERTS BOULEVARD QUEENS,NY",
-     *           "Boro": "QUEENS"
-     *         }
-     *       },
+     * "hits": { -
+     * "total": 473039,
+     * "max_score": 1,
+     * "hits": [ -
+     * { -
+     * "_index": "nyc_restaurants",
+     * "_type": "inspection",
+     * "_id": "113450",
+     * "_score": 1,
+     * "_source": { -
+     * "Dba": "SHUN FOO CHINESE RESTAURANT",
+     * "Inspection_Type": "Cycle Inspection / Re-inspection",
+     * "Inspection_Date": [ -
+     * "2014-08-07T00:00:00"
+     * ],
+     * "Action": "Violations were cited in the following area(s).",
+     * "Violation_Code": "08A",
+     * "Score": null,
+     * "Building": "13507",
+     * "Grade_Date": "2014-08-07T00:00:00",
+     * "Critical_Flag": "Not Critical",
+     * "Camis": 41030732,
+     * "Zipcode": 11420,
+     * "Violation_Description": "Facility not vermin proof. Harborage or conditions conducive to attracting vermin to the premises and/or allowing vermin to exist.",
+     * "Phone": "7188437074",
+     * "Cuisine_Description": "Chinese",
+     * "Grade": "",
+     * "Street": "LEFFERTS BOULEVARD",
+     * "Coord": [ -
+     * -73.8206948,
+     * 40.670218
+     * ],
+     * "Record_Date": "2016-03-21T00:00:00",
+     * "Address": "13507 LEFFERTS BOULEVARD QUEENS,NY",
+     * "Boro": "QUEENS"
+     * }
+     * },
      */
 
     public static void main(String[] args) {

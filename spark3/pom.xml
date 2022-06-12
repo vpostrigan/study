@@ -23,6 +23,8 @@
         <informix-jdbc.version>4.10.8.1</informix-jdbc.version>
         <elasticsearch-spark.version>7.17.3</elasticsearch-spark.version>
 
+        <metadata-extractor.version>2.16.0</metadata-extractor.version>
+
         <junit.version>4.13.1</junit.version>
     </properties>
 
@@ -335,6 +337,12 @@
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch-spark-30_${scala.version}</artifactId>
             <version>${elasticsearch-spark.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.drewnoakes</groupId>
+            <artifactId>metadata-extractor</artifactId>
+            <version>${metadata-extractor.version}</version>
         </dependency>
 
         <dependency>
