@@ -9,7 +9,6 @@
 
 	<modules>
 		<module>Java11</module>
-		<module>IoVertx</module>
         <module>aws-sdk-java-v2</module>
     </modules>
 
