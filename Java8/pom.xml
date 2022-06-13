@@ -8,7 +8,10 @@
     <version>0.1-SNAPSHOT</version>
 
     <modules>
+        <module>advanced_java2_deitel</module>
+        <module>Antlr4Study</module>
         <module>IoVertx</module>
+        <module>lambda_warburton</module>
     </modules>
 
     <build>
