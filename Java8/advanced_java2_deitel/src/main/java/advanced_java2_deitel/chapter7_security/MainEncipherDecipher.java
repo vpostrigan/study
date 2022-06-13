@@ -115,7 +115,7 @@ public class MainEncipherDecipher extends JFrame {
         File file = new File(fileName);
         // write contents to file and close
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
-             CipherOutputStream out = new CipherOutputStream(fileOutputStream, cipher);) {
+             CipherOutputStream out = new CipherOutputStream(fileOutputStream, cipher)) {
             out.write(outputArray);
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -124,7 +124,7 @@ public class MainEncipherDecipher extends JFrame {
 
         String encryptedText = null;
         try {
-            encryptedText = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+            encryptedText = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         } catch (IOException exception) {
             exception.printStackTrace();
             System.exit(1);
@@ -137,7 +137,7 @@ public class MainEncipherDecipher extends JFrame {
     private void readFromFileAndDecrypt() {
 
         // used to rebuild byte list
-        Vector fileBytes = new Vector();
+        Vector<Byte> fileBytes = new Vector<>();
 
         String password = passwordTextField.getText();
         String fileName = fileNameTextField.getText();
@@ -148,12 +148,12 @@ public class MainEncipherDecipher extends JFrame {
         // read and decrypt contents from file
         File file = new File(fileName);
         try (FileInputStream fileInputStream = new FileInputStream(file);
-             CipherInputStream in = new CipherInputStream(fileInputStream, cipher);) {
+             CipherInputStream in = new CipherInputStream(fileInputStream, cipher)) {
             // read bytes from stream.
             byte contents = (byte) in.read();
 
             while (contents != -1) {
-                fileBytes.add(Byte.valueOf(contents));
+                fileBytes.add(contents);
                 contents = (byte) in.read();
             }
         } catch (IOException exception) {
@@ -164,7 +164,7 @@ public class MainEncipherDecipher extends JFrame {
         // create byte array from contents in Vector fileBytes
         byte[] decryptedText = new byte[fileBytes.size()];
         for (int i = 0; i < fileBytes.size(); i++) {
-            decryptedText[i] = ((Byte) fileBytes.elementAt(i)).byteValue();
+            decryptedText[i] = fileBytes.elementAt(i);
         }
 
         fileContentsEditorPane.setText(new String(decryptedText, StandardCharsets.UTF_8));
