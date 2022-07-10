@@ -8,7 +8,6 @@ import spark_in_action2021.streaming.lib.FieldType;
 import spark_in_action2021.streaming.lib.RecordGeneratorUtils;
 import spark_in_action2021.streaming.lib.RecordStructure;
 import spark_in_action2021.streaming.lib.RecordWriterUtils;
-import spark_in_action2021.streaming.lib.StreamingUtils;
 
 /**
  * This application generates a series of random records at random interval
@@ -37,7 +36,7 @@ public class RecordsInFilesGeneratorApp {
     public int waitTime = 5;
 
     public static void main(String[] args) {
-        String outputDirectory = StreamingUtils.getInputDirectory();
+        String outputDirectory = RecordWriterUtils.inputDirectory;
         if (args.length == 2 && args[0].compareToIgnoreCase("--output-directory") == 0) {
             outputDirectory = args[1];
             File dir = new File(outputDirectory);

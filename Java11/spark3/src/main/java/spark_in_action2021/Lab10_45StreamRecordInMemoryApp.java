@@ -10,7 +10,7 @@ import org.apache.spark.sql.streaming.StreamingQuery;
 import org.apache.spark.sql.types.StructType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark_in_action2021.streaming.lib.StreamingUtils;
+import spark_in_action2021.streaming.lib.RecordWriterUtils;
 
 /**
  * Analyzes the records on the stream and send each record to a debugger class.
@@ -46,28 +46,28 @@ public class Lab10_45StreamRecordInMemoryApp {
 
         Dataset<Row> df = spark.readStream().format("csv")
                 .schema(recordSchema)
-                .csv(StreamingUtils.getInputDirectory());
+                .csv(RecordWriterUtils.inputDirectory);
 
         StreamingQuery query = df
                 .writeStream()
                 .outputMode(OutputMode.Append())
-                .format("memory") // #A
-                .option("queryName", "people") // #B
+                .format("memory") // формат вывода - память
+                .option("queryName", "people") // виртуальная таблица называется people
                 .start();
 
         // Wait and process the incoming stream for the next minute
-        Dataset<Row> queryInMemoryDf; // #C
+        Dataset<Row> queryInMemoryDf; // будет использоваться фрейм данных с получаемыми из потока данными
         int iterationCount = 0;
         long start = System.currentTimeMillis();
-        while (query.isActive()) { // #D
-            queryInMemoryDf = spark.sql("SELECT * FROM people"); // #E
+        while (query.isActive()) {
+            queryInMemoryDf = spark.sql("SELECT * FROM people"); // Создание фрейма данных с содержимым запроса SQL
             iterationCount++;
             log.debug("Pass #{}, dataframe contains {} records",
                     iterationCount,
                     queryInMemoryDf.count());
             queryInMemoryDf.show();
             if (start + 60000 < System.currentTimeMillis()) {
-                query.stop(); // #F
+                query.stop(); // когда время запроса превышает минуту, выполнение останавливается
             }
             try {
                 Thread.sleep(2000);

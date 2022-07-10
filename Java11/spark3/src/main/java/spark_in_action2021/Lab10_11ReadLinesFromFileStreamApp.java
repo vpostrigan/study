@@ -10,7 +10,7 @@ import org.apache.spark.sql.streaming.StreamingQuery;
 import org.apache.spark.sql.streaming.StreamingQueryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark_in_action2021.streaming.lib.StreamingUtils;
+import spark_in_action2021.streaming.lib.RecordWriterUtils;
 
 /**
  * Reads a stream from a stream (files)
@@ -53,7 +53,7 @@ public class Lab10_11ReadLinesFromFileStreamApp {
         log.debug("Spark session initiated");
 
         Dataset<Row> df = spark.readStream().format("text")
-                .load(StreamingUtils.getInputDirectory());
+                .load(RecordWriterUtils.inputDirectory);
         log.debug("Dataframe read from stream");
 
         StreamingQuery query = df

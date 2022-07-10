@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Utility methods to help generate random records.
@@ -15,6 +15,10 @@ import java.util.Random;
  * @author jgp
  */
 public class RecordGeneratorUtils {
+    // Constants used for the record generator.
+    public static final int MAX_ID = 60000;
+    public static final int MAX_AGE = 115;
+
     private static RecordGeneratorUtils instance = null;
     private static Calendar cal = Calendar.getInstance();
 
@@ -59,6 +63,10 @@ public class RecordGeneratorUtils {
         return RecordGeneratorUtils.instance;
     }
 
+    public static int getRandomInt(int i) {
+        return ThreadLocalRandom.current().nextInt(i);
+    }
+
     private static String[] articles = {"The", "My", "A", "Your", "Their", "Our"};
     private static String[] adjectives = {"", "Great", "Beautiful", "Better",
             "Worse", "Gorgeous", "Terrific", "Fantastic", "Nebulous", "Colorful",
@@ -81,13 +89,8 @@ public class RecordGeneratorUtils {
 
     public static String getRandomSSN() {
         return "" + getRandomInt(10) + getRandomInt(10) + getRandomInt(10) + "-"
-                + getRandomInt(10) + getRandomInt(10)
-                + "-" + getRandomInt(10) + getRandomInt(10) + getRandomInt(10)
-                + getRandomInt(10);
-    }
-
-    public static int getRandomInt(int i) {
-        return new Random().nextInt(i);
+                + getRandomInt(10) + getRandomInt(10) + "-"
+                + getRandomInt(10) + getRandomInt(10) + getRandomInt(10) + getRandomInt(10);
     }
 
     public static String getFirstName() {
@@ -151,7 +154,7 @@ public class RecordGeneratorUtils {
     public static int getIdentifier(List<Integer> identifiers) {
         int i;
         do {
-            i = getRandomInt(RecordGeneratorK.MAX_ID);
+            i = getRandomInt(MAX_ID);
         } while (identifiers.contains(i));
 
         return i;
@@ -172,7 +175,7 @@ public class RecordGeneratorUtils {
      * Generates a date of birth for a living person, based on a format.
      */
     public static String getLivingPersonDateOfBirth(String format) {
-        int year = cal.get(Calendar.YEAR) - getRandomInt(RecordGeneratorK.MAX_AGE);
+        int year = cal.get(Calendar.YEAR) - getRandomInt(MAX_AGE);
         int month = getRandomInt(12);
         int day = getRandomInt(daysInMonth[month]) + 1;
         cal.set(year, month, day);

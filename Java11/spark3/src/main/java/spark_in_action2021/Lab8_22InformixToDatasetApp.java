@@ -9,6 +9,7 @@ import org.apache.spark.sql.jdbc.JdbcDialects;
 /**
  * MySQL injection to Spark, using the Sakila sample database.
  * <p>
+ *     https://github.com/informix/informix-dockerhub-readme/blob/master/12.10.FC12/informix-developer-database.md
  * docker run -it --name ifx --privileged -p 9088:9088 -p 9089:9089 -p 27017:27017 -p 27018:27018 -p 27883:27883 -e LICENSE=accept ibmcom/informix-developer-database:latest
  *
  * @author jgp

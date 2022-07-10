@@ -12,7 +12,7 @@ import org.apache.spark.sql.streaming.StreamingQueryException;
 import org.apache.spark.sql.types.StructType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark_in_action2021.streaming.lib.StreamingUtils;
+import spark_in_action2021.streaming.lib.RecordWriterUtils;
 
 /**
  * Analyzes the records on the stream and send each record to a debugger class.
@@ -48,7 +48,7 @@ public class Lab10_44StreamRecordThroughForEachApp {
 
         Dataset<Row> df = spark.readStream().format("csv")
                 .schema(recordSchema)
-                .csv(StreamingUtils.getInputDirectory());
+                .csv(RecordWriterUtils.inputDirectory);
 
         StreamingQuery query = df
                 .writeStream()

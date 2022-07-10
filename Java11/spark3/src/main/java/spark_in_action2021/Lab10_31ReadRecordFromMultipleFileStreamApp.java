@@ -11,7 +11,7 @@ import org.apache.spark.sql.streaming.StreamingQuery;
 import org.apache.spark.sql.types.StructType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark_in_action2021.streaming.lib.StreamingUtils;
+import spark_in_action2021.streaming.lib.RecordWriterUtils;
 
 /**
  * 1) Start RecordsInFilesGeneratorApp
@@ -51,8 +51,8 @@ public class Lab10_31ReadRecordFromMultipleFileStreamApp {
                 .add("ssn", "string");
 
         // Two directories
-        String landingDirectoryStream1 = StreamingUtils.getInputDirectory();
-        String landingDirectoryStream2 = StreamingUtils.getInputDirectory2();
+        String landingDirectoryStream1 = RecordWriterUtils.inputDirectory;
+        String landingDirectoryStream2 = RecordWriterUtils.inputDirectory2;
 
         // Two streams
         Dataset<Row> dfStream1 = spark.readStream().format("csv")
@@ -78,10 +78,9 @@ public class Lab10_31ReadRecordFromMultipleFileStreamApp {
 
         // Loop through the records for 1 minute
         long startProcessing = System.currentTimeMillis();
-        int iterationCount = 0;
-        while (queryStream1.isActive() && queryStream2.isActive()) {
-            iterationCount++;
-            log.debug("iteration #{}", iterationCount);
+
+        for (int i = 1; queryStream1.isActive() && queryStream2.isActive(); i++) {
+            log.debug("iteration #{}", i);
             if (startProcessing + 60000 < System.currentTimeMillis()) {
                 queryStream1.stop();
                 queryStream2.stop();

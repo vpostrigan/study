@@ -88,7 +88,7 @@ public class RecordStructure {
                         record.append(RecordGeneratorUtils.getLastName());
                         break;
                     case AGE:
-                        record.append(RecordGeneratorUtils.getRandomInt(RecordGeneratorK.MAX_AGE - 1) + 1);
+                        record.append(RecordGeneratorUtils.getRandomInt(RecordGeneratorUtils.MAX_AGE - 1) + 1);
                         break;
                     case SSN:
                         record.append(RecordGeneratorUtils.getRandomSSN());
@@ -124,6 +124,40 @@ public class RecordStructure {
 
     public String getRecordName() {
         return this.recordName;
+    }
+
+    // //
+
+    /**
+     * Defines the properties of a column for a record.
+     *
+     * @author jgp
+     */
+    public class ColumnProperty {
+        private FieldType recordType;
+        private String option;
+
+        public ColumnProperty(FieldType recordType, String option) {
+            this.recordType = recordType;
+            this.option = option;
+        }
+
+        public FieldType getRecordType() {
+            return recordType;
+        }
+
+        public void setRecordType(FieldType recordType) {
+            this.recordType = recordType;
+        }
+
+        public String getOption() {
+            return option;
+        }
+
+        public void setOption(String option) {
+            this.option = option;
+        }
+
     }
 
 }
