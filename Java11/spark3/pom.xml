@@ -49,15 +49,96 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>1.6.0</version>
-                    <configuration>
-                        <executable>java</executable>
-                        <arguments>
-                            <argument>-Dlog4j.configuration=file:src/main/java/0log4j.properties</argument>
-                            <argument>-classpath</argument>
-                            <classpath />
-                            <argument>spark_in_action2021.Lab5_21PiComputeClusterApp</argument>
-                        </arguments>
-                    </configuration>
+
+                    <executions>
+                        <execution>
+                            <id>submit-Lab5_21PiComputeClusterApp</id>
+                            <configuration>
+                                <executable>java</executable>
+                                <arguments>
+                                    <argument>-Dlog4j.configuration=file:src/main/java/0log4j.properties</argument>
+                                    <argument>-classpath</argument>
+                                    <classpath />
+                                    <argument>spark_in_action2021.Lab5_21PiComputeClusterApp</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+
+                        <execution>
+                            <id>generate-records-in-files</id>
+                            <goals>
+                                <goal>java</goal>
+                            </goals>
+                            <configuration>
+                                <mainClass>spark_in_action2021.streaming.RecordsInFilesGeneratorApp</mainClass>
+                            </configuration>
+                        </execution>
+
+                        <!-- App to generate records to be consumed later -->
+                        <execution>
+                            <id>generate-records-in-files-alt-dir</id>
+                            <goals>
+                                <goal>java</goal>
+                            </goals>
+                            <configuration>
+                                <mainClass>spark_in_action2021.streaming.RecordsInFilesGeneratorApp</mainClass>
+                                <arguments>
+                                    <argument>--output-directory</argument>
+                                    <argument>C:/TEMP/streaming2/in/</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+
+                        <!-- First app to read records -->
+                        <execution>
+                            <id>lab200</id>
+                            <configuration>
+                                <executable>java</executable>
+                                <arguments>
+                                    <argument>-classpath</argument>
+                                    <classpath />
+                                    <argument>spark_in_action2021.Lab10_11ReadLinesFromFileStreamApp</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+
+                        <execution>
+                            <id>lab210</id>
+                            <configuration>
+                                <executable>java</executable>
+                                <arguments>
+                                    <argument>-classpath</argument>
+                                    <classpath />
+                                    <argument>spark_in_action2021.Lab10_12ReadRecordFromFileStreamApp</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+
+                        <execution>
+                            <id>lab300</id>
+                            <configuration>
+                                <executable>java</executable>
+                                <arguments>
+                                    <argument>-classpath</argument>
+                                    <classpath />
+                                    <argument>spark_in_action2021.Lab10_21ReadLinesFromNetworkStreamApp</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+
+                        <execution>
+                            <id>lab400</id>
+                            <configuration>
+                                <executable>java</executable>
+                                <arguments>
+                                    <argument>-classpath</argument>
+                                    <classpath />
+                                    <argument>spark_in_action2021.Lab10_31ReadRecordFromMultipleFileStreamApp</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+
+                    </executions>
                 </plugin>
 
                 <!-- Build the uber jar in the package phase -->

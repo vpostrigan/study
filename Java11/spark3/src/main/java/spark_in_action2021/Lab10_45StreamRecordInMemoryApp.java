@@ -57,14 +57,12 @@ public class Lab10_45StreamRecordInMemoryApp {
 
         // Wait and process the incoming stream for the next minute
         Dataset<Row> queryInMemoryDf; // будет использоваться фрейм данных с получаемыми из потока данными
-        int iterationCount = 0;
+        int i = 0;
         long start = System.currentTimeMillis();
         while (query.isActive()) {
             queryInMemoryDf = spark.sql("SELECT * FROM people"); // Создание фрейма данных с содержимым запроса SQL
-            iterationCount++;
-            log.debug("Pass #{}, dataframe contains {} records",
-                    iterationCount,
-                    queryInMemoryDf.count());
+            i++;
+            log.debug("Pass #{}, dataframe contains {} records", i, queryInMemoryDf.count());
             queryInMemoryDf.show();
             if (start + 60000 < System.currentTimeMillis()) {
                 query.stop(); // когда время запроса превышает минуту, выполнение останавливается
