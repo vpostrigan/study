@@ -21,7 +21,7 @@ public class Lab11_11SimpleSelectApp {
 
     private void start() {
         SparkSession spark = SparkSession.builder()
-                .appName("Lab11_11SimpleSelectApp")
+                .appName("Simple SELECT using SQL")
                 .master("local")
                 .getOrCreate();
 

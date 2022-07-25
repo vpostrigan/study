@@ -62,7 +62,7 @@ class Lab10_41StreamRecordOutputParquetScalaApp {
 object StreamRecordOutputParquetScalaApplication {
 
   def main(args: Array[String]): Unit = {
-    val app = new StreamRecordOutputParquetScalaApp
+    val app = new Lab10_41StreamRecordOutputParquetScalaApp
     app.start
   }
 

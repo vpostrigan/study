@@ -73,7 +73,7 @@ class Lab10_45StreamRecordInMemoryScalaApp {
 object StreamRecordInMemoryScalaApplication {
 
   def main(args: Array[String]): Unit = {
-    val app = new StreamRecordInMemoryScalaApp
+    val app = new Lab10_45StreamRecordInMemoryScalaApp
     app.start
   }
 

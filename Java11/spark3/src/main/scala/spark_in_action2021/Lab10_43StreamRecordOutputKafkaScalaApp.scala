@@ -62,7 +62,7 @@ class Lab10_43StreamRecordOutputKafkaScalaApp {
 object StreamRecordOutputKafkaScalaApplication {
 
   def main(args: Array[String]): Unit = {
-    val app = new StreamRecordOutputKafkaScalaApp
+    val app = new Lab10_43StreamRecordOutputKafkaScalaApp
     app.start
   }
 

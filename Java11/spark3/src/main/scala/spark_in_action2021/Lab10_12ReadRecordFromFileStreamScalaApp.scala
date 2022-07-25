@@ -59,7 +59,7 @@ class Lab10_12ReadRecordFromFileStreamScalaApp {
 
 object ReadRecordFromFileStreamScalaApplication {
   def main(args: Array[String]): Unit = {
-    val app = new ReadRecordFromFileStreamScalaApp
+    val app = new Lab10_12ReadRecordFromFileStreamScalaApp
     app.start
   }
 }

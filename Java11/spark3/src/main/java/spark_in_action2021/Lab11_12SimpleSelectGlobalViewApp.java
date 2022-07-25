@@ -21,7 +21,7 @@ public class Lab11_12SimpleSelectGlobalViewApp {
 
     private void start() {
         SparkSession spark = SparkSession.builder()
-                .appName("Lab11_12SimpleSelectGlobalViewApp")
+                .appName("Simple SELECT using SQL")
                 .master("local")
                 .getOrCreate();
 
@@ -54,6 +54,12 @@ public class Lab11_12SimpleSelectGlobalViewApp {
                         "ORDER BY 2 " +
                         "LIMIT 5");
         slightlyBiggerCountriesDf.show(10, false);
+
+        try {
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 /**
  root

@@ -1,6 +1,6 @@
 package spark_in_action2021
 
-import spark_in_action2021.streaming.StreamingUtils
+import spark_in_action2021.streaming.StreamingScalaUtils
 import org.apache.spark.sql.{ForeachWriter, Row}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.streaming.OutputMode
@@ -33,7 +33,7 @@ class Lab10_31ReadRecordFromMultipleFileStreamScalaApp {
       .add("ssn", "string")
 
     // Two directories
-    val landingDirectoryStream1 = StreamingUtils.getInputDirectory
+    val landingDirectoryStream1 = StreamingScalaUtils.getInputDirectory
     val landingDirectoryStream2 = "/tmp/dir2" // make sure it exists
 
     // Two streams
@@ -87,7 +87,7 @@ object ReadRecordFromMultipleFileStreamScalaApplication {
 
   def main(args: Array[String]): Unit = {
 
-    val app = new ReadRecordFromMultipleFileStreamScalaApp
+    val app = new Lab10_31ReadRecordFromMultipleFileStreamScalaApp
     app.start
   }
 

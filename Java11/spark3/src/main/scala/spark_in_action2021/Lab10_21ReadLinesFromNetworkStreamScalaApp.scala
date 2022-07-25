@@ -47,7 +47,7 @@ class Lab10_21ReadLinesFromNetworkStreamScalaApp {
 object ReadLinesFromNetworkStreamScalaApplication {
 
   def main(args: Array[String]): Unit = {
-    val app = new ReadLinesFromNetworkStreamScalaApp
+    val app = new Lab10_21ReadLinesFromNetworkStreamScalaApp
     app.start()
   }
 

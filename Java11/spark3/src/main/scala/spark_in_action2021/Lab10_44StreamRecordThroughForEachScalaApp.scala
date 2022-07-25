@@ -57,7 +57,7 @@ class Lab10_44StreamRecordThroughForEachScalaApp {
 object StreamRecordThroughForEachScalaApplication {
 
   def main(args: Array[String]): Unit = {
-    val app = new StreamRecordThroughForEachScalaApp
+    val app = new Lab10_44StreamRecordThroughForEachScalaApp
     app.start
   }
 
@@ -71,7 +71,7 @@ object StreamRecordThroughForEachScalaApplication {
 class RecordLogScalaDebugger extends ForeachWriter[Row] {
 
   private val serialVersionUID = 4137020658417523102L
-  private val log = LoggerFactory.getLogger(classOf[RecordLogDebugger])
+  private val log = LoggerFactory.getLogger(classOf[RecordLogScalaDebugger])
   private var count = 0
 
   /**

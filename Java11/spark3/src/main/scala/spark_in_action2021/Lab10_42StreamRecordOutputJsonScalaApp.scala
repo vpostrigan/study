@@ -65,7 +65,7 @@ object StreamRecordOutputJsonScalaApplication {
 
   def main(args: Array[String]): Unit = {
 
-    val app = new StreamRecordOutputJsonScalaApp
+    val app = new Lab10_42StreamRecordOutputJsonScalaApp
     app.start
 
   }
