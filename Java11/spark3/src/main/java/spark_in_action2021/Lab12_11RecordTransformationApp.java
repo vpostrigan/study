@@ -25,14 +25,15 @@ public class Lab12_11RecordTransformationApp {
                 .getOrCreate();
 
         // Ingestion of the census data
-        Dataset<Row> intermediateDf = spark.read().format("csv")
+        Dataset<Row> df = spark.read().format("csv")
                 .option("header", "true")
                 .option("inferSchema", "true")
+                .option("encoding", "cp1252")
                 .load("data/chapter12/census/PEP_2017_PEPANNRES.csv");
-        intermediateDf.sample(.01).show(2, false);
+        df.sample(.01).show(2, false);
 
         // Renaming and dropping the columns we do not need
-        intermediateDf = intermediateDf.drop("GEO.id")
+        df = df.drop("GEO.id")
                 .withColumnRenamed("GEO.id2", "id")
                 .withColumnRenamed("GEO.display-label", "label")
                 .withColumnRenamed("rescen42010", "real2010")
@@ -45,27 +46,27 @@ public class Lab12_11RecordTransformationApp {
                 .withColumnRenamed("respop72015", "est2015")
                 .withColumnRenamed("respop72016", "est2016")
                 .withColumnRenamed("respop72017", "est2017");
-        intermediateDf.printSchema();
-        intermediateDf.show(5);
+        df.printSchema();
+        df.show(5);
 
         // Creates the additional columns
-        intermediateDf = intermediateDf
+        df = df
                 .withColumn("countyState",
-                        functions.split(intermediateDf.col("label"), ", "))
+                        functions.split(df.col("label"), ", "))
                 .withColumn("stateId", functions.expr("int(id/100)"))
                 .withColumn("countyId", functions.expr("id%1000"));
-        intermediateDf.printSchema();
-        intermediateDf.sample(.01).show(5, false);
+        df.printSchema();
+        df.sample(.01).show(5, false);
 
-        intermediateDf = intermediateDf
-                .withColumn("state", intermediateDf.col("countyState").getItem(1))
-                .withColumn("county", intermediateDf.col("countyState").getItem(0))
+        df = df
+                .withColumn("state", df.col("countyState").getItem(1))
+                .withColumn("county", df.col("countyState").getItem(0))
                 .drop("countyState");
-        intermediateDf.printSchema();
-        intermediateDf.sample(.01).show(5, false);
+        df.printSchema();
+        df.sample(.01).show(5, false);
 
         // Performs some statistics on the intermediate dataframe
-        Dataset<Row> statDf = intermediateDf
+        Dataset<Row> statDf = df
                 .withColumn("diff", functions.expr("est2010-real2010"))
                 .withColumn("growth", functions.expr("est2017-est2010"))
                 .drop("id")
@@ -92,6 +93,8 @@ public class Lab12_11RecordTransformationApp {
  +--------------+-------+----------------------+-----------+------------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
  only showing top 2 rows
 
+
+
  root
  |-- id: integer (nullable = true)
  |-- label: string (nullable = true)
@@ -115,6 +118,8 @@ public class Lab12_11RecordTransformationApp {
  |1009|Blount County, Al...|   57322|  57381|  57562|  57595|  57623|  57546|  57590|  57562|  58013|
  +----+--------------------+--------+-------+-------+-------+-------+-------+-------+-------+-------+
  only showing top 5 rows
+
+
 
  root
  |-- id: integer (nullable = true)
@@ -144,6 +149,8 @@ public class Lab12_11RecordTransformationApp {
  +-----+-------------------------------+--------+-------+-------+-------+-------+-------+-------+-------+-------+---------------------------------+-------+--------+
  only showing top 5 rows
 
+
+
  root
  |-- id: integer (nullable = true)
  |-- label: string (nullable = true)
@@ -171,6 +178,8 @@ public class Lab12_11RecordTransformationApp {
  |13117|Forsyth County, Georgia    |175511  |176767 |182034 |187126 |194137 |202945 |211384 |220067 |227967 |131    |117     |Georgia |Forsyth County     |
  +-----+---------------------------+--------+-------+-------+-------+-------+-------+-------+-------+-------+-------+--------+--------+-------------------+
  only showing top 5 rows
+
+
 
  root
  |-- stateId: integer (nullable = true)
