@@ -1,4 +1,4 @@
-package docs_oracle_com.javase.collections;
+package javase.collections;
 
 import java.util.PriorityQueue;
 import java.util.Queue;

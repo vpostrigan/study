@@ -1,4 +1,4 @@
-package docs_oracle_com.javase;
+package javase;
 
 import java.util.function.Supplier;
 

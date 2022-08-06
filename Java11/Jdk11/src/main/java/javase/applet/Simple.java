@@ -1,4 +1,4 @@
-package docs_oracle_com.javase.applet;
+package javase.applet;
 
 import java.applet.Applet;
 import java.awt.*;

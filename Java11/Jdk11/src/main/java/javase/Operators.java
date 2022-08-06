@@ -1,4 +1,4 @@
-package docs_oracle_com.javase;
+package javase;
 
 /**
  * https://javarush.ru/groups/posts/operatory-java-logicheskie-arifmeticheskie-pobitovye

@@ -1,4 +1,4 @@
-package docs_oracle_com.javase.localdate;
+package javase.localdate;
 
 import java.time.Clock;
 import java.time.DateTimeException;

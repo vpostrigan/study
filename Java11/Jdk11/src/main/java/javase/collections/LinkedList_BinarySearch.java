@@ -1,4 +1,4 @@
-package docs_oracle_com.javase.collections;
+package javase.collections;
 
 /**
  * Java code to implement binary search on Singly Linked List
