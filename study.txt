@@ -273,3 +273,6 @@ IntelliJ IDEA by JetBrains
 https://www.youtube.com/c/intellijidea/videos
 (https://www.youtube.com/channel/UC4ogdcPcIAOOMJktgBMhQnQ)
 + https://www.youtube.com/watch?v=2xOtyGUTpQU   Refactoring to Java 8
+
+
+https://esl.culips.com/2019/12/chatterbox-242-new-year-extravaganza/
