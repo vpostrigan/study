@@ -15,9 +15,6 @@ import spark_in_action2021.Logs;
  */
 public class Lab7_72PushdownCsvFilterApp {
 
-    private static final String FOLDER = System.getProperty("java.io.tmpdir") +
-            Lab7_72PushdownCsvFilterApp.class.getSimpleName() + "/";
-
     enum Mode {
         NO_FILTER, FILTER
     }
@@ -54,7 +51,7 @@ public class Lab7_72PushdownCsvFilterApp {
         }
 
         allLogs.outPrintln("Saving big CSV file");
-        String file = FOLDER + "csv";
+        String file = allLogs.getFolder() + "csv";
         df = df.coalesce(1);
         df.write().format("csv")
                 .option("header", true)
@@ -81,7 +78,7 @@ public class Lab7_72PushdownCsvFilterApp {
                 df = spark.read().format("csv")
                         .option("header", true)
                         .option("inferSchema", true)
-                        .load(FOLDER + "csv/*.csv");
+                        .load(allLogs.getFolder() + "csv/*.csv");
                 break;
 
             case FILTER:
@@ -95,14 +92,14 @@ public class Lab7_72PushdownCsvFilterApp {
                 df = spark.read().format("csv")
                         .option("header", true)
                         .option("inferSchema", true)
-                        .load(FOLDER + "csv/*.csv")
+                        .load(allLogs.getFolder() + "csv/*.csv")
                         .filter("Platform = 'Wii'");
                 break;
         }
 
         df.explain("formatted");
 
-        String file = FOLDER + filter;
+        String file = allLogs.getFolder() + filter;
         df.write().format("parquet")
                 .mode(SaveMode.Overwrite)
                 .save(file);
