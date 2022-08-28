@@ -68,10 +68,14 @@ public class Logs {
 
         String file = folder + counter.incrementAndGet() + "_csv";
         df = df.coalesce(1);
-        df.write().format("csv")
-                .option("header", true)
-                .mode(SaveMode.Overwrite)
-                .save(file);
+        try {
+            df.write().format("csv")
+                    .option("header", true)
+                    .mode(SaveMode.Overwrite)
+                    .save(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         outPrintln(time() + message + " has " + df.count() + ". Saved to " + file);
         outPrintln("// //");
