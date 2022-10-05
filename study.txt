@@ -1,4 +1,33 @@
-﻿
+﻿https://stackoverflow.com/questions/62212754/nodejs-for-windows-7
+https://stackoverflow.com/questions/9755841/how-can-i-change-the-version-of-npm-using-nvm/50955293#50955293
+
+https://www.amazon.com/Testing-Puppeteer-end-end-automation/dp/180020678X
+
+// //
+
+https://www.baeldung.com/java-concurrent-locks
+https://www.baeldung.com/java-completablefuture
+https://www.baeldung.com/guice
+https://www.baeldung.com/mockito-series
+https://www.baeldung.com/java-mongodb
+
+https://www.baeldung.com/elasticsearch-java
+https://www.baeldung.com/spring-data-elasticsearch-tutorial
+https://www.baeldung.com/spring-data-elasticsearch-queries
+https://www.baeldung.com/elasticsearch-full-text-search-rest-api
+https://www.baeldung.com/java-8-comparator-comparing
+
+https://www.journaldev.com/7128/log4j2-example-tutorial-configuration-levels-appenders
+
+https://logging.apache.org/log4j/log4j-2.1/faq.html
+
+
+https://www.youtube.com/watch?v=QSOkuEqTuSg    Cleaning Up Dependency Injection With Guice
+
+
+
+
+
 
 TypeScript для начинающих. Полный курс для старта работы на Angular
 https://www.youtube.com/playlist?list=PL4rYLeYunVf03ipmEcQAPWGmX26_IrVMQ
@@ -75,6 +104,9 @@ https://github.com/vpostrigan/git_study/tree/master/src/main/java/com/test
 Гоша Дударь
 https://www.youtube.com/user/PlurrimiTube/videos?reload=9
 
+http://marklodato.github.io/visual-git-guide/index-en.html
+https://learngitbranching.js.org/
+https://docs.github.com/en/get-started/quickstart/set-up-git
 
 
 Скринкаст по Git
@@ -180,7 +212,7 @@ antlr
 https://github.com/antlr/antlr4/blob/master/doc/lexer-rules.md
 https://docs.google.com/document/d/1gQ2lsidvN2cDUUsHEkT05L-wGbX5mROB7d70Aaj3R64/edit#heading=h.xr0jj8vcdsgc
 https://www.youtube.com/watch?v=f76y3Id0Ayo
-
+https://tomassetti.me/antlr-mega-tutorial/#chapter38
 
 Docker для Начинающих - Полный Курс [2021]
 https://www.youtube.com/watch?v=n9uCgUzfeRQ
@@ -192,6 +224,16 @@ https://www.youtube.com/c/intellijidea/videos
 https://www.youtube.com/c/TechWorldwithNana/playlists?view=1&sort=dd&shelf_id=0
 https://www.youtube.com/watch?v=3c-iBn73dDE   Docker tutorial 2.45hours
 
+
+https://esl.culips.com/2019/12/chatterbox-242-new-year-extravaganza/
+https://docs.aws.amazon.com/index.html
+
+https://www.host-tracker.com/en/ic/1/15c03fdf-460f-4233-a364-65865e5e54ff?u=http%253A%252F%252Fwww.alias-i.com%252F
+http://www.alias-i.com/lingpipe/demos/tutorial/read-me.html
+http://www.alias-i.com/lingpipe/index.html
+
+https://www.youtube.com/c/amazonwebservices
+https://www.youtube.com/watch?v=vg5onp8TU6Q&list=PLhr1KZpdzukdRxs_pGJm-qSy5LayL6W_Y
 
 
 
@@ -275,4 +317,3 @@ https://www.youtube.com/c/intellijidea/videos
 + https://www.youtube.com/watch?v=2xOtyGUTpQU   Refactoring to Java 8
 
 
-https://esl.culips.com/2019/12/chatterbox-242-new-year-extravaganza/
