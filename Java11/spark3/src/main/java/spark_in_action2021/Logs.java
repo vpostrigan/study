@@ -42,7 +42,7 @@ public class Logs {
         return folder;
     }
 
-    public void show(String message, Dataset<Row> df, int number, boolean truncate, boolean printSchema) {
+    public void show(String message, Dataset<?> df, int number, boolean truncate, boolean printSchema) {
         outPrintln(time() + message);
 
         df.show(number, truncate);
@@ -54,11 +54,11 @@ public class Logs {
         outPrintln("// //");
     }
 
-    public void showAndSaveToCsv(String message, Dataset<Row> df, boolean printSchema) {
+    public void showAndSaveToCsv(String message, Dataset<?> df, boolean printSchema) {
         showAndSaveToCsv(message, df, 5, false, printSchema);
     }
 
-    public void showAndSaveToCsv(String message, Dataset<Row> df, int number, boolean truncate, boolean printSchema) {
+    public void showAndSaveToCsv(String message, Dataset<?> df, int number, boolean truncate, boolean printSchema) {
         outPrintln(time() + message);
 
         df.show(number, truncate);
