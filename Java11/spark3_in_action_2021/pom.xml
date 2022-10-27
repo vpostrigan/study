@@ -5,8 +5,8 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.spark3</groupId>
-    <artifactId>spark3</artifactId>
+    <groupId>com.spark3_in_action_2021</groupId>
+    <artifactId>spark3_in_action_2021</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
