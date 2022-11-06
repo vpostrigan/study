@@ -138,6 +138,21 @@
                             </configuration>
                         </execution>
 
+                        <execution>
+                            <id>Lab16_CacheCheckpointCommandLineApp</id>
+                            <configuration>
+                                <executable>java</executable>
+                                <arguments>
+                                    <argument>-Xmx${Xmx}</argument>
+                                    <argument>-Xms2G</argument>
+                                    <argument>-classpath</argument>
+                                    <classpath />
+                                    <argument>spark_in_action2021.part4.Lab16_21CacheCheckpointCommandLineApp</argument>
+                                    <argument>${args}</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+
                     </executions>
                 </plugin>
 
