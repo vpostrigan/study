@@ -21,7 +21,9 @@
         <postgresql.version>42.2.24</postgresql.version>
         <mysql.version>8.0.29</mysql.version>
         <informix-jdbc.version>4.10.8.1</informix-jdbc.version>
-        <elasticsearch-spark.version>7.17.3</elasticsearch-spark.version>
+        <delta.version>1.0.1</delta.version>
+        <elasticsearch-hadoop.version>7.17.7</elasticsearch-hadoop.version>
+        <elasticsearch-spark.version>7.17.7</elasticsearch-spark.version>
 
         <metadata-extractor.version>2.16.0</metadata-extractor.version>
 
@@ -429,6 +431,16 @@
             <artifactId>jdbc</artifactId>
             <version>${informix-jdbc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.delta</groupId>
+            <artifactId>delta-core_${scala.version}</artifactId>
+            <version>${delta.version}</version>
+        </dependency>
+        <!--    <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch-hadoop</artifactId>
+                <version>${elasticsearch-hadoop.version}</version>
+            </dependency> -->
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch-spark-30_${scala.version}</artifactId>
