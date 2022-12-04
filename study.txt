@@ -5,6 +5,10 @@ https://www.amazon.com/Testing-Puppeteer-end-end-automation/dp/180020678X
 
 // //
 
+https://www.w3schools.com/java/default.asp
+
+https://www.baeldung.com/full_archive
+
 https://www.baeldung.com/java-concurrent-locks
 https://www.baeldung.com/java-completablefuture
 https://www.baeldung.com/guice
@@ -65,7 +69,7 @@ https://www.tutorialkart.com/
 http://tutorials.jenkov.com/
 https://howtodoinjava.com/
 https://www.vogella.com/tutorials/
-
+https://www.youtube.com/@SpringframeworkGuru/videos
 
 
 
