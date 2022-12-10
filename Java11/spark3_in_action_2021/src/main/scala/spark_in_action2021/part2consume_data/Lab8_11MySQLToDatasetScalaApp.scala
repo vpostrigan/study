@@ -28,7 +28,7 @@ object Lab8_11MySQLToDatasetScalaApp {
     props.put("allowPublicKeyRetrieval", "true")
     props.put("useSSL", "false")
 
-    val mysqlURL = "jdbc:mysql://192.168.99.100:3306/sakila?serverTimezone=EST"
+    val mysqlURL = "jdbc:mysql://localhost:3306/sakila?serverTimezone=EST"
 
     var df = spark.read.jdbc(mysqlURL, "actor", props)
 

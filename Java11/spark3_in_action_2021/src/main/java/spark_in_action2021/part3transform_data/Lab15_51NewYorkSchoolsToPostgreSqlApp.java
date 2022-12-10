@@ -56,7 +56,7 @@ public class Lab15_51NewYorkSchoolsToPostgreSqlApp {
 
         long t2 = System.currentTimeMillis();
 
-        String dbConnectionUrl = "jdbc:postgresql://192.168.99.100:5432/postgres";
+        String dbConnectionUrl = "jdbc:postgresql://localhost:5432/postgres";
 
         // Properties to connect to the database, the JDBC driver is part of our pom.xml
         Properties prop = new Properties();

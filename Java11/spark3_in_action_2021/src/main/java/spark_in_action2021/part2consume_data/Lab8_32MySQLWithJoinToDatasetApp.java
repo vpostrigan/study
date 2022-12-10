@@ -40,7 +40,7 @@ public class Lab8_32MySQLWithJoinToDatasetApp {
                         + "and film_actor.film_id = film.film_id";
 
         Dataset<Row> df = spark.read().jdbc(
-                "jdbc:mysql://192.168.99.100:3306/sakila",
+                "jdbc:mysql://localhost:3306/sakila",
                 "(" + sqlQuery + ") actor_film_alias",
                 props);
 
@@ -93,7 +93,7 @@ public class Lab8_32MySQLWithJoinToDatasetApp {
                         + "and film_actor.film_id = film.film_id";
 
         Dataset<Row> df = spark.read().jdbc(
-                "jdbc:mysql://192.168.99.100:3306/sakila",
+                "jdbc:mysql://localhost:3306/sakila",
                 "(" + sqlQuery + ") actor_film_alias",
                 props);
 

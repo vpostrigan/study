@@ -38,7 +38,7 @@ public class Lab8_11MySQLToDatasetApp {
         props.put("useSSL", "false");
 
         Dataset<Row> df = spark.read()
-                .jdbc("jdbc:mysql://192.168.99.100:3306/sakila?serverTimezone=UTC",
+                .jdbc("jdbc:mysql://localhost:3306/sakila?serverTimezone=UTC",
                         "actor", props);
         df = df.orderBy(df.col("last_name"));
 
@@ -75,7 +75,7 @@ public class Lab8_11MySQLToDatasetApp {
                 .getOrCreate();
 
         // Using a JDBC URL
-        String jdbcUrl = "jdbc:mysql://192.168.99.100:3306/sakila"
+        String jdbcUrl = "jdbc:mysql://localhost:3306/sakila"
                 + "?user=root"
                 + "&password=password"
                 + "&allowPublicKeyRetrieval=true"
@@ -135,7 +135,7 @@ public class Lab8_11MySQLToDatasetApp {
 
         // In a "one-liner" with method chaining and options
         Dataset<Row> df = spark.read().format("jdbc")
-                .option("url", "jdbc:mysql://192.168.99.100:3306/sakila")
+                .option("url", "jdbc:mysql://localhost:3306/sakila")
                 .option("dbtable", "actor")
                 .option("user", "root")
                 .option("password", "password")
@@ -192,7 +192,7 @@ public class Lab8_11MySQLToDatasetApp {
         props.put("useSSL", "false");
 
         Dataset<Row> df = spark.read().jdbc(
-                "jdbc:mysql://192.168.99.100:3306/sakila?serverTimezone=UTC",
+                "jdbc:mysql://localhost:3306/sakila?serverTimezone=UTC",
                 "actor", props);
         df = df.orderBy(df.col("last_name"));
 

@@ -43,7 +43,7 @@ object Lab2_CsvToDatabaseScalaApp {
     // ----
     // The connection URL, assuming your PostgreSQL instance runs locally on the
     // default port, and the database we use is "spark_labs"
-    val dbConnectionUrl = "jdbc:mysql://192.168.99.100:3306/myDB"
+    val dbConnectionUrl = "jdbc:mysql://localhost:3306/myDB"
 
     // Properties to connect to the database, the JDBC driver is part of our pom.xml
     val prop = new Properties

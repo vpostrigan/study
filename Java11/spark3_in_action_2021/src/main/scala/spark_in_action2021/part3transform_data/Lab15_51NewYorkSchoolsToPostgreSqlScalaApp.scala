@@ -37,7 +37,7 @@ class NewYorkSchoolsToPostgreSqlScalaApp {
 
     val t2 = System.currentTimeMillis
 
-    val dbConnectionUrl = "jdbc:postgresql://192.168.99.100/postgres"
+    val dbConnectionUrl = "jdbc:postgresql://localhost/postgres"
 
     // Properties to connect to the database,
     // the JDBC driver is part of our build.sbt

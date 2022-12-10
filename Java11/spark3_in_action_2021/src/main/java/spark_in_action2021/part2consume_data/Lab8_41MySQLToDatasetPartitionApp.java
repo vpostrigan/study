@@ -127,7 +127,7 @@ public class Lab8_41MySQLToDatasetPartitionApp {
 
         // Let's look for all movies matching the query
         Dataset<Row> df = spark.read().jdbc(
-                "jdbc:mysql://192.168.99.100:3306/sakila",
+                "jdbc:mysql://localhost:3306/sakila",
                 "film",
                 props);
 

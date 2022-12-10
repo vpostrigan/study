@@ -50,7 +50,7 @@ public class Lab17_41AppendDataJdbcPrimaryKeyApp {
         // Write in a table called ch17_lab900_pkey
         df.write().format("jdbc")
                 .mode(SaveMode.Append)
-                .option("url", "jdbc:postgresql://192.168.99.100:5432/postgres")
+                .option("url", "jdbc:postgresql://localhost:5432/postgres")
                 .option("dbtable", "ch17_lab900_pkey")
                 .option("driver", "org.postgresql.Driver")
                 .option("user", "postgres")

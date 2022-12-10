@@ -36,7 +36,7 @@ public class Lab8_31MySQLWithWhereClauseToDatasetApp {
                 + "and rental_rate>1 "
                 + "and (rating=\"G\" or rating=\"PG\")";
         Dataset<Row> df = spark.read().jdbc(
-                "jdbc:mysql://192.168.99.100:3306/sakila",
+                "jdbc:mysql://localhost:3306/sakila",
                 "(" + sqlQuery + ") film_alias",
                 props);
 
