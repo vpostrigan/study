@@ -19,6 +19,4 @@ target-eclipse/
 target/
 *.iml
 TempWmicBatchFile.bat
-/linkedin.com_learning/elasticsearch-essential-training_2015/scripts/
-/linkedin.com_learning/elasticsearch-essential-training_2015/data/
 /JavaScript/NodeJS/basic/node_modules/
