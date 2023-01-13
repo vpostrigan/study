@@ -72,6 +72,8 @@ public class LoginServer {
          *         (RETURN if same as keystore password):
          * Re-enter new password:
          */
+
+        // for: $ java -Djavax.net.ssl.keyStore=SSLStore -Djavax.net.ssl.keyStorePassword=password LoginServer
         System.setProperty("javax.net.ssl.keyStore", "SSLStore");
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
 

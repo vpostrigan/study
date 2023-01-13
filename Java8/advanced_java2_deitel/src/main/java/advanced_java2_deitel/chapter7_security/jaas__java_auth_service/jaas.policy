@@ -1,4 +1,4 @@
-// jaas.policy
+
 // Policy file defining the permissions for the named Principal
 grant codeBase "file:D:/JavaProjects/advjhtp1/src/-",
    Principal com.sun.security.auth.NTUserPrincipal "santry" {

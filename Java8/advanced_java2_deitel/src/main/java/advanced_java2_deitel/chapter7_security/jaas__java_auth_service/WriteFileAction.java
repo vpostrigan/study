@@ -1,4 +1,4 @@
-package advanced_java2_deitel.chapter7_security.jaas;
+package advanced_java2_deitel.chapter7_security.jaas__java_auth_service;
 
 import java.io.*;
 import java.security.PrivilegedAction;

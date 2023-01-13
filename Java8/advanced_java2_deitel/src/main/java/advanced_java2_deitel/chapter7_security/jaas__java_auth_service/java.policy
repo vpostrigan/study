@@ -1,6 +1,5 @@
-// java.policy
-// Policy file that grants AllPermission
-// to JAAS modules and specific permissions
+
+// Policy file that grants AllPermission to JAAS modules and specific permissions
 // to the D:\Projects\Java codebase.
 grant codebase "file:/D:/jdk1.3.1/jre/lib/ext/jaas.jar" {
    permission java.security.AllPermission;
