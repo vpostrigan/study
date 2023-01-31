@@ -175,11 +175,9 @@ public class PrinterSimulator implements Runnable {
 
         // Remove topmost queued resource.
         String printJob;
-
         synchronized (printerStack) {
             printJob = (String) printerStack.pop();
         }
-
         return printJob;
     }
 
