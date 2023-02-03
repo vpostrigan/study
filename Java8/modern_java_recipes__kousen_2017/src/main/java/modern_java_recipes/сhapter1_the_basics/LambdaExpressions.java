@@ -36,6 +36,9 @@ public class LambdaExpressions {
         new Thread(r).start();
 
 
+        // //
+
+
         // Example 1-4. An anonymous inner class implementation of FilenameFilter
         // Пример 1.4  Реализация FilenameFilter с помощью анонимного внутреннего класса
         File directory = new File("./src/main/java");
@@ -48,12 +51,29 @@ public class LambdaExpressions {
         System.out.println(Arrays.asList(names));
 
 
+        // Example 1-5. Lambda expression implementing FilenameFilter
         // Пример 1.5  Лямбда-выражение, реализующее интерфейс FilenameFilter
         directory = new File("./src/main/java");
-        names = directory.list((dir, name) -> name.endsWith(".java"));
+        names = directory.list((dir, name) -> // Лямбда-выражение
+                name.endsWith(".java"));
         System.out.println(Arrays.asList(names));
 
 
+        // Example 1-6. Lambda expression is explicit data types
+        // Пример 1.6  Лямбда-выражение с явно заданными типами данных
+        directory = new File("./src/main/java");
+        names = directory.list((File dir, String name) -> // Явные типы данных
+                name.endsWith(".java"));
+        System.out.println(Arrays.asList(names));
+
+
+        // Example 1-7. A block lambda
+        // Пример 1.7  Блочное лямбда-выражение
+        directory = new File("./src/main/java");
+        names = directory.list((File dir, String name) -> { // Блочный синтаксис
+            return name.endsWith(".java");
+        });
+        System.out.println(Arrays.asList(names));
     }
 
 }
