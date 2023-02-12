@@ -19,13 +19,11 @@ public class IMPeerImpl extends UnicastRemoteObject implements IMPeer {
     private String name;
     private IMPeerListener output;
 
-    // No argument constructor
     public IMPeerImpl() throws RemoteException {
         super();
         name = "anonymous";
     }
 
-    // constructor takes userName
     public IMPeerImpl(String myName) throws RemoteException {
         name = myName;
     }
@@ -39,8 +37,8 @@ public class IMPeerImpl extends UnicastRemoteObject implements IMPeer {
         output.displayMessage(message);
     }
 
-    // accessor for name
     public String getName() throws RemoteException {
         return name;
     }
+
 }
