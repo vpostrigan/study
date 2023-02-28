@@ -1,7 +1,5 @@
-﻿https://stackoverflow.com/questions/62212754/nodejs-for-windows-7
-https://stackoverflow.com/questions/9755841/how-can-i-change-the-version-of-npm-using-nvm/50955293#50955293
+﻿
 
-https://www.amazon.com/Testing-Puppeteer-end-end-automation/dp/180020678X
 
 // //
 
