@@ -1,3 +1,0 @@
-https://www.youtube.com/watch?v=cxs_OlXVCRI
-TypeScript. Переменные и константы
-
