@@ -1,0 +1,24 @@
+$ docker run -d -i -p 1234:1234 --name daemon ubuntu:14.04 nc -l 1234
+
+флаг -d    запуск в качестве демона
+флаг -i    взаимодествие с вашим сеансом Telnet
+nc -l 1234  прослушивающий эхо-сервер на порту 1234 с помощью netcat (nc)
+
+
+
+$ docker run -d --restart=always ubuntu echo done
+      --restart string                 Restart policy to apply when a
+                                       container exits (default "no")
+always - всегда перезапускать
+unless-stopped - всегда перезапускать, но помнить о явной остановке
+on-failure[:max-retry] - перезапускать только в случае сбоя
+
+создаст имя из двух слов: modest_chaplygin
+лог:
+2023-03-05 22:56:23 done
+2023-03-05 22:56:25 done
+2023-03-05 22:56:26 done
+...
+
+$ docker run -d --restart=on-failure:10 ubuntu /bin/false
+/bin/false - команда всегда будет с ошибкой

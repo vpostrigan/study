@@ -1,0 +1,15 @@
+
+$ docker network create docker_in_practice_network
+создает новую виртуальную сеть
+
+1)
+$ docker network connect docker_in_practice_network docker_in_practice_wordpress1
+подключает сеть 'docker_in_practice_network' контейнеру 'docker_in_practice_wordpress1'
+по умолчанию все контейнеры подключены к сети Docker bridge
+
+2)
+$ docker run -it --network docker_in_practice_network ubuntu:16.04 bash
+
+через bash подключится к docker_in_practice_wordpress1
+# apt update && apt install -y curl
+# curl -sSL docker_in_practice_wordpress1 | head -n5

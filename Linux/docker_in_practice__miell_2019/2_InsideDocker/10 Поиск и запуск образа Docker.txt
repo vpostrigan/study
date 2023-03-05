@@ -1,0 +1,13 @@
+$ docker search node
+NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+node                              Node.js is a JavaScript-based platform for s…   12430     [OK]
+mongo-express                     Web-based MongoDB admin interface, written w…   1289      [OK]
+nodered/node-red                  Low-code programming for event-driven applic…   566
+nodered/node-red-docker           Deprecated - older Node-RED Docker images.      357                  [OK]
+
+
+
+$ docker pull node
+$ docker run -t -i node /bin/bash
+# node version
+>

@@ -1,0 +1,6 @@
+$ docker run -d -p10001:80 --name docker_in_practice_wordpress1 tutum/wordpress
+
+$ docker run -d -p10002:80 --name docker_in_practice_wordpress2 tutum/wordpress
+
+удалить контейнеры
+$ docker rm -f docker_in_practice_wordpress1 docker_in_practice_wordpress2

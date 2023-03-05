@@ -1,3 +1,0 @@
-https://github.com/orgs/docker-in-practice/repositories
-
-https://hub.docker.com/u/dockerinpractice
