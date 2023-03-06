@@ -7,6 +7,8 @@ if (root) {
     root.innerHTML = 'Hello2';
 }
 
+// //
+
 // object
 class Home {
     name: string;
