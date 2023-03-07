@@ -4,3 +4,5 @@ TypeScript для начинающих. Полный курс для старт�
 + https://www.youtube.com/watch?v=01iNswZC6P8     TypeScript. Знакомство. Базовая настройка
 + https://www.youtube.com/watch?v=cxs_OlXVCRI     TypeScript. Переменные и константы
 + https://www.youtube.com/watch?v=D5Y29GFnSiI     TypeScript. Типы данных
++ https://www.youtube.com/watch?v=wWiMhvCUVbA     Опреации над типами. TypeScript. Union. Intersection
++ https://www.youtube.com/watch?v=JCCN1EtCcoM     Объявление функций. TypeScript
