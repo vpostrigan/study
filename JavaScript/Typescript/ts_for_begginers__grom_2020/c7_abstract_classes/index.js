@@ -60,6 +60,7 @@ var Job = /** @class */ (function () {
             this.logger.info("Finished");
         }
         catch (e) {
+            // @ts-ignore
             this.logger.critical(e.message);
         }
     };
@@ -118,9 +119,7 @@ var ConsoleLogger2 = /** @class */ (function (_super) {
 var DateConsoleLogger2 = /** @class */ (function (_super) {
     __extends(DateConsoleLogger2, _super);
     function DateConsoleLogger2() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.level = 1;
-        return _this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     DateConsoleLogger2.prototype.getDateMessage = function (message) {
         return new Date().toLocaleString() + ": " + message;

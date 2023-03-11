@@ -14,7 +14,7 @@ $ tsc -v
 Version 4.5.5
 
 4) запуск
-$  D:\workspace_study\study\Typescript\basic>node index_legacy.js
+$ D:\workspace_study\study\Typescript\basic>node index_legacy.js
    [
      {
        firstName: 'First Name 0',

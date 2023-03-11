@@ -1,0 +1,31 @@
+
+https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_all
+WebSQL - database in browser
+
+SELECT * FROM [Customers]
+              - [ .. ] для обозначения имени таблицы.  Использовать если имя таблицы с пробелом, или ключевое слово
+
+
+SELECT ProductName, Price FROM [Products]   // несколько столбцов
+//
+ProductName	Price
+Chais	18
+Chang	19
+...
+
+
+SELECT ProductName, Price, Price * 10 FROM [Products]   // столбец умноженный на 10
+//
+ProductName	Price	Price * 10
+Chais	18	180
+Chang	19	190
+...
+
+
+SELECT ProductName, Price, Price * 10, Price * 50 AS PricePerPalet FROM [Products]   // другое название столбца 'AS PricePerPalet'
+//
+ProductName	Price	Price * 10	PricePerPalet
+Chais	18	180	900
+Chang	19	190	950
+...
+

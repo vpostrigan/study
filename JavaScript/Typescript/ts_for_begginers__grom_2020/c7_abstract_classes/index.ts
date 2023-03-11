@@ -70,6 +70,7 @@ class Job {
 
             this.logger.info("Finished");
         } catch (e) {
+            // @ts-ignore
             this.logger.critical(e.message);
         }
     }

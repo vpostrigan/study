@@ -1,3 +1,5 @@
+//
+
 // To compile use:
 // $ tsc -t es5 index.ts
 
