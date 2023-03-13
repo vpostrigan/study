@@ -1,0 +1,19 @@
+
+нужен контейнер для запуска нескольких процессов
+
+$ docker pull phusion/baseimage:master
+$ docker run -d phusion/baseimage:master
+10cc8be964c68481e87ea3aeb71d58de60d05842f69de0181b011402bff09b92
+
+$ docker exec -i -t 10cc8be964 /bin/bash
+
+root@10cc8be964c6:/# ps x
+  PID TTY      STAT   TIME COMMAND
+    1 ?        Ss     0:00 /usr/bin/python3 -u /sbin/my_init
+   15 ?        S      0:00 /usr/sbin/syslog-ng --pidfile /var/run/syslog-ng.pid -F --no-caps
+   23 ?        S      0:00 /usr/bin/runsvdir -P /etc/service
+   24 ?        Ss     0:00 runsv cron
+   25 ?        Ss     0:00 runsv sshd
+   26 ?        S      0:00 /usr/sbin/cron -f
+   30 pts/0    Ss     0:00 /bin/bash
+   42 pts/0    R+     0:00 ps x

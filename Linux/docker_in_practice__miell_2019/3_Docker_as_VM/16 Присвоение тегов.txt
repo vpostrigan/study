@@ -1,0 +1,5 @@
+
+$ docker tag 748918397e imageName
+
+$ docker run imagename
+

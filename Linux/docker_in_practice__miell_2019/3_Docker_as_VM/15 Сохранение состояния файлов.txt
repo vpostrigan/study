@@ -1,0 +1,17 @@
+
+$ docker run -d -p 8000:8000 --name docker_in_practice_todobug1 dockerinpractice/todoapp
+$ docker exec -i -t docker_in_practice_todobug1 /bin/bash 2((C07-2))
+
+// ... сделать изменения
+
+$ docker commit docker_in_practice_todobug1
+748918397e
+
+// ... сделать изменения
+
+$ docker commit docker_in_practice_todobug1
+071f6a36c23
+
+// теперь можно запустить эти два варианта паралельно
+$ docker run -p 8001:8000 748918397e
+$ docker run -p 8002:8000 071f6a36c23
