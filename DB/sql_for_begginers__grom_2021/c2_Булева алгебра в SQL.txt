@@ -1,0 +1,99 @@
+
+SELECT * FROM [Customers] WHERE 0
+не выведет строки, так как false
+
+SELECT * FROM [Customers] WHERE 10 = 10
+выведет все строки, так как true
+
+SELECT * FROM [Customers] WHERE CustomerID = 10
+выведет одну строку
+// CustomerID	CustomerName	ContactName...
+// 10	Bottom-Dollar Marketse	Elizabeth Lincoln
+
+SELECT * FROM [Customers] WHERE CustomerID != 10
+выведет все остальные строки
+
+SELECT * FROM [Customers] WHERE CustomerID % 3
+CustomerID	CustomerName	ContactName	Address	City	PostalCode	Country
+1	Alfreds Futterkiste	Maria Anders	Obere Str. 57	Berlin	12209	Germany
+2	Ana Trujillo Emparedados y helados	Ana Trujillo	Avda. de la Constitución 2222	México D.F.	05021	Mexico
+// нет 3 (так как 3 % 3 == 0)
+4	Around the Horn	Thomas Hardy	120 Hanover Sq.	London	WA1 1DP	UK
+5	Berglunds snabbköp	Christina Berglund	Berguvsvägen 8	Luleå	S-958 22	Sweden
+// нет 6 (так как 6 % 3 == 0)
+7	Blondel père et fils	Frédérique Citeaux
+
+SELECT * FROM [Customers] WHERE CustomerID % 2 != 0
+CustomerID	CustomerName	ContactName	Address	City	PostalCode	Country
+1	Alfreds Futterkiste	Maria Anders	Obere Str. 57	Berlin	12209	Germany
+// нет 2
+3	Antonio Moreno Taquería	Antonio Moreno	Mataderos 2312	México D.F.	05023	Mexico
+// нет 4
+5	Berglunds snabbköp	Christina Berglund	Berguvsvägen 8	Luleå	S-958 22	Sweden
+// нет 6
+7	Blondel père et fils	Frédérique Citeaux
+
+SELECT * FROM [Customers] WHERE NOT 0    (аналогично true, выведет все)
+SELECT * FROM [Customers] WHERE 1 AND 1  (аналогично true, выведет все)
+SELECT * FROM [Customers] WHERE 0 OR 1  (аналогично true, выведет все)
+
+
+SELECT * FROM [Products] WHERE Price = 20 OR Price = 30 OR Price = 40
+ProductID	ProductName	SupplierID	CategoryID	Unit	     Price
+7	Uncle Bob's Organic Dried Pears	3	7	12 - 1 lb pkgs.	 30
+8	Northwoods Cranberry Sauce	3	2	12 - 12 oz jars	     40
+49	Maxilaku	23	3	24 - 50 g pkgs.	                     20
+
+или
+SELECT * FROM [Products] WHERE Price IN (20, 30, 40)
+
+
+SELECT * FROM [Products] WHERE Price >= 20 AND Price <= 40
+ProductID	ProductName	SupplierID	CategoryID	Unit	Price
+4	Chef Anton's Cajun Seasoning	2	2	48 - 6 oz jars	22
+5	Chef Anton's Gumbo Mix	2	2	36 boxes	21.35
+6	Grandma's Boysenberry Spread	3	2	12 - 8 oz jars	25
+
+или
+SELECT * FROM [Products] WHERE Price BETWEEN 20 AND 40
+
+SELECT * FROM [Products] WHERE NOT Price BETWEEN 20 AND 40
+противоположный результат
+
+
+SELECT * FROM [Customers] WHERE ContactName = 'Maria Anders'
+CustomerID	CustomerName	ContactName	Address	City	PostalCode	Country
+1	Alfreds Futterkiste	Maria Anders
+
+или
+SELECT * FROM [Customers] WHERE ContactName LIKE 'Maria Anders'
+
+
+SELECT * FROM [Customers] WHERE ContactName LIKE '%Ande%'       % отсутствие или любое количество символов
+CustomerID	CustomerName	ContactName
+1	Alfreds Futterkiste  	Maria Anders
+52	Morgenstern Gesundkost	Alexander Feuer
+
+
+SELECT * FROM [Customers] WHERE ContactName LIKE '%An_e%'       _ один символ
+CustomerID	CustomerName	ContactName
+1	Alfreds Futterkiste	    Maria Anders
+25	Frankenversand	        Peter Franken
+33	GROSELLA-Restaurante	Manuel Pereira
+
+
+SELECT * FROM [Orders] WHERE OrderDate > '1997-01-01'
+OrderID	CustomerID	EmployeeID	OrderDate	ShipperID
+10402	20	8	1997-01-02	2
+10403	20	4	1997-01-03	3
+10404	49	2	1997-01-03	1
+
+
+SELECT * FROM [Orders] WHERE OrderDate IS NULL
+SELECT * FROM [Orders] WHERE OrderDate IS NOT NULL        все не null записи
+
+
+задачи:
+SELECT * FROM [OrderDetails] WHERE 	Quantity > 20 AND Quantity < 55 AND OrderDetailID % 5 = 0
+SELECT * FROM [OrderDetails] WHERE OrderDetailID / ProductID > Quantity AND ProductID > Quantity
+SELECT * FROM [Suppliers] WHERE (Phone LIKE '%555%' AND City='Londona') OR (Phone LIKE '%555%' AND City='Singapore')

@@ -1,0 +1,91 @@
+
+SELECT * FROM [Products] ORDER BY Price
+ProductID	ProductName	SupplierID	CategoryID	Unit	Price
+33	Geitost	15	4	500 g	2.5
+24	Guaraná Fantástica	10	1	12 - 355 ml cans	4.5
+
+
+SELECT * FROM [Products] ORDER BY Price DESC
+ProductID	ProductName	SupplierID	CategoryID	Unit	Price
+38	Côte de Blaye	18	1	12 - 75 cl bottles	263.5
+29	Thüringer Rostbratwurst	12	6	50 bags x 30 sausgs.	123.79
+
+
+SELECT * FROM [Suppliers] ORDER BY 	PostalCode
+SupplierID	SupplierName	ContactName	Address	City	PostalCode	Country	Phone
+19	New England Seafood Cannery	Robb Merchant	Order Processing Dept. 2100 Paul Revere Blvd.	Boston	02134	USA	(617) 555-3267
+20	Leka Trading	Chandra Leka	471 Serangoon Loop, Suite #402	Singapore	0512	Singapore	555-8787
+4	Tokyo Traders	Yoshi Nagase	9-8 Sekimai Musashino-shi	Tokyo	100	Japan	(03) 3555-5011
+
+
+SELECT * FROM [Suppliers] ORDER BY Country, City
+SupplierID	        SupplierName	ContactName	Address	City	PostalCode	Country	Phone
+7	Pavlova, Ltd.	Ian Devling	    74 Rose St. Moonie Ponds	Melbourne	3058	Australia	(03) 444-2343
+24	G'day, Mate	Wendy Mackenzie	   170 Prince Edward Parade Hunter's Hill	Sydney	2042	Australia	(02) 555-5914
+10	Refrescos Americanas LTDA	Carlos Diaz	Av. das Americanas 12.890	São Paulo	5442	Brazil	(11) 555 4640
+25	Ma Maison	Jean-Guy Lauzon	2960 Rue St. Laurent	Montréal	H1J 1C3	Canada	(514) 555-9022
+
+
+SELECT * FROM [Suppliers] ORDER BY Country, City DESC     (тогда City будет DESC, а Country ASC)
+
+
+SELECT 'Suppliers' AS Type, City, PostalCode, Country FROM [Suppliers]
+UNION
+SELECT 'Customers' AS Type, City, PostalCode, Country FROM [Customers]   (количество колонок должно совпадать)
+Type	City	PostalCode	Country
+Customers	Walla Walla	99362	USA
+Customers	Århus	8200	Denmark
+Suppliers	Ann Arbor	48104	USA
+Suppliers	Annecy	74000	France
+
+
+SELECT 'Suppliers' AS Type, City, PostalCode, Country FROM [Suppliers]
+UNION
+SELECT 'Customers' AS Type, City, PostalCode, Country FROM [Customers]
+UNION
+SELECT 'Customers' AS Type, City, PostalCode, Country FROM [Customers]
+будет тот же самый результат
+
+
+SELECT 'Suppliers' AS Type, City, PostalCode, Country FROM [Suppliers]
+UNION
+SELECT 'Customers' AS Type, City, PostalCode, Country FROM [Customers]
+UNION ALL
+SELECT 'Customers' AS Type, City, PostalCode, Country FROM [Customers]   UNION ALL - не удалять дубликаты
+
+
+SELECT 'Suppliers' AS Type, City, PostalCode, Country FROM [Suppliers]
+UNION
+SELECT 'Customers1' AS Type, City, PostalCode, Country FROM [Customers]
+UNION ALL
+SELECT 'Customers2' AS Type, City, PostalCode, Country FROM [Customers]
+ORDER BY Type                                                            сортировка по Type
+
+
+SELECT * FROM [OrderDetails]
+LIMIT 100                        вывести только 100 строк
+
+или
+SELECT * FROM [OrderDetails]
+LIMIT 100 OFFSET 0
+
+в MsSql   SELECT TOP(100)
+
+
+задачи:
+SELECT 'Categories' AS Type, CategoryName AS Name1 FROM [Categories]
+UNION ALL
+SELECT 'Products' AS Type, ProductName AS Name1 FROM [Products]
+
+SELECT 'Categories' AS Type, CategoryName AS Name1 FROM [Categories]
+UNION
+SELECT 'Products' AS Type, ProductName AS Name1 FROM [Products]
+ORDER BY  Name1
+
+SELECT * FROM [Customers] ORDER BY Country, Address
+
+SELECT * FROM [Products] ORDER BY SupplierID	, Price DESC
+
+SELECT * FROM [Products] ORDER BY Price DESC LIMIT 1
+
+SELECT * FROM [Products] ORDER BY Price DESC LIMIT 1 OFFSET 1
