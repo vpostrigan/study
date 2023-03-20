@@ -1,0 +1,70 @@
+
+SELECT * FROM [Orders], [Customers]
+декартово произведение таблиц
+Number of Records: 17836 (176*91)
+
+
+SELECT * FROM [Orders]
+OrderID	CustomerID	EmployeeID	OrderDate	ShipperID
+10248	90	5	1996-07-04	3
+10249	81	6	1996-07-05	1
+
+SELECT * FROM [Orders], [Customers]
+WHERE [Orders].[CustomerID] = [Customers].[CustomerID]
+
+OrderID	CustomerID	EmployeeID	OrderDate	ShipperID	CustomerName	ContactName	Address	City	PostalCode	Country
+10248	90	5	1996-07-04	3	Wilman Kala	Matti Karttunen	Keskuskatu 45	Helsinki	21240	Finland
+10249	81	6	1996-07-05	1	Tradição Hipermercados	Anabela Domingues	Av. Inês de Castro, 414	São Paulo
+
+или
+SELECT * FROM Orders O, Customers C
+WHERE O.CustomerID = C.CustomerID
+
+
+SELECT * FROM Orders O, Customers C, Shippers S, Employees E
+WHERE O.CustomerID = C.CustomerID
+AND S.ShipperID = O.ShipperID
+AND E.EmployeeID = O.EmployeeID
+
+OrderID	CustomerID	EmployeeID	OrderDate	ShipperID	CustomerName	ContactName	Address	City	PostalCode	Country	ShipperName	Phone	LastName	FirstName	BirthDate	Photo	Notes
+10248	90	5	1996-07-04	3	Wilman Kala	Matti Karttunen	Keskuskatu 45	Helsinki	21240	Finland	Federal Shipping	(503) 555-9931	Buchanan	Steven	1955-03-04	EmpID5.pic	Steven Buchanan gradua..
+10249	81	6	1996-07-05	1	Tradição Hipermercados	Anabela Domingues	Av. Inês de Castro, 414	São Paulo	05634-030	Brazil	Speedy Express	(503) 555-9831	Suyama	Michael	1963-07-02	EmpID6.pic	Michael is a graduate ...
+10250	34	4	1996-07-08	2	Hanari Carnes	Mario Pontes	Rua do Paço, 67	Rio de Janeiro	05454-876	Brazil	United Package	(503) 555-3199	Peacock	Margaret	1958-09-19	EmpID4.pic	Margaret holds a BA in English...
+
+меньше колонок
+SELECT O.OrderId, O.OrderDate, C.CustomerName, C.ContactName, C.Address, C.City, C.PostalCode,
+       C.Country, S.ShipperName, S.Phone AS ShipperPhone,
+       E.LastName AS EmployeeLastName, E.FirstName AS EmployeeFirstName
+FROM Orders O, Customers C, Shippers S, Employees E
+WHERE O.CustomerID = C.CustomerID
+AND S.ShipperID = O.ShipperID
+AND E.EmployeeID = O.EmployeeID
+
+OrderID	OrderDate	CustomerName	ContactName	Address	City	PostalCode	Country	ShipperName	ShipperPhone	EmployeeLastName	EmployeeFirstName
+10248	1996-07-04	Wilman Kala	Matti Karttunen	Keskuskatu 45	Helsinki	21240	Finland	Federal Shipping	(503) 555-9931	Buchanan	Steven
+10249	1996-07-05	Tradição Hipermercados	Anabela Domingues	Av. Inês de Castro, 414	São Paulo	05634-030	Brazil	Speedy Express	(503) 555-9831	Suyama	Michael
+10250	1996-07-08	Hanari Carnes	Mario Pontes	Rua do Paço, 67	Rio de Janeiro	05454-876	Brazil	United Package	(503) 555-3199	Peacock	Margaret
+
+
+задачи:
+SELECT * FROM OrderDetails O, Products P
+WHERE O.ProductID = P.ProductID
+
+SELECT OrderDetailID, OrderID, O.ProductID, Quantity, Quantity * Price AS Price2
+FROM OrderDetails O, Products P
+WHERE O.ProductID = P.ProductID
+
+1-3. SELECT O.OrderId, C.CustomerID, C.CustomerName, P.ProductID, P.ProductName, P.Price, OD.Quantity, P.Price*OD.Quantity AS [Total Summ]
+     FROM Orders O, OrderDetails OD, Products P, Customers C
+     WHERE O.OrderID = OD.OrderID
+	   AND OD.ProductID = P.ProductID
+       AND O.CustomerID = C.CustomerID
+     ORDER BY C.CustomerID
+
+4.  SELECT O.OrderId, C.CustomerID, C.CustomerName, P.ProductID, P.ProductName, P.Price, OD.Quantity, P.Price*OD.Quantity AS [Total Summ]
+    FROM Orders O, OrderDetails OD, Products P, Customers C
+    WHERE O.OrderID = OD.OrderID
+	 AND OD.ProductID = P.ProductID
+     AND O.CustomerID = C.CustomerID
+	 AND C.CustomerName = 'Wilman Kala'
+

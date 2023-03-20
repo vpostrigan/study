@@ -1,0 +1,24 @@
+
+$ curl https://www.flamingspork.com/projects/libeatmydata/libeatmydata-105.tar.gz > my.tar.gz
+
+FROM debian
+RUN mkdir -p /opt/libeatmydata
+ADD my.tar.gz /opt/libeatmydata/
+RUN ls -lRt /opt/libeatmydata
+
+$ docker build --no-cache .       // кеш не используется
+$ docker build .                  // кеш используется
+
+// //
+
+или
+
+FROM debian
+RUN mkdir -p /opt/libeatmydata
+# /opt/libeatmydata/   - в конце / чтобы показать что это папка, а не файл
+ADD https://www.flamingspork.com/projects/libeatmydata/libeatmydata-105.tar.gz /opt/libeatmydata/
+RUN ls -lRt /opt/libeatmydata
+
+# если есть пробелы
+# ADD "space file.txt" "/tmp/space file.txt"
+

@@ -1,0 +1,15 @@
+//
+
+SELECT OrderDetailID, OrderID, O.ProductID, Quantity, Quantity * Price AS Price2
+FROM OrderDetails O, Products P
+WHERE O.ProductID = P.ProductID
+
+или
+SELECT (Price * Quantity) AS Cost, * FROM OrderDetails OD
+JOIN Products P ON OD.ProductID = P.ProductID
+
+Cost	OrderDetailID	OrderID	ProductID	Quantity	ProductName	SupplierID	CategoryID	Unit	Price
+252	1	10248	11	12	Queso Cabrales	5	4	1 kg pkg.	21
+140	2	10248	42	10	Singaporean Hokkien Fried Mee	20	5	32 - 1 kg pkgs.	14
+
+

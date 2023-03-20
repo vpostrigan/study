@@ -3,3 +3,5 @@ https://www.youtube.com/playlist?list=PL4rYLeYunVf3DCrXe4XHdKAg8UJj0yzxG
 
 + https://www.youtube.com/watch?v=Bp_OHCzp7KM   Что такое SQL? Как работать с WebSQL? Основы SQL | SQL для начинающих
 + https://www.youtube.com/watch?v=hKywy1558XA   SQL WHERE. Операторы SQL. Булева алгебра в SQL. LIKE, BETWEEN, IS, IN
++ https://www.youtube.com/watch?v=jHCSvTdllSA   SQL ORDER BY, DISTINCT, UNION ALL, LIMIT
++ https://www.youtube.com/watch?v=oOJgHQ5Yuto   SQL нормализация и денормализация базы данных. Склейка таблиц через FROM (аналог SQL JOIN)

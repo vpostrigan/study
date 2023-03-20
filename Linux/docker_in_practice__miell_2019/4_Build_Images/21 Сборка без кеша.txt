@@ -1,0 +1,46 @@
+
+$ docker build --no-cache .       // кеш не используется
+$ docker build .                  // кеш используется
+
+если изменить любую строку в Dockerfile.
+после этой строки, кеш не будет использоватся
+пример,
+было
+CMD ["npm", "start"]
+стало
+CMD ["npm", "start"] # bust the cache
+
+// //
+
+запрет кеширования с помощью build-args
+WORKDIR todo
+ARG CACHEBUST=no
+RUN npm install
+
+$ docker build --build-arg CACHEBUST=${RANDOM} .       // кеш не используется, после CACHEBUST
+$ docker build .                                       // кеш используется
+
+или дата
+$ docker build --build-arg CACHEBUST=$(date +%s) .     // кеш не используется, после CACHEBUST
+
+// //
+
+запрет кеширования с помощью директивы ADD
+FROM ubuntu:16.04
+RUN apt-get install -y git ...
+RUN git clone https://github.com/nodejs/node
+WORKDIR node
+RUN make && make install
+
+
+FROM ubuntu:16.04
+ADD https://api.github.com/repos/nodejs/node/commits /dev/null  # если код изменился, кеш не сработает со следующей строки
+RUN got clone https://github.com/nodejs/node
+
+пример
+FROM ubuntu:16:04
+ADD https://api.github.com/repos/torvalds/linux/commits /dev/null
+RUN echo "Built at $(date)" >> /build_time
+
+$ docker build -t linux_last_updated .
+$ docker run linux_last_updated cat /build_time

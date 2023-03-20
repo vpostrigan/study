@@ -1,0 +1,14 @@
+
+$ date +%Z
+GMT
+$ docker run centos:7 date +%Z
+UTC
+
+
+FROM centos:7
+RUN rm -rf /etc/localtime
+RUN ln -s /usr/share/zoneinfo/GMT /etc/localtime
+CMD date +%Z
+
+$ docker build -t timezone_change .
+$ docker run timezone_change
