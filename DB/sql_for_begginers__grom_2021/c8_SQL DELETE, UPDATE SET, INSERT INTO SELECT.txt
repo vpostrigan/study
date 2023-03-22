@@ -1,0 +1,61 @@
+
+SELECT * FROM [Orders] WHERE OrderID=10248
+
+OrderID	CustomerID	EmployeeID	OrderDate	ShipperID
+10248	90	5	1996-07-04	3
+
+
+
+DELETE FROM [Orders] WHERE OrderID=10248
+
+You have made changes to the database. Rows affected: 1
+
+
+
+Но в
+SELECT * FROM [OrderDetails] WHERE OrderID=10248
+еще будут
+OrderDetailID	OrderID
+1           	10248
+
+DELETE FROM [OrderDetails] WHERE OrderID=10248
+
+
+
+UPDATE OrderDetails
+SET Quantity = Quantity + 10
+WHERE OrderDetailId = 4
+
+
+
+INSERT INTO OrderDetails(OrderID, ProductID, Quantity)
+VALUES (10249, 42, 50), (10249, 44, 13)
+
+You have made changes to the database. Rows affected: 2
+
+
+
+INSERT INTO OrderDetails(OrderID, ProductID, Quantity)
+SELECT 10249 AS OrderID, 45 AS ProductID, 13 AS Quantity
+
+
+
+INSERT INTO Products (ProductName, SupplierID, Unit, Price)
+SELECT ProductName, SupplierID, Unit, Price FROM Products
+
+
+задачи:
+
+INSERT INTO Suppliers(SupplierName)
+VALUES ('New Post')
+
+UPDATE Suppliers
+SET City = 'Kharkiv'
+WHERE SupplierID = 1
+
+INSERT INTO Suppliers (SupplierName, City)
+VALUES ('New Orleans Cajun Delights', 'Kharkiv')
+
+INSERT INTO Employees (LastName, FirstName)
+VALUES ('LastName0', 'FirstName0')
+

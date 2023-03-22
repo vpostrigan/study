@@ -1,0 +1,76 @@
+
+WITH USAProducts AS (
+    SELECT P.* FROM Products P
+    JOIN Suppliers S ON S.SupplierID = P.SupplierID
+    WHERE S.Country = 'USA'
+)
+SELECT COUNT(*) FROM USAProducts
+
+COUNT(*)
+24
+
+
+
+CREATE VIEW USAProducts AS
+    SELECT P.* FROM Products P
+    JOIN Suppliers S ON S.SupplierID = P.SupplierID
+    WHERE S.Country = 'USA'
+
+You have made changes to the database.
+
+
+SELECT * FROM USAProducts
+
+ProductID	ProductName	SupplierID	CategoryID	Unit	Price
+4	Chef Anton's Cajun Seasoning	2	2	48 - 6 oz jars	22
+5	Chef Anton's Gumbo Mix	2	2	36 boxes	21.35
+
+
+
+--Комментарий
+/*
+Комментарий
+*/
+
+
+
+запись для дебага, можно легко комментировать строки
+
+SELECT ProductID
+    ,ProductName
+    ,SupplierID
+    ,CategoryID
+    --,Unit
+    ,Price
+FROM Products
+WHERE 1 = 1
+    --AND Price > 30
+    AND Price < 50
+
+
+задачи:
+
+CREATE VIEW OrderDetailsQuantity AS
+	SELECT * , SUM(Quantity)  FROM [OrderDetails]
+	GROUP BY OrderID
+
+CREATE VIEW CustomersWithDiscount AS
+    SELECT *, SUM(Quantity * Price) FROM [OrderDetails]
+    JOIN Orders O ON O.OrderID = OrderDetails.OrderID
+    JOIN Products P ON P.ProductID = OrderDetails.ProductID
+    GROUP BY CustomerID
+    HAVING SUM(Quantity * Price) > 10000
+
+CREATE VIEW BuyByCountries AS
+    SELECT Country, SUM(Quantity*Price) FROM [Customers]
+    JOIN Orders O ON O.CustomerID = Customers.CustomerID
+    JOIN OrderDetails OD ON OD.OrderID = O.OrderID
+    JOIN Products P ON P.ProductID = OD.ProductID
+    GROUP BY Country
+
+CREATE VIEW DeliveredGoodsByCountries AS
+    SELECT Country, SUM(Quantity) FROM [Customers]
+    JOIN Orders O ON O.CustomerID = Customers.CustomerID
+    JOIN OrderDetails OD ON OD.OrderID = O.OrderID
+    JOIN Products P ON P.ProductID = OD.ProductID
+    GROUP BY Country

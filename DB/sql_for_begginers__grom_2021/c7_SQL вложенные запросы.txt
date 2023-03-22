@@ -1,0 +1,161 @@
+
+SELECT * FROM Customers C
+WHERE EXISTS (
+	SELECT CustomerID FROM Orders O WHERE O.CustomerID = C.CustomerID
+)
+
+CustomerID	CustomerName	ContactName	Address	City	PostalCode	Country
+2	Ana Trujillo Emparedados y helados	Ana Trujillo	Avda. de la Constitución 2222	México D.F.	05021	Mexico
+3	Antonio Moreno Taquería	Antonio Moreno	Mataderos 2312	México D.F.	05023	Mexico
+
+
+
+SELECT * FROM Customers C
+WHERE CustomerID IN (
+	SELECT CustomerID FROM Orders WHERE OrderDate >= '1996-07-01' AND OrderDate < '1996-08-01'
+)
+
+CustomerID	CustomerName	ContactName	Address	City	PostalCode	Country
+7	Blondel père et fils	Frédérique Citeaux	24, place Kléber	Strasbourg	67000	France
+13	Centro comercial Moctezuma	Francisco Chang	Sierras de Granada 9993	México D.F.	05022	Mexico
+
+
+
+SELECT SUM(Quantity*Price) AS Total FROM OrderDetails OD
+JOIN Products P ON P.ProductID=OD.ProductID
+GROUP BY OD.ProductID
+HAVING Total > 1000
+
+Number of Records: 62
+Total
+2862
+6479
+2354
+
+
+теперь используя подзапрос
+SELECT COUNT(*), SUM(Total) FROM (
+	SELECT SUM(Quantity*Price) AS Total FROM OrderDetails OD
+	JOIN Products P ON P.ProductID=OD.ProductID
+	GROUP BY OD.ProductID
+	HAVING Total > 1000
+)
+
+Number of Records: 1
+COUNT(*)	SUM(Total)
+62	        377086.23
+
+
+
+SELECT C.CustomerID, O.OrderID, SUM(Quantity*Price) AS OrderTotal FROM Customers C
+JOIN Orders O ON O.CustomerID=C.CustomerID
+JOIN OrderDetails OD ON OD.OrderID=O.OrderID
+JOIN Products P ON P.ProductID=OD.ProductID
+GROUP BY O.OrderID
+
+CustomerID	OrderID	OrderTotal
+90	10248	566
+81	10249	2329.25
+34	10250	2267.25
+
+
+
+SELECT *, (
+	SELECT AVG(OrderTotal) FROM (
+		SELECT C.CustomerID, O.OrderID, SUM(Quantity*Price) AS OrderTotal FROM Customers C
+		JOIN Orders O ON O.CustomerID=C.CustomerID
+		JOIN OrderDetails OD ON OD.OrderID=O.OrderID
+		JOIN Products P ON P.ProductID=OD.ProductID
+		WHERE C.CustomerID=OC.CustomerID
+		GROUP BY O.OrderID
+	)
+) AS AvgTotal FROM Customers OC
+
+CustomerID	CustomerName	                    ContactName	        Address	                        City	    PostalCode	Country	 AvgTotal
+1	       Alfreds Futterkiste	                Maria Anders	    Obere Str. 57	                Berlin	    12209	    Germany	 null
+2	       Ana Trujillo Emparedados y helados	Ana Trujillo	    Avda. de la Constitución 2222	México D.F.	05021	    Mexico	 111
+3	       Antonio Moreno Taquería	            Antonio Moreno	    Mataderos 2312	                México D.F.	05023	    Mexico	 504
+4	       Around the Horn	                    Thomas Hardy	    120 Hanover Sq.	                London	    WA1 1DP	    UK	     861.875
+5	       Berglunds snabbköp	                Christina Berglund	Berguvsvägen 8	                Luleå	    S-958 22	Sweden	 1802.3
+6	       Blauer See Delikatessen	            Hanna Moos	        Forsterstr. 57	                Mannheim	68306	    Germany	 null
+
+
+
+SELECT *, (
+	SELECT AVG(OrderTotal) FROM (
+		SELECT C.CustomerID, O.OrderID, SUM(Quantity*Price) AS OrderTotal FROM Customers C
+		JOIN Orders O ON O.CustomerID=C.CustomerID
+		JOIN OrderDetails OD ON OD.OrderID=O.OrderID
+		JOIN Products P ON P.ProductID=OD.ProductID
+		WHERE C.CustomerID=OC.CustomerID
+		GROUP BY O.OrderID
+	)
+) AS AvgTotal, (
+    SELECT SUM(Quantity*Price) AS OrderTotal FROM Customers C
+    JOIN Orders O ON O.CustomerID=C.CustomerID
+    JOIN OrderDetails OD ON OD.OrderID=O.OrderID
+    JOIN Products P ON P.ProductID=OD.ProductID
+    WHERE C.CustomerID=OC.CustomerID
+    GROUP BY O.OrderID
+    ORDER BY O.OrderDate DESC
+    LIMIT 1
+) AS LastTotal FROM Customers OC
+WHERE AvgTotal IS NOT NULL AND LastTotal > AvgTotal
+
+CustomerID	CustomerName	    ContactName	        Address	                City    	PostalCode	Country	AvgTotal	LastTotal
+4	        Around the Horn	    Thomas Hardy	    120 Hanover Sq.	        London	    WA1 1DP	    UK	    861.875	    1123.75
+5	        Berglunds snabbköp	Christina Berglund	Berguvsvägen 8	        Luleå	    S-958 22	Sweden	1802.3	    2778
+9	        Bon app'	        Laurence Lebihans	12, rue des Bouchers	Marseille	13008	    France	1752.1166	1938.8
+
+
+задачи:
+1. поставщики у которых номенклатура превыщает 3 позиции
+SELECT * FROM Suppliers
+WHERE SupplierID IN (
+	SELECT SupplierID  FROM Products
+	GROUP BY SupplierID
+	HAVING COUNT(SupplierID) > 3
+)
+
+SupplierID	SupplierName	ContactName	Address	City	PostalCode	Country	Phone
+2	New Orleans Cajun Delights	Shelley Burke	P.O. Box 78934	New Orleans	70117	USA	(100) 555-4822
+7	Pavlova, Ltd.	Ian Devling	74 Rose St. Moonie Ponds	Melbourne	3058	Australia	(03) 444-2343
+
+
+
+2. информация по поставщикам, вывести показатель продаж по поставщику
+SELECT *, (
+     SELECT sum(Quantity) FROM OrderDetails OD
+     JOIN Products P ON P.ProductID = OD.ProductID
+     WHERE P.SupplierID = S.SupplierID
+     GROUP BY P.SupplierID
+) AS Quantity_goods, (
+     SELECT sum(Quantity*Price) FROM OrderDetails OD
+     JOIN Products P ON P.ProductID = OD.ProductID
+     WHERE P.SupplierID = S.SupplierID
+     GROUP BY P.SupplierID
+) AS Amount
+FROM Suppliers S
+
+
+
+3. Оставить поставщиков у которых сумма прибыли полученной от их товаров выше средней суммы по всем поставщикам
+SELECT *, (
+     SELECT sum(Quantity) FROM OrderDetails OD
+     JOIN Products P ON P.ProductID = OD.ProductID
+     WHERE P.SupplierID = S.SupplierID
+     GROUP BY P.SupplierID
+) AS Quantity_goods, (
+     SELECT sum(Quantity*Price) FROM OrderDetails OD
+     JOIN Products P ON P.ProductID = OD.ProductID
+     WHERE P.SupplierID = S.SupplierID
+     GROUP BY P.SupplierID
+) AS Amount, (
+     select avg(AV) from(
+          SELECT SUM(Price * Quantity) as AV FROM OrderDetails ODa
+          JOIN Products Pa ON Pa.ProductID = ODa.ProductID
+          GROUP BY Pa.SupplierID
+     )
+) AS AmountAvg
+FROM Suppliers S
+WHERE Amount > AmountAvg

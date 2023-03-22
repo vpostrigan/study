@@ -1,0 +1,169 @@
+
+SELECT COUNT(*) FROM Customers
+
+COUNT(*)
+91
+
+
+
+SELECT COUNT(*), SUM(Quantity) FROM OrderDetails
+
+COUNT(*)	SUM(Quantity)
+518  	12743
+
+
+
+SELECT COUNT(*), SUM(Quantity), AVG(Quantity) FROM OrderDetails
+
+COUNT(*)	SUM(Quantity)	AVG(Quantity)
+518 	12743	24.6003861003861
+
+
+
+SELECT COUNT(*), SUM(Quantity), AVG(Quantity), MIN(Quantity), MAX(Quantity) FROM OrderDetails
+
+COUNT(*)	SUM(Quantity)	AVG(Quantity)	MIN(Quantity)	MAX(Quantity)
+518	   12743	24.6003861003861	1	120
+
+
+
+SELECT OrderID, (Price * Quantity) AS RowTotal FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+
+OrderID	RowTotal
+10248	252
+10248	140
+10248	174
+10249	209.25
+
+
+
+SELECT OrderID, SUM(Price * Quantity) AS ColumnTotal FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+GROUP BY OrderID
+
+OrderID	ColumnTotal
+10248	566
+10249	2329.25
+10250	2267.25
+
+
+
+SELECT OrderID, SUM(Price * Quantity) AS ColumnTotal FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+GROUP BY OrderID
+ORDER BY ColumnTotal DESC
+
+OrderID	ColumnTotal
+10372	15353.6
+10424	14366.5
+10417	14104
+
+
+
+SELECT OrderID, SUM(Price * Quantity) AS ColumnTotal FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+GROUP BY OrderID
+HAVING ColumnTotal > 14200
+ORDER BY ColumnTotal DESC
+
+OrderID	ColumnTotal
+10372	15353.6
+10424	14366.5
+
+или
+SELECT OrderID FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+GROUP BY OrderID
+HAVING SUM(Price * Quantity) > 14200
+ORDER BY SUM(Price * Quantity) DESC
+
+
+
+SELECT O.CustomerID, Price * Quantity AS RowTotal FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+JOIN Orders O ON O.OrderID = OD.OrderID
+
+CustomerID	RowTotal
+90	252
+90	140
+90	174
+81	209.25
+
+
+
+SELECT O.CustomerID, Price * Quantity AS RowTotal FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+JOIN Orders O ON O.OrderID = OD.OrderID
+GROUP BY O.CustomerID
+
+CustomerID	RowTotal
+89	150
+90	252
+91	375
+
+
+
+SELECT O.CustomerID, SUM(Price * Quantity) AS ColumnTotal FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+JOIN Orders O ON O.OrderID = OD.OrderID
+GROUP BY O.CustomerID
+ORDER BY ColumnTotal DESC
+
+CustomerID	ColumnTotal
+89	4416
+90	566
+91	573.75
+
+
+
+SELECT CustomerID, ProductID, SUM(Quantity) FROM OrderDetails OD
+JOIN Orders O ON O.OrderID = OD.OrderID
+GROUP BY CustomerID, ProductID
+
+CustomerID	ProductID	SUM(Quantity)
+2	69	1
+2	70	5
+3	11	24
+
+
+задачи:
+
+SELECT COUNT(*), SUM(Price * Quantity) FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+JOIN Orders O ON O.OrderID = OD.OrderID
+
+SELECT E.EmployeeID, E.FirstName, E.LastName, SUM(OD.Quantity*P.Price) as Total FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+JOIN Orders O ON O.OrderID = OD.OrderID
+JOIN Employees E on E.EmployeeID = O.EmployeeID
+GROUP BY E.EmployeeID
+ORDER BY Total DESC
+
+SELECT E.EmployeeID, SUM(Quantity * Price) AS Total FROM OrderDetails OD
+JOIN Products P ON OD.ProductID = P.ProductID
+JOIN Orders O ON OD.OrderID = O.OrderID
+JOIN Employees E ON O.EmployeeID = E.EmployeeID
+GROUP BY OD.OrderID
+HAVING Total > 10000
+ORDER BY Total DESC
+
+SELECT EmployeeID, SUM(Quantity), SUM(Price * Quantity) FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+JOIN Orders O ON O.OrderID = OD.OrderID
+GROUP BY EmployeeID
+HAVING SUM(Price * Quantity) > 1000
+
+SELECT *, SUM(Quantity) FROM OrderDetails OD
+JOIN Products P ON P.ProductID = OD.ProductID
+JOIN Orders O ON O.OrderID = OD.OrderID
+GROUP BY SupplierID
+ORDER BY SUM(Quantity) DESC
+LIMIT 1 OFFSET 0
+
+SELECT S.SupplierID, S.SupplierName, SUM(Price * Quantity) AS Cost FROM Suppliers S
+JOIN Products P ON P.SupplierID = S.SupplierID
+JOIN OrderDetails OD ON P.ProductID = OD.ProductID
+GROUP BY S.SupplierID
+ORDER BY Cost DESC
+LIMIT 3
