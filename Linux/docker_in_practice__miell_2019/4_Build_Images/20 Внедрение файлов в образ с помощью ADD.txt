@@ -22,3 +22,18 @@ RUN ls -lRt /opt/libeatmydata
 # если есть пробелы
 # ADD "space file.txt" "/tmp/space file.txt"
 
+
+
+
+
+
+FROM ubuntu
+
+RUN apt-get update && apt-get install -y unzip curl
+RUN cd /usr/local/bin \
+    && curl -fsSLO https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip \
+    && unzip BrowserStackLocal-linux-x64.zip \
+    && chmod +x BrowserStackLocal \
+    && rm BrowserStackLocal-linux-x64.zip
+
+CMD /usr/local/bin/cal ${ARGS:--v} ${BROWSERSTACK_ACCESSKEY} --local-identifier ${BROWSERSTACK_LOCAL_IDENTIFIER}

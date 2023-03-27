@@ -1,0 +1,39 @@
+
+> docker run -ti ubuntu bash
+root@9f5371e9e271:/# env
+HOSTNAME=9f5371e9e271
+PWD=/
+HOME=/root
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40...
+TERM=xterm
+SHLVL=1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+_=/usr/bin/env
+root@9f5371e9e271:/#
+
+
+по умолчанию в образе нет доступных настроек LANG
+root@9f5371e9e271:/# env | grep LANG
+root@9f5371e9e271:/#
+
+
+вывод содержимого файла
+root@9f5371e9e271:/# echo -e "\xc2\xa3" > /tmp/encoding_demo
+root@9f5371e9e271:/# cat /tmp/encoding_demo
+£
+root@9f5371e9e271:/#
+
+
+
+FROM ubuntu:16.04
+RUN apt-get update && apt-get install -y locales
+RUN locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+CMD env
+
+> docker build -t docker_in_practice_encoding .
+
+> docker run docker_in_practice_encoding
+LANGUAGE=en_US:en
+..
