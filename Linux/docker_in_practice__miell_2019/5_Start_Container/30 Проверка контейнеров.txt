@@ -1,0 +1,100 @@
+
+> docker inspect ubuntu
+[
+    {
+        "Id": "sha256:74f2314a03de34a0a2d552b805411fc9553a02ea71c1291b815b2f645f565683",
+        "RepoTags": [
+            "ubuntu:latest"
+        ],
+        "RepoDigests": [
+            "ubuntu@sha256:2adf22367284330af9f832ffefb717c78239f6251d9d0f58de50b86229ed1427"
+        ],
+        "Parent": "",
+        "Comment": "",
+        "Created": "2023-03-01T04:38:49.239257335Z",
+        "Container": "298f60554671ae2f5bf43b9892526aaa221e8093c9cee1ca68ef65fc3ac67600",
+        "ContainerConfig": {
+            "Hostname": "298f60554671",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ",
+                "CMD [\"/bin/bash\"]"
+            ],
+            "Image": "sha256:6088cf91777e3b0190e579c7c7cab9c65626f5ff625373bcdb02ae877a9118d8",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "org.opencontainers.image.ref.name": "ubuntu",
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "DockerVersion": "20.10.12",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Image": "sha256:6088cf91777e3b0190e579c7c7cab9c65626f5ff625373bcdb02ae877a9118d8",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {
+                "org.opencontainers.image.ref.name": "ubuntu",
+                "org.opencontainers.image.version": "22.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 77810712,
+        "VirtualSize": 77810712,
+        "GraphDriver": {
+            "Data": {
+                "MergedDir": "/var/lib/docker/overlay2/9e5937270abbe52367573a93ee7a084b95a29fa4511f10641b085ee5752f634a/merged",
+                "UpperDir": "/var/lib/docker/overlay2/9e5937270abbe52367573a93ee7a084b95a29fa4511f10641b085ee5752f634a/diff",
+                "WorkDir": "/var/lib/docker/overlay2/9e5937270abbe52367573a93ee7a084b95a29fa4511f10641b085ee5752f634a/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:202fe64c3ce39b94d8beda7d7506ccdfcf7a59f02f17c915078e4c62b5c2ed11"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]
+
+
+
+$ docker ps -q | xargs docker inspect --format='{{.NetworkSettings.IPAddress}}' | xargs -l1 ping -c1
+

@@ -18,6 +18,6 @@ https://www.youtube.com/@urtaev/playlists    Компьютерные курсы
 + https://www.youtube.com/watch?v=63sGd9QKJo4    Антишпионская утилита O&O ShutUp10++ для Windows 10 и 11 Русским языком
 + https://www.youtube.com/watch?v=YD8pNTy12bQ    Офис без активации. Как скачать и установить пакет LibreOffice?
 + https://www.youtube.com/watch?v=G7MKkmZs4BM    Чистая установка Windows 10 с флешки
-+ https://www.youtube.com/watch?v=dxcnvijGRQQ   Загрузочная флешка Виндовс 8.1 создание в Rufus для начинающих
-+ https://www.youtube.com/watch?v=xJpaPShcRYQ   Как установить Виндовс 8 с флешки на ноутбук и компьютер, для начинающих
-+ https://www.youtube.com/watch?v=qqb9MMNH-y4   Как узнать GPT или MBR диск на компьютере или ноутбуке
++ https://www.youtube.com/watch?v=dxcnvijGRQQ    Загрузочная флешка Виндовс 8.1 создание в Rufus для начинающих
++ https://www.youtube.com/watch?v=xJpaPShcRYQ    Как установить Виндовс 8 с флешки на ноутбук и компьютер, для начинающих
++ https://www.youtube.com/watch?v=qqb9MMNH-y4    Как узнать GPT или MBR диск на компьютере или ноутбуке

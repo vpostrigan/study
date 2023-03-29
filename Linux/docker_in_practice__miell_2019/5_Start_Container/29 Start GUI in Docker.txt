@@ -1,0 +1,23 @@
+
+$ mkdir dockergui
+$ cd dockergui
+$ id uid=1000(dockerinpractice) gid=1000(dockerinpractice) groups=1000(dockerinpractice),10(wheel),989(vboxusers),990(docker)
+
+
+
+FROM ubuntu:14.04
+RUN apt-get update
+RUN apt-get install -y firefox
+RUN groupadd -g GID USERNAME
+RUN useradd -d /home/USERNAME -s /bin/bash -m USERNAME -u UID -g GID
+USER USERNAME
+ENV HOME /home/USERNAME
+CMD /usr/bin/firefox
+
+
+$ docker build -t gui .
+
+
+$ docker run -v /tmp/.X11-unix:/tmp/.X11-unix -h $HOSTNAME -v $HOME/.Xauthority:/home/$USER/.Xauthority -e DISPLAY=$DISPLAY gui
+
+
