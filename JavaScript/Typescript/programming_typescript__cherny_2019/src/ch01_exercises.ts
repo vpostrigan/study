@@ -13,7 +13,7 @@ let c2 = [true, false]
 // //
 
 //alert(3 + [1]); // TS2365: Operator '+' cannot be applied to types '3' and 'number[]'.
-alert((3).toString() + [1].toString()); // // вычисляется как "31".
+console.log((3).toString() + [1].toString()); // // вычисляется как "31".
 
 // //
 
@@ -49,3 +49,47 @@ alert((3).toString() + [1].toString()); // // вычисляется как "31"
 //        "src"
 //    ]
 //}
+
+
+// файл tslint.json, содержащий конфигурацию TSLint,
+// определяющую необходимую вам стилистику кода (табуляции, пробелы и пр.).
+// Следующая команда сгенерирует файл tslint.json со стандартной конфигурацией TSLint:
+// $ ./node_modules/.bin/tslint --init
+
+
+// когда настроили tsconfig.json и tslint.json, создайте каталог src,
+// содержащий ваш первый файл TypeScript: index.ts
+
+// Структура каталога проекта должна выглядеть так:
+// chapter-2/
+// ├──node_modules/
+// ├──src/
+// │ └──index.ts
+// ├──package.json
+// ├──tsconfig.json
+// └──tslint.json
+
+// Введите в src/index.ts
+console.log('Hello TypeScript!')
+
+// Скомпилируйте код с помощью TSC
+// $ ./node_modules/.bin/tsc
+// Запустите код с помощью NodeJS
+// $ node ./dist/index.js
+
+// Установите ts-node (https://www.npmjs.com/package/ts-node)
+// и используйте его для компиляции и запуска программы посредством всего одной команды.
+
+// Используйте инструмент автоматической генерации typescript-node-starter
+// (https://github.com/Microsoft/TypeScript-Node-Starter) для быстрого создания структуры каталога.
+
+
+// задания
+let a3 = 1 + 2
+let b3 = a3 + 1
+let c3 =
+    {
+        apple: a3,
+        banana: b3
+    }
+let d3 = c3.apple * 4
