@@ -34,8 +34,7 @@ https://www.youtube.com/watch?v=QSOkuEqTuSg    Cleaning Up Dependency Injection 
 
 
 
-Быстрый курс по SQL для начинающих
-https://www.youtube.com/playlist?list=PL4rYLeYunVf3DCrXe4XHdKAg8UJj0yzxG
+
 
 
 
@@ -44,7 +43,7 @@ https://www.youtube.com/playlist?list=PL8D2P0ruohOAR7DAkEjhOqlQreg9rxBMu    Apac
 https://www.youtube.com/playlist?list=PL8D2P0ruohOB654j4crPB5HFZOrQ2y1hn    Открытые темы курса «Ansible: от первых шагов до большого проекта»
 https://www.youtube.com/playlist?list=PL8D2P0ruohOBSA_CDqJLflJ8FLJNe26K-    Открытая вечерняя школа. Kubernetes для разработчиков (Осень 2021)
 
-https://www.youtube.com/watch?v=UbY6cuf0bzI
+
 
 
 Coding with John
@@ -67,7 +66,7 @@ http://tutorials.jenkov.com/
 https://howtodoinjava.com/
 https://www.vogella.com/tutorials/
 https://www.youtube.com/@SpringframeworkGuru/videos
-
+https://www.javatpoint.com/
 
 
 
@@ -273,6 +272,13 @@ Processed
 + https://www.youtube.com/watch?v=BPdQDWGX9mQ   Git. revert | reset hard/soft
 + https://www.youtube.com/watch?v=2zSl3mHjrik   Git. Cherry pick, исправляем ошибки ветвления
 
+https://www.youtube.com/@Dev-lessons/videos
++ https://www.youtube.com/watch?v=2jb05JSqGCI   Учимся работать с GIT - проще некуда
++ https://www.youtube.com/watch?v=UbY6cuf0bzI   Удаленный GIT, слияния и конфликты проще некуда
++ https://www.youtube.com/watch?v=zRy-KIBkJ1s   Управление кодом в GIT - от фикса до запуска
++ https://www.youtube.com/watch?v=GIsxGlg-laQ   GIT для продвинутых - Часть 1
++ https://www.youtube.com/watch?v=ZYWi30imJZg   GIT для продвинутых - Часть 2
+
 
   Docker
 + https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)
@@ -331,3 +337,5 @@ https://www.youtube.com/c/intellijidea/videos
 (https://www.youtube.com/channel/UC4ogdcPcIAOOMJktgBMhQnQ)
 + https://www.youtube.com/watch?v=2xOtyGUTpQU   Refactoring to Java 8
 
+Быстрый курс по SQL для начинающих
++ https://www.youtube.com/playlist?list=PL4rYLeYunVf3DCrXe4XHdKAg8UJj0yzxG
