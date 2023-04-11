@@ -66,7 +66,7 @@ function ClassDecorator4(props: { barStatic: string, bar: string }) {
     return function <T extends { new(...args: any[]): {} }>(Constructor: T) {
         console.log(Constructor); // [Function: Foo4] { barStatic: 'barStatic' }
         return class extends Constructor {
-            static barStatic0 = props.barStatic;
+            static barStatic0= props.barStatic;
             bar0 = props.bar;
         };
     }
