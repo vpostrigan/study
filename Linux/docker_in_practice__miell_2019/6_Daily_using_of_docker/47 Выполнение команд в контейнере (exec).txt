@@ -1,0 +1,15 @@
+
+$ docker run -d --name sleeper debian sleep infinity
+
+1) базовый режим
+$ docker exec sleeper echo "hello host from container"
+hello host from container
+
+2) режим демона
+$ docker exec -d sleeper \              -d - в фоновом режиме
+ find / -ctime 7 -name '*log' -exec rm {} \;
+$ немедленно возвращается
+
+3) интерактивный режим
+$ docker exec -i -t sleeper /bin/bash
+root@:/#

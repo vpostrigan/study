@@ -1,0 +1,39 @@
+
+$ docker ps -a -q | \         // список всех идентификаторов
+   xargs --no-run-if-empty docker rm -f     // 'docker rm -f' для всех переданных контейнеров, включая рабочие
+
+
+$ docker ps -a -q --filter status=exited | \         // список завершивших работу контейнеров
+   xargs --no-run-if-empty docker rm     // не принудительное удаление, так как контейнеры не должны работать
+
+или удаление всех остановленных контейнеров
+$ docker container prune
+
+
+
+все контейнеры с ненулевым кодом ошибки
+comm -3 \      сравнение двух файлов, -3 - убрать одинаковые строки из двух файлов
+  <(docker ps -a -q --filter=status=exited | sort) \
+  <(docker ps -a -q --filter=exited=0 | sort) | \
+  xargs --no-run-if-empty docker inspect > error_containers
+
+[
+    {
+        "Id": "10cc8be964c68481e87ea3aeb71d58de60d05842f69de0181b011402bff09b92",
+        "Created": "2023-03-12T21:52:37.0127806Z",
+        "Path": "/sbin/my_init",
+        "Args": [],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 255,
+            "Error": "",
+            "StartedAt": "2023-03-12T21:52:40.9609675Z",
+...
+
+

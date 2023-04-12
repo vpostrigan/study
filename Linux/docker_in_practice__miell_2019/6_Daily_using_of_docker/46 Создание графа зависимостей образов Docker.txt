@@ -1,0 +1,17 @@
+
+$ docker images -a
+REPOSITORY                       TAG               IMAGE ID       CREATED         SIZE
+docker_in_practice_myimage       latest            21742c344f6a   2 weeks ago     124MB
+docker_in_practice_myimage       latest_step_1     21742c344f6a   2 weeks ago     124MB
+13                               latest            d5b778b38ec6   4 weeks ago     3GB
+ubuntu                           latest            74f2314a03de   6 weeks ago     77.8MB
+...
+
+для визуализации
+$ git clone https://github.com/docker-in-practice/docker-image-graph
+$ cd docker-image-graph
+$ docker build -t dockerinpractice/docker-image-graph
+
+$ docker run --rm \
+ -v /var/run/docker.sock:/var/run/docker.sock \
+ dockerinpractice/docker-image-graph > docker_images.png

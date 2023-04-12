@@ -1,0 +1,6 @@
+
+docker run -t -i -p 9005:80 ubuntu /bin/bash
+
+нажать Ctrl-P а затем Ctrl-Q
+
+curl localhost:9005

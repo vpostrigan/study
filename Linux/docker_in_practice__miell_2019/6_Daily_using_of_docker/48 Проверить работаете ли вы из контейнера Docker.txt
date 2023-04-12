@@ -1,0 +1,10 @@
+
+проверить наличие файла /.dockerenv
+
+
+#!/bin/bash
+if ! [ -f /.dockerenv ]
+then
+    echo 'Not in a Docker container, exiting.'
+    exit 1
+fi

@@ -1,0 +1,2 @@
+
+$ sudo addgroup -a username docker

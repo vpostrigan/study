@@ -1,0 +1,21 @@
+
+сервер
+$ docker run -d -p 8888:8888 -p 55555:55555 --name resilio ctlc/btsync
+$ docker logs resilio
+..Starting btsync :
+ALSVEUA...
+
+$ docker run -i -t --volumes-from resilio ubuntu /bin/bash
+$ touch /data/shared_from_server_one
+$ ls /data
+shared_from_server_one
+
+клиент
+$ docker run -d --name resilio-client -p 8888:8888 -p 55555:55555 ctlc/btsync ALSVEUA...
+$ docker run -i -t --volumes-from resilio-client ubuntu bash
+$ ls /data
+shared_from_server_one      файл передан на клиент
+
+$ touch /data/shared_from_server_two
+$ ls /data
+shared_from_server_one shared_from_server_two     теперь на клиенте два файла

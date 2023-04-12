@@ -1,0 +1,7 @@
+
+$ docker run -e HIST_FILE=/root/.bash_history \       // переменная окружения
+ -v=$HOME/.bash_history:/root/.bash_history -ti ubuntu /bin/bash    // отображение файл истории контейнера в хост
+
+
+можно сделать alias в ~/.bashrc
+$ alias dockbash='docker run -e HIST_FILE=/root/.bash_history -v=$HOME/.bash_history:/root/.bash_history
