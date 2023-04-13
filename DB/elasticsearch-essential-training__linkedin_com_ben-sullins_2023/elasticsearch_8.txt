@@ -13,7 +13,13 @@ http://127.0.0.1:5601/app/dev_tools#/console
 http://127.0.0.1:9000/#!/rest?host=http:%2F%2Flocalhost:9200
 
 
-2) In Kibana:  http://127.0.0.1:5601/app/dev_tools#/console
+
+2)
+02_02__Setup.txt
+
+In Kibana:  http://127.0.0.1:5601/app/dev_tools#/console
+
+# Cluster Health Check
 
 ## Overall Cluster Health
 GET /_cat/health?v
@@ -82,8 +88,8 @@ Response:
   "_index" : "sales",
   "_type" : "order",
   "_id" : "123",
-  "_version" : 2,
-  "_seq_no" : 1,
+  "_version" : 1,
+  "_seq_no" : 0,
   "_primary_term" : 1,
   "found" : true,
   "_source" : {
@@ -92,6 +98,7 @@ Response:
   }
 }
 
+
 ## Delete index
 DELETE sales
 Response:
@@ -99,9 +106,46 @@ Response:
   "acknowledged" : true
 }
 
-3) Bulk loading data
 
-a) # Create File 'reqs' with Requests (make sure to include new line at end of file)
+## List indices
+GET /_cat/indices?v
+
+
+
+3) Loading Data
+03_01.txt  Bulk loading data
+
+# Get ES endpoint
+# from https://cloud.elastic.co/home click gear icon next to cluster
+# copy endpoint next to "Elasticsearch" under Applications and create variable in terminal
+
+ES_HOST="<PASTE ENDPOINT HERE>"
+
+# now create API key
+# click on security then in settings "kibana" link
+# scroll down to API Keys then "Create API Key"
+# create variable in terminal
+
+ES_API_KEY="<PASTE API KEY HERE>"
+
+# Create File with Requests (make sure to include new line at end of file)
+# open VI and create a file called "reqs"
+vi reqs
+
+# type "i" then copy/paste this data into vi
+
+{ "index" : { "_index" : "my-test", "_id" : "1" } }
+{ "col1" : "val1"}
+{ "index" : { "_index" : "my-test", "_id" : "2" } }
+{ "col1" : "val2"}
+{ "index" : { "_index" : "my-test", "_id" : "3" } }
+{ "col1" : "val3" }
+
+# hit esc
+# type :wq to save the file and exit vi
+# type ls to see the file is there
+
+# OR Create File 'reqs' with Requests (make sure to include new line at end of file)
 { "index" : { "_index" : "my-test", "_type" : "my-type", "_id" : "1" } }
 { "col1" : "val1"}
 { "index" : { "_index" : "my-test", "_type" : "my-type", "_id" : "2" } }
@@ -109,12 +153,27 @@ a) # Create File 'reqs' with Requests (make sure to include new line at end of f
 { "index" : { "_index" : "my-test", "_type" : "my-type", "_id" : "3" } }
 { "col1" : "val3" }
 
-# Load from CURL
-curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --data-binary "@reqs"; echo
+
+# using curl, upload data file to cluster and create index
+
+curl -XPOST -i -k \
+-H "Content-Type: application/x-ndjson" \
+-H "Authorization: ApiKey $ES_API_KEY" \
+$ES_HOST/_bulk --data-binary "@reqs"; echo
+
+# OR Load from CURL
+curl -H "Content-Type: application/x-ndjson" -XPOST -i -k localhost:9200/_bulk --data-binary "@data/reqs"; echo
+
+
+
+# Login to cluster in web portal, go to dev tools, look for indices and return our data
+GET /_cat/indices?v
 
 # Check Kibana
 GET /my-test
 GET /my-test/my-type/1
+GET /my-test/_doc/1       если  "_type" : "my-type" был не указан
+
 
 b) # Load from Console
 POST _bulk
@@ -129,62 +188,192 @@ POST _bulk
 GET /my-test-console
 GET /my-test-console/my-type/1
 
-4) Index pattern in Kibana
-# Load via curl, notice the endpoint and type
-curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/bank/account/_bulk?pretty' --data-binary @accounts.json
+
+
+03_02.txt Loading sample data
+
+# Download from Elastic or use Exercise Files
+# If necessary unzip the accounts.zip file
+# https://download.elastic.co/demos/kibana/gettingstarted/accounts.zip
+
+# change to downloaded folder
+cd <path to folder>
+
+# Inspect Accounts.json
+head accounts.json
+
+# Load via curl, notice the endpoint which creates the 'bank' index
+curl -XPOST -i -k \
+-H "Content-Type: application/x-ndjson" \
+-H "Authorization: ApiKey $ES_API_KEY" \
+$ES_HOST/bank/_bulk?pretty --data-binary @accounts.json; echo
+
+# OR Load via curl, notice the endpoint and type
+curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/bank/account/_bulk?pretty' --data-binary @data/accounts.json
+
 
 # check inside ES
 GET /_cat/indices
 GET /bank
-
-Response:
 {
   "bank" : {
     "aliases" : { },
     "mappings" : {
       "properties" : {
         "account_number" : {
-          "type" : "long"
-        },
-        "address" : {
-          "type" : "text",
-          "fields" : {
+...
+GET /bank/_doc/1
+{
+  "_index" : "bank",
+  "_type" : "_doc",
+  "_id" : "1",
+  "_version" : 2,
+  "_seq_no" : 1000,
+  "_primary_term" : 11,
+  "found" : true,
+  "_source" : {
+    "account_number" : 1,
+    "balance" : 39225,
+    "firstname" : "Amber",
+    "lastname" : "Duke",
+...
 
-# set index pattern in Kibana
-Management -> Index Patterns
+
+# ES8 set index pattern in Kibana
+Management > Stack Management > Kibana > Data Views > Create data view > bank
+
+# ES7 Index pattern in Kibana
+http://localhost:5601/app/management
+Management -> Kibana -> Index Patterns
 write name: bank
+Index pattern name: bank*
 uncheck 'Index contains time-based events'.
 click 'create'
 
-3.3) Setting data types
 
+
+03_03.txt  Setting data types
+
+# Download sample logs from Elastic or use Exercise Files
+# If necessary unzip/tar logs.jsonl.gz
+# https://download.elastic.co/demos/kibana/gettingstarted/logs.jsonl.gz
+
+
+# Add mapping for lat/lon geo properties for logs
 PUT /logstash-2015.05.18
 {
   "mappings": {
-      "properties": {
-        "geo": {
-          "properties": {
-            "coordinates": {
-              "type": "geo_point"
-            }
+    "properties": {
+      "geo": {
+        "properties": {
+          "coordinates": {
+            "type": "geo_point"
           }
         }
       }
+    }
   }
 }
-the same PUT /logstash-2015.05.19
+the same
+PUT /logstash-2015.05.19
+...
 PUT /logstash-2015.05.20
+...
+
+
+# Check out structure of log data
+head logs.jsonl
 
 # Import log files
-curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk?pretty' --data-binary @logs.jsonl
+curl -XPOST -i -k \
+-H "Content-Type: application/x-ndjson" \
+-H "Authorization: ApiKey $ES_API_KEY" \
+$ES_HOST/_bulk?pretty --data-binary @logs.jsonl; echo
 
-# Check ES for data
+# OR Import log files
+curl -H 'Content-Type: application/x-ndjson' -XPOST 'localhost:9200/_bulk?pretty' --data-binary @data/logs.jsonl
+
+# Check ES for data  (просмотреть все 3 индекса)
 GET /_cat/indices/logstash-*
 
 Response:
 yellow open logstash-2015.05.20 zSWeMvZ_ToKqJdcbxOeq_g 1 1 4750 0 12.2mb 12.2mb
 yellow open logstash-2015.05.18 qIpqyDbsQcqkKD21I9YBlQ 1 1 4634 0   12mb   12mb
 yellow open logstash-2015.05.19 vqPMvF-vRa-00ZmMUy6GuQ 1 1 4624 0   12mb   12mb
+
+# Count in exact index
+GET logstash-2015.05.18/_count
+{
+  "count" : 4634,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  }
+}
+
+
+
+# Change default index pattern in Kibana
+
+# Load Shakespeare data (download from elastic or find in the Exercise Files)
+# Check out shakespeare.json
+# https://download.elastic.co/demos/kibana/gettingstarted/shakespeare_6.0.json
+
+head shakespeare.json
+
+# Shakespeare Schema
+{
+    "line_id": INT,
+    "play_name": "String",
+    "speech_number": INT,
+    "line_number": "String",
+    "speaker": "String",
+    "text_entry": "String",
+}
+
+# Create Shakespeare index with data types
+PUT /shakespeare
+{
+ "mappings" : {
+   "properties" : {
+    "speaker" : {"type": "keyword" },
+    "play_name" : {"type": "keyword" },
+    "line_id" : { "type" : "integer" },
+    "speech_number" : { "type" : "integer" }
+   }
+ }
+}
+
+# Load Shakespeare data
+curl -XPOST -i -k \
+-H "Content-Type: application/x-ndjson" \
+-H "Authorization: ApiKey $ES_API_KEY" \
+$ES_HOST/shakespeare/_bulk?pretty --data-binary @shakespeare.json; echo
+
+# OR
+$ curl -XPOST -i -k -H "Content-Type: application/x-ndjson" localhost:9200/shakespeare/_bulk?pretty --data-binary @data/shakespeare.json; echo
+
+# Check out index in ES
+GET /shakespeare
+GET /_cat/indices
+GET shakespeare/_doc/2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 4) Querying Data
 4.1) Simple queries
