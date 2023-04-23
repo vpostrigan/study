@@ -1,0 +1,9 @@
+https://rgrunber.wordpress.com/2016/01/26/eclipse-inside-a-docker-container/
+
+
+
+$ docker build -t eclipse .
+...
+$ docker run --rm -it --privileged -p 5903:5903 -e DISPLAY=:3 eclipse
+...
+$ vncviewer 127.0.0.1:3
