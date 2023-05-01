@@ -130,11 +130,8 @@ https://learngitbranching.js.org/?locale=ru_RU
 Антон Григорьев, Git-flow: как построить процесс разработки и быстро получать любую версию продукта
 https://www.youtube.com/watch?v=rC6varfUhCo
 
-Самый тупой туториал по git... других не нашёл
-https://www.youtube.com/watch?v=wzTwn249Wnw
 
-Хороший программист
-https://www.youtube.com/c/goodprogrammer_ru/search?query=git
+
 
 
 https://git-scm.com/book/ru/v2/%D0%92%D0%B5%D1%82%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-Git-%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%B2%D0%B5%D1%82%D0%BA%D0%B0%D0%BC%D0%B8
@@ -149,9 +146,6 @@ https://www.jetbrains.com/help/idea/discover-intellij-idea.html?keymap=primary_e
 https://www.youtube.com/user/ESLTeacherTom/videos?reload=9
 https://www.youtube.com/watch?v=5_ISf2QDT4k
 
-Github для самых маленьких #3 | Практика – GitHub terminal | Работа с Git в терминале
-https://www.youtube.com/watch?v=fYFiQ7lpfiE
-https://www.youtube.com/watch?reload=9&v=hyUBMmL0WtA
 
 https://wiki.eclipse.org/EGit/User_Guide#Managing_Repositories
 https://www.vogella.com/tutorials/EclipseGit/article.html
@@ -206,7 +200,7 @@ https://www.youtube.com/watch?v=fHhf1xG0pIA
 https://www.youtube.com/watch?v=BwdkyrnJQsg
 
 
-https://3dnews.ru/934875
+
 
 
 antlr
@@ -280,6 +274,11 @@ https://www.youtube.com/@Dev-lessons/videos
 + https://www.youtube.com/watch?v=GIsxGlg-laQ   GIT для продвинутых - Часть 1
 + https://www.youtube.com/watch?v=ZYWi30imJZg   GIT для продвинутых - Часть 2
 
+https://www.youtube.com/@Glo_Academy
++ https://www.youtube.com/watch?v=Rke_Z1-nvUM   GitHub для самых маленьких #1 | Основы
++ https://www.youtube.com/watch?v=hyUBMmL0WtA   Github для самых маленьких #2 | Практика – GitHub Desktop | Приложение Гитхаб для компьютера
++ https://www.youtube.com/watch?v=fYFiQ7lpfiE   Github для самых маленьких #3 | Практика – GitHub terminal | Работа с Git в терминале
+
 
   Docker
 + https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)
@@ -329,6 +328,8 @@ https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
 CSS
 + https://www.youtube.com/watch?v=i-odJ-svB1Q   Сила селектора CSS
 
+CSS LESS
++ https://www.youtube.com/watch?v=GHYPsEDd_bs   Препроцессор LESS. Как быстро писать CSS код. Молниеносная верстка. (https://www.youtube.com/@Glo_Academy)
 
 JetBrainsTV
 https://www.youtube.com/user/JetBrainsTV/videos
