@@ -407,41 +407,205 @@ let list: [number, boolean, ...string[]] = [1, false, 'a', 'b', 'c']
 // Эти особенности позволяют картежам превосходить обычные массивы по уровню безопасности типов. Используйте кортежи чаще.
 
 
+// Массивы и кортежи только для чтения
+// Обычные массивы являются изменяемыми (можно добавлять в них (.push),
+// удалять из них или вставлять в них (.splice) и обновлять их на месте)
+
+// неизменяющие методы вроде .concat и .slice, вместо изменяющих — .push или .splice:
+let as: readonly number[] = [1, 2, 3] // readonly number[]
+let bs: readonly number[] = as.concat(4) // readonly number[]
+let three = bs[2] // number
+as[4] = 5 // Ошибка TS2542: сигнатура индекса в типе 'readonly number[]' допускает только чтение.
+as.push(6) // Ошибка TS2339: свойство 'push' не существует в типе 'readonly number[]'.
+
+// Как и в случае с Array, в TypeScript есть пара более длинных форм для объявления массивов и кортежей только для чтения:
+// можно записать по разному
+type A = readonly string[]          // readonly string[]
+type B = ReadonlyArray<string>      // readonly string[]
+type C = Readonly<string[]>         // readonly string[]
+type D = readonly [number, string]  // readonly [number, string]
+type E = Readonly<[number, string]> // readonly [number, string]
 
 
+// [null, undefined, void и never]
+// В JavaScript есть два значения для выражения отсутствия: null и undefined.
+// TypeScript поддерживает их оба и имеет для них типы: null и undefined
+// undefined означает, что нечто еще не было определено, а null показывает отсутствие значения
+
+// void — это возвращаемый тип функции, которая не возвращает ничего явно (например, console.log),
+// never — это тип функции, которая никогда ничего не возвращает (выбрасывает исключение или выполняется бесконечно):
+
+function a104(x: number) { // (a) Функция, возвращающая число или null
+    if (x < 10) {
+        return x
+    }
+    return null
+}
+function b104() { // (b) Функция, возвращающая undefined
+    return undefined
+}
+function c104() { // (c) Функция, возвращающая void
+    let a = 2 + 2
+    let b = a * a
+}
+function d104() { // (d) Функция, возвращающая never
+    throw TypeError('I always error')
+}
+function e104() { // (e) Другая функция, возвращающая never
+    while (true)
+    { doSomething()
+    }
+}
+
+
+// [enum]
+// Есть два типа enum: отображающий строки в строки и отображающий строки в числа:
+enum Language { // TypeScript будет автоматически выводить число в качестве значения для каждого члена перечисления
+    English,
+    Spanish,
+    Italian
+}
+// явным вывод из предыдущего примера:
+enum Language2 {
+    English = 0,
+    Spanish = 1,
+    Italian = 2
+}
+
+// извлечь значение из enum
+let myFirstLanguage = Language.Italian // Language
+let mySecondLanguage = Language['English'] // Language
+
+
+// Можно разделить перечисление на несколько деклараций, и TypeScript автоматически произведет их слияние
+enum Language3 {
+    English = 0,
+    Spanish = 1
+}
+enum Language3 {
+    Italian = 2
+}
+
+// не обязательно самстоятельно определять значения:
+enum Language4 {
+    English = 100,
+    Spanish = 200 + 300,
+    Italian // TypeScript выводит 501 (число, следующее за 500)
+}
+
+
+// строчные значения для нумерации или даже смешивать строчные и числовые значения:
+enum Color4 {
+    Red = '#c10000',
+    Blue = '#007ac1',
+    Pink = 0xc10050, // Шестнадцатеричный литерал
+    White = 255 // Десятичный литерал
+}
+let red = Color4.Red // Color4
+let pink = Color4.Pink // Color4
+
+let a105 = Color4.Red // Color
+let b105 = Color4.Green // Ошибка TS2339: свойство 'Green' не существует в типе 'typeof Color'.
+let c105 = Color4[0] // string
+let d105 = Color4[6] // string (!!!)
+
+const enum Language5 { // const исправит 'Color4[6] // string (!!!)'
+    English,
+    Spanish,
+    Italian
+}
+
+let a106= Language5.English // Language // Обращение к верному ключу перечисления
+let b106 = Language5.Tagalog // Ошибка TS2339: свойство 'Tagalog' не существует в типе 'typeof Language'.
+let c106= Language5[0] // Ошибка TS2476: обратиться к константному члену перечисления можно только с помощью строчного литерала.
+let d106= Language5[6] // Ошибка TS2476: обратиться к константному члену перечисления можно только с помощью строчного литерала.
+
+// const enum не позволяет производить обратный просмотр и поэтому во многом ведет себя как обычный JavaScript-объект.
+// Он также по умолчанию не генерирует никакой JavaScript-код, а вместо этого подставляет значение члена перечисления везде, где он используется
+// (например, TypeScript заменит Language.Spanish на его значение 1 везде, где он встречается).
+//Чтобы активировать для const enums генерацию кода при выполнении, смените TSC-настройку preserveConstEnums на true в tsconfig.json:
+//{
+//   "compilerOptions": {
+//        "preserveConstEnums": true
+//    }
+//}
+
+
+// Рассмотрите использование const enums:
+const enum Flippable {
+    Burger,
+    Chair,
+    Cup,
+    Skateboard,
+    Table
+}
+function flip(f: Flippable) {
+    return 'flipped it'
+}
+flip(Flippable.Chair) // 'flipped it'
+flip(Flippable.Cup) // 'flipped it'
+flip(12) // 'flipped it' (!!!) // все числа также совместимы с перечислениями.
+// Такое поведение является неудачным последствием правил совместимости в TypeScript
+
+// нужно использовать только перечисления со строчными значениями:
+const enum Flippable2 {
+    Burger = 'Burger',
+    Chair = 'Chair',
+    Cup = 'Cup',
+    Skateboard = 'Skateboard',
+    Table = 'Table'
+}
+function flip2(f: Flippable2) {
+    return 'flipped it'
+}
+flip2(Flippable2.Chair) // 'flipped it'
+flip2(Flippable2.Cup) // 'flipped it'
+flip2(12) // Ошибка TS2345: аргумент типа '12' не может быть присвоен параметру типа 'Flippable'.
+flip2('Hat') // Ошибка TS2345: аргумент типа '"Hat"' не может быть присвоен параметру типа 'Flippable'.
+flip2('Table')
+
+
+
+// Итоги
+// const позволит выводить более конкретные типы, let и var — более общие.
+
+// Типы и их более конкретные подтипы
+// Тип         Подтип
+// boolean     Boolean literal
+// bigint      BigInt literal
+// number      Number literal
+// string      String literal
+// symbol      unique symbol
+// object      Object literal
+// Array       Tuple
+// enum        const enum
+
+
+
+// [Упражнения к главе 3]
 
 // 1. For each of these values, what type will TypeScript infer?
-
 // 1a
 let a = 1042 // number
-
 // 1b
 let b = 'apples and oranges' // string
-
 // 1c
 const c = 'pineapples' // 'pineapples'
-
 // 1d
 let d = [true, true, false] // boolean[]
-
 // 1e
 let e = {type: 'ficus'} // {type: string}
-
 // 1f
 let f = [1, false] // (number | boolean)[]
-
 // 1g
 const g = [3] // number[]
-
 // 1h
 let h = null // any
 
 // 2. Why does each of these throw the error it does?
-
 // 2a
 let i: 3 = 3
 i = 4 // Error TS2322: Type '4' is not assignable to type '3'.
-
 /*
 i's type is the type literal 3. The type of 4 is the type literal 4, which is not assignable to the type literal 3.
 */
@@ -449,9 +613,7 @@ i's type is the type literal 3. The type of 4 is the type literal 4, which is no
 // 2b
 let j = [1, 2, 3]
 j.push(4)
-j.push('5') // Error TS2345: Argument of type '"5"' is not
-// assignable to parameter of type 'number'.
-
+j.push('5') // Error TS2345: Argument of type '"5"' is not assignable to parameter of type 'number'.
 /*
 Since j was initialized with a set of numbers, TypeScript inferred j's type as number[].
 The type of '5' is the type literal '5', which is not assignable to number.
@@ -459,10 +621,8 @@ The type of '5' is the type literal '5', which is not assignable to number.
 
 // 2c
 let k: never = 4 // Error TS2322: Type '4' is not assignable to type 'never'.
-
 /*
-never is the bottom type. That means it's assignable to every other type, but no type is
-assignable to never.
+never is the bottom type. That means it's assignable to every other type, but no type is assignable to never.
 */
 
 // 2d
@@ -470,8 +630,8 @@ let l: unknown = 4
 let m = l * 2 // Error TS2571: Object is of type 'unknown'.
 
 /*
-unknown represent a value that could be anything at runtime. To prove to TypeScript that what
-you're doing is safe, you have to first prove to TypeScript that a value of type unknown actually
-has a more specific subtype. You do that by refining the value using typeof, instanceof, or
-another type query or type guard.
+unknown represent a value that could be anything at runtime.
+To prove to TypeScript that what you're doing is safe,
+you have to first prove to TypeScript that a value of type unknown actually has a more specific subtype.
+You do that by refining the value using typeof, instanceof, or another type query or type guard.
 */
