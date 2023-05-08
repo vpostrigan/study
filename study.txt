@@ -122,13 +122,8 @@ https://www.youtube.com/playlist?list=PLmRNNqEA7JoM77hOJkPrLOfJQGizCLR3P
 Devcolibri
 https://www.youtube.com/c/devcolibri/playlists
 
-Git, Git Flow, TDD
-https://www.youtube.com/playlist?list=PLlWXhlUMyooYE1nvMUMdorkFVvUgWClUY
 
-https://learngitbranching.js.org/?locale=ru_RU
 
-Антон Григорьев, Git-flow: как построить процесс разработки и быстро получать любую версию продукта
-https://www.youtube.com/watch?v=rC6varfUhCo
 
 
 
@@ -278,6 +273,11 @@ https://www.youtube.com/@Glo_Academy
 + https://www.youtube.com/watch?v=Rke_Z1-nvUM   GitHub для самых маленьких #1 | Основы
 + https://www.youtube.com/watch?v=hyUBMmL0WtA   Github для самых маленьких #2 | Практика – GitHub Desktop | Приложение Гитхаб для компьютера
 + https://www.youtube.com/watch?v=fYFiQ7lpfiE   Github для самых маленьких #3 | Практика – GitHub terminal | Работа с Git в терминале
+
+https://www.youtube.com/@zaemiel
++ https://www.youtube.com/watch?v=9iWVaJpeDA8   Git, Git Flow, TDD #1 - Что нужно знать о работе с Git
++ https://www.youtube.com/watch?v=wGJQWnmlSpc   Git, Git Flow, TDD #2 - Git Flow: Основы работы с ветками в Git
++ https://www.youtube.com/watch?v=ptssYZR4kus   Git, Git Flow, TDD #3 - Введение в TDD и тестирование в Python
 
 
   Docker

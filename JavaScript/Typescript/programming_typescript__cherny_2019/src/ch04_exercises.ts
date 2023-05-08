@@ -23,30 +23,30 @@ After: function f(...args: unknown[]) { console.log(args) }
 type Reservation = unknown
 
 type Reserve = {
-  (from: Date, to: Date, destination: string): Reservation
-  (from: Date, destination: string): Reservation
-  (destination: string): Reservation
+    (from: Date, to: Date, destination: string): Reservation
+    (from: Date, destination: string): Reservation
+    (destination: string): Reservation
 }
 
 let reserve: Reserve = (
-  fromOrDestination: Date | string,
-  toOrDestination?: Date | string,
-  destination?: string
+    fromOrDestination: Date | string,
+    toOrDestination?: Date | string,
+    destination?: string
 ) => {
-  if (
-    fromOrDestination instanceof Date &&
-    toOrDestination instanceof Date &&
-    destination !== undefined
-  ) {
-    // Book a one-way trip
-  } else if (
-    fromOrDestination instanceof Date &&
-    typeof toOrDestination === 'string'
-  ) {
-    // Book a round trip
-  } else if (typeof fromOrDestination === 'string') {
-    // Book a trip right away
-  }
+    if (
+        fromOrDestination instanceof Date &&
+        toOrDestination instanceof Date &&
+        destination !== undefined
+    ) {
+        // Book a one-way trip
+    } else if (
+        fromOrDestination instanceof Date &&
+        typeof toOrDestination === 'string'
+    ) {
+        // Book a round trip
+    } else if (typeof fromOrDestination === 'string') {
+        // Book a trip right away
+    }
 }
 
 // 4. [Hard] Update our call implementation from earlier in the chapter (Using
@@ -55,14 +55,14 @@ let reserve: Reserve = (
 // fail at compile time.
 
 function call<T extends [unknown, string, ...unknown[]], R>(
-  f: (...args: T) => R,
-  ...args: T
+    f: (...args: T) => R,
+    ...args: T
 ): R {
-  return f(...args)
+    return f(...args)
 }
 
 function fill(length: number, value: string): string[] {
-  return Array.from({length}, () => value)
+    return Array.from({length}, () => value)
 }
 
 call(fill, 10, 'a') // string[]
@@ -87,5 +87,5 @@ is(10, 'foo') // Error TS2345: Argument of type '"foo"' is not assignable
 is([1], [1, 2], [1, 2, 3]) // false
 
 function is<T>(a: T, ...b: [T, ...T[]]): boolean {
-  return b.every(_ => _ === a)
+    return b.every(_ => _ === a)
 }
