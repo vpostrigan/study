@@ -1,0 +1,161 @@
+https://www.youtube.com/@zaemiel
+https://www.youtube.com/playlist?list=PLlWXhlUMyooafqSoZ9YGX_dgCi5HxsgkB
+
++ https://www.youtube.com/watch?v=85tDpM3x2ts    Терминал Linux #1 - навигация по файловой системе
+
+admin@admin_vp:~$ pwd        - текущий каталог
+/home/admin
+
+admin@admin_vp:~$ ls         - файлы в каталоге
+
+admin@admin_vp:~$ ls sub_folder/        - файлы в подкаталоге sub_folder
+
+admin@admin_vp:~$ ls -a      - скрытые файлы в каталоге (скрытые файлы начинаются с точки)
+.  ..  .aws  .azure  .bash_history  .bash_logout  .bashrc  .config  .docker  .landscape  .motd_shown  .profile  .sudo_as_admin_successful
+
+admin@admin_vp:/$ ls -l      -  -l long format
+total 700
+drwxr-xr-x   3 root root   4096 Mar 13 11:24 Docker
+lrwxrwxrwx   1 root root      7 Apr 23  2020 bin -> usr/bin
+drwxr-xr-x   2 root root   4096 Apr 23  2020 boot
+drwxr-xr-x   8 root root   2720 May  2 23:14 dev
+drwxr-xr-x  98 root root   4096 May  2 23:14 etc
+drwxr-xr-x   3 root root   4096 Dec  7 14:16 home
+
+admin@admin_vp:/$ ls -la   -  все файлы включая скрытые в long format
+total 708
+drwxr-xr-x  20 root root   4096 May  2 23:14 .
+drwxr-xr-x  20 root root   4096 May  2 23:14 ..
+drwxr-xr-x   3 root root   4096 Mar 13 11:24 Docker
+lrwxrwxrwx   1 root root      7 Apr 23  2020 bin -> usr/bin
+drwxr-xr-x   2 root root   4096 Apr 23  2020 boot
+
+admin@admin_vp:/home$ cd ..    - change directory
+admin@admin_vp:/home$ cd ~     - change directory to home
+
+admin@admin_vp:/home$ cat file.txt     - просмотр файла
+
+
+
++ https://www.youtube.com/watch?v=CFla1ZIXa6M    Терминал Linux #2 - Операции с файлами и папками
+
+$ touch main.py                          - создаст файл
+$ touch {app,main,config,migrate}.py     - создаст несколько файлов
+$ mkdir blueprint                        - создаст папку
+
+$ mkdir app && cd app                    - создат папку и перейдет в app
+
+$ cp file.txt new_file.txt               - скопировать файл
+$ cp file.txt ../new_file.txt            - скопировать файл в папку выше
+
+$ mv new_file.txt new_new_file.txt       - переместить в новый файл
+$ mv 1.txt ../2.txt                      - переместить в папку выше
+
+$ rm 2.txt                               - удалить файл 2.txt
+$ rm -r test                             - удалить каталог test
+
+
+
++ https://www.youtube.com/watch?v=AvT_MDXRjpY    Терминал Linux #3 - Команда Grep: поиск по файлам и папкам
+
+$ grep "google" domains.txt
+text..google
+
+$ grep -i "google" domains.txt         - регистро независимый [case insensitive]
+Google.com text
+text..google
+
+$ grep -i "employee" domains.txt
+employee 123
+employees
+
+$ grep -iw "employee" domains.txt      - w - word, ищет без соседних букв
+employee 123
+
+$ grep -iwn "employee" domains.txt     - n - номер строки
+12:employee 123
+
+$ grep -iwn -A2 "employee" domains.txt     - A after - 2 строки после
+12:employee 123
+13-
+14-
+
+$ grep -iwn -B2 "employee" domains.txt     - B before - 2 строки перед
+10:Text
+11-
+12:employee 123
+
+$ grep -iwn -С2 "employee" domains.txt     - С context - 2 строки перед и до
+
+$ grep -iwn "employee" ./*                 - поиск в файлах папки
+./1.txt:12:employee 123
+./2.txt:12:employee 123
+grep: ./sub_folder: This is catalog        - в подпапках не ищет
+
+$ grep -iwnr "employee" ./*                - r Recursive - поиск в подпапках тоже
+или
+$ grep -iwnr "employee" ./*.txt
+
+$ grep -iwnrl "employee" ./*.txt           - l List - покажет в каких файлах нашло
+./1.txt
+./2.txt
+
+$ grep -iwnrl "employee" ./*.txt           - c  - количество вхождений
+./1.txt:2
+./2.txt:2
+
+
+$ pip3 freeze | grep "requests"            - поиск в выводе
+
+$ grep -P "\d{3}-\d{2}-\d{2}" domains.txt  - регулярные выражение совместимые с Perl
+Text...123-45-89
+
+$ grep -wioP "\d{3}-\d{2}-\d{2}" domains.txt
+123-45-89
+
+$ grep -P "\d{3}-\d{2}-\d{2}" domains.txt > 1.txt   - сохранить в файл
+
+$ grep -Pf patterns.txt domains.txt > 1.txt   - паттерн "\d{3}-\d{2}-\d{2}" записан в файле patterns.txt
+
+
+
++ https://www.youtube.com/watch?v=HvwOtqEheZ4    Терминал Linux #4 - Aliases: как упростить работу в терминале
+Новый проект
+$ virtualenv venv                 - создаст папку venv  (значит есть виртуальное окружение)
+$ source venv/bin/activate
+(venv)
+$ python -V
+3.5.2
+$ mkdir app && cd app
+$ atom .            - запускает atom поддерживает работу с виртуальными окружениями
+
+создание alias
+# nano ~/.bashrc
+в конце файла пишем:
+alias sv="source venv/bin/activate"
+alias vva="virtualenv --python=python3 venv && source venv/bin/activate && mkdir app && cd app && atom ."
+
+теперь можно просто
+$ vva
+
+
++ https://www.youtube.com/watch?v=8QjnkRuFlIA    Терминал Linux #5 - Как установить MySQL на Ubuntu/Mint
+$ sudo    'super user do'
+$ sudo apt-get install mysql-server mysql-client
+
+$ mysql -u root -p
+mysql> show databases;
+mysql> create database test_base character set utf8 collate utf8_unicode_ci;
+mysql> drop database test_base;
+mysql> exit;
+
++ https://www.youtube.com/watch?v=h5ITa8nazC8    Терминал Linux #6 - Как установить PostgreSQL на Ubuntu/Mint
+$ sudo apt-get install postgresql
+$ sudo -u postgres psql
+postgres=# \password
+Enter new password: 1
+Enter it again: 1
+postgres=# create database test_base;
+postgres=# \l           - просмотр всех баз данных
+postgres=# drop database test_base;
+postgres=# \q           - выход
