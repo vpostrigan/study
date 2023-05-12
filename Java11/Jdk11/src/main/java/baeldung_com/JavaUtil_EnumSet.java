@@ -1,4 +1,4 @@
-package javase.collections;
+package baeldung_com;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -8,7 +8,7 @@ import java.util.List;
  * https://www.baeldung.com/java-enumset
  * An EnumSet is a specialized Set collection to work with enum classes
  */
-public class EnumSetTest {
+public class JavaUtil_EnumSet {
 
     public enum Color {
         RED, YELLOW, GREEN, BLUE, BLACK, WHITE
