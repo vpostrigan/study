@@ -159,3 +159,53 @@ postgres=# create database test_base;
 postgres=# \l           - просмотр всех баз данных
 postgres=# drop database test_base;
 postgres=# \q           - выход
+
+
+
++ https://www.youtube.com/watch?v=52-eyCp56ew    Терминал Linux #7.1 - crontab: запуск задач по расписанию
+$ crontab -l
+
+$ crontab -e    редактирование заданий
+
+# ┌─────────────────────  Minute   (0..59)
+# │ ┌───────────────────  Hour     (0..23)
+# │ │ ┌─────────────────  Day      (1..31)
+# │ │ │ ┌───────────────  Month    (1..12)
+# │ │ │ │ ┌─────────────  Weekday  (0=Sun .. 6=Sat)
+# * * * * *
+* - любое значение
+
+* * * * * echo 'Hi!' >> /home/user/tmp            - будет выполнятся каждую минуту
+
+$ cat /home/user/tmp           - каждую минуту добавляет строку в файл
+Hi!
+Hi!
+Hi!
+
+//
+
+0 0 * * * echo 'Hi!' >> /home/user/tmp            - раз в полночь
+
+*/15 * * * * echo 'Hi!' >> /home/user/tmp         - каждые 15 минут
+
+0 0 5,20 * * echo 'Hi!' >> /home/user/tmp         - 5 и 20 числа каждого месяца
+
+0 9-18 * * 1-5                                    - каждый час с 9 до 19 по буднем дням
+
+http://crontab.guru
+
+
+
++ https://www.youtube.com/watch?v=BwdT4Ap260c    Терминал Linux #7.2 - crontab: как запускать Python-скрипт по расписанию
+$ /usr/bin/notify-send "Title" "Hellow World!"
+будет всплывающее сообщение
+
+$ crontab -e
+* * * * * export DISPLAY=:0 && /usr/bin/python3 /home/user/start.sh
+или может нужно
+* * * * * export DISPLAY=:0 && cd /home/user && ./start.sh
+
+
+окружения crontab
+$ env -i /bin/bash --noprofile -norc
+bash-4.3$              - можно протестировать скрипты
