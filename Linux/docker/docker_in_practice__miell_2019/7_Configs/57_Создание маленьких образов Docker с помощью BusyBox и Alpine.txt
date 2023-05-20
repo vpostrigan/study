@@ -1,0 +1,22 @@
+
+$ docker run -ti busybox /bin/bash
+нет /bin/bash
+
+есть более легкий ash
+$ docker run -ti busybox /bin/ash
+#
+
+
+
+$ docker run -ti progrium/busybox /bin/ash
+# opkg-install bash > /dev/null
+# bash
+
+
+
+
+
+FROM gliderlabs/alpine:3.6
+RUN apk-install mysql-client
+ENTRYPOINT ["mysql"]
+

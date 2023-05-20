@@ -1,0 +1,45 @@
+проверка сокета Unix
+$ ls /tmp/.X11-unix/
+X0
+$ echo $DISPLAY
+:0
+
+
+
+запускаем контейнер, используя экран с поддержкой Xauthority
+$ ls $HOME/.Xauthority
+/home/myuser/.Xauthority
+$ docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix \
+         --hostname=$HOSTNAME -v $HOME/.Xauthority:$HOME/.Xauthority \
+         -it -e EXTUSER=$USER ubuntu:16:04 bash -c 'useradd $USER && exec bash'
+
+
+проверить работает ли контейнер
+$ apt-get update && apt-get install -y x11-apps
+$ su - $EXTUSER -c "xeyes"
+
+установка требований Selenium и запуск браузера
+$ apt-get install -y python2.7 python-pip firefox wget
+$ pip install selenium
+...
+b=webdriver.Firefox()
+b.get('https://github.com/search')
+
+
+Firefox все еще нужен X-сервер для запуска
+xvfb   - делает вид, что X-сервер работает для приложений, но ему не нужен монитор
+
+
+$ apt-get install -y xvfb
+$ exit
+
+$ docker commit ef351...
+
+$ cat > myscript.py << EOF
+b=webdriver.Firefox()
+b.get('https://github.com/search')
+...
+
+$ docker run --rm -v $(pwd):/mnt selenium sh -c \
+   "xvfb-run -s '-screen 011024x768x24 -extension RANDR' python /mnt/myscript.py"
+

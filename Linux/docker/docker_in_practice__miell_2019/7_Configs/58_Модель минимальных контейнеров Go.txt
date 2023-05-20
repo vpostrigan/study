@@ -1,0 +1,38 @@
+
+двоичный образ Docker без внешних зависимостей
+
+
+
+Минимальный двоичный файл Hello World
+FROM gcc
+# программа на C
+RUN echo 'int main() {puts("Hello World!"); }' > hi.c
+RUN gcc -static hi.c -w -o hi
+
+
+Извлечение двоичного файла из образа
+$ docker build -t hello_build .
+$ docker run --name hello hello_build /bin/true
+$ docker cp hello:/hi hi
+$ docker rm hello
+hello
+$ docker rmi hello_build
+Deleted: 6a..
+$ mkdir -p new_folder
+$ mv hi new_folder
+$ cd new_folder
+
+
+Минимальный Dockerfile Hello
+# пустой образ
+FROM scrath
+ADD hi /hi
+CMD ["/hi"]
+
+
+Создание минимального контейнера
+$ docker build -t hello_world .
+
+
+$ docker images | grep hello_world
+hello_world   ... 928.3kB

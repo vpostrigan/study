@@ -1,0 +1,16 @@
+
+run
+66_server_Dockerfile
+
+узнать идентификатор группы
+$ grep -w ^docker /etc/group
+docker:x:999:imiell
+
+
+$ docker build -t jenkins_server .
+запуск сервера
+$ docker run -d -p 8080:8080 -p 50000:50000 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /tmp:/var/jenkins_home \
+  -d jenkins_server
+

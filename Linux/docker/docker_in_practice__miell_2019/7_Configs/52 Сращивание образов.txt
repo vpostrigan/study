@@ -1,0 +1,27 @@
+создайте экземпляр контейнера с помощью образа, экпортируйте его,
+импортируйте, а затем пометьте исходным идентификатором образа
+
+
+FROM debian
+RUN echo "My Big Secret" >> /tmp/secret_key
+RUN cat /tmp/secret_key
+RUN rm /tmp/secret_key
+
+$ docker build -t mysecret
+
+$ docker history mysecret
+IMAGE   CREATED ...
+55f3..                 /bin/sh  -c rm /tmp/secret_key
+5b37..                 /bin/sh  -c cat /tmp/secret_key
+
+
+$ docker run 5b37.. cat /tmp/secret_key
+My Big Secret
+
+
+
+$ docker run -d mysecret /bin/true
+28cd
+$ docker export 28cd | docker import - mysecret
+$ docker history mysecret
+

@@ -1,0 +1,8 @@
+# get-versions
+#A docker image that outputs a RUN instruction documenting the specific version dependencies for a package
+#See [here](https://zwischenzugs.wordpress.com/2015/02/21/fight-docker-package-drift/)
+FROM ubuntu:14.04
+ADD 50_get-versions /usr/bin/get-versions
+RUN chmod +x /usr/bin/get-versions
+ENTRYPOINT ["/usr/bin/get-versions"]
+CMD ["bash"]

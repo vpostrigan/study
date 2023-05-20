@@ -1,0 +1,7 @@
+
+kill           - TERM
+docker kill    - KILL
+docker stop    - TERM
+
+
+лучше  docker stop

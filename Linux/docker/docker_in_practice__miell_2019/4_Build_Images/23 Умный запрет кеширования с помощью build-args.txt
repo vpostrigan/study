@@ -1,0 +1,3 @@
+WORKDIR todo
+ARG CACHEBUST=no
+RUN npm install

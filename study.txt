@@ -113,9 +113,6 @@ https://docs.github.com/en/get-started/quickstart/set-up-git
 Скринкаст по Git
 https://www.youtube.com/playlist?list=PLDyvV36pndZHkDRik6kKF6gSb0N0W995h
 
-Sagar S
-https://www.youtube.com/user/Sagarclips/search?query=git
-
 Курс "Git. Быстрый старт"
 https://www.youtube.com/playlist?list=PLmRNNqEA7JoM77hOJkPrLOfJQGizCLR3P
 

@@ -1,0 +1,15 @@
+
+Вы хотите убедиться что ваши deb-пакеты соответствуют ожидаемым вами версиям
+
+$ apt-cache show nginx | grep ^Version:
+Version: 1.4.6-1ubuntu3
+
+затем указать версию в Dockerfile
+RUN apt-get -y install nginx=1.4.6-1ubuntu3
+
+
+
+обо всех зависимостях
+apt-cache --recursive depends nginx
+
+

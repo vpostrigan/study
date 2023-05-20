@@ -1,0 +1,6 @@
+
+удалить документы
+rm -rf /usr/share/doc/*
+
+удалить log
+find /var | grep '\.log$' | xargs rm -v
