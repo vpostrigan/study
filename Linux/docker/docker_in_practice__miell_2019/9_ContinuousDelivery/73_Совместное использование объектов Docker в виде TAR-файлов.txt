@@ -1,0 +1,18 @@
+
+docker pull debian:7.3
+docker save debian:7.3 > debian7_3.tar
+
+
+
+scp debian7_3.tar example.com:/tmp/debian7_3.tar
+
+
+отправка образа напрямую через ssh
+docker save debian:7.3 | ssh example.com docker load -
+
+
+
+передача образа Docker напрямую через SSH, отбрасывая слои
+docker export $(docker run -d debian:7.3 true) | ssh example.com docker import
+
+
