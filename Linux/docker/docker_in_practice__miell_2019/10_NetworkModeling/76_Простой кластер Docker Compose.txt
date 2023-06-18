@@ -1,0 +1,31 @@
+
+$ mkdir server
+$ cd server
+
+$ docker build -t server .
+
+// client
+$ cd ..
+$ mkdir client
+$ cd client
+
+docker build -t client .
+
+
+// ручной запуск
+docker run --name echo-server -d server
+docker run --name client --link echo-server:talkto client
+// в конце
+docker rm -f client echo-server
+
+
+// запуск через docker-compose
+$ cd docker-compose
+$ docker-compose up
+Creating dockercompose_server_1...
+Creating dockercompose_client_1...
+Attaching to dockercompose_server_1, dockercompose_client_1
+client_1 | Received: Hello, world
+client_1 |
+client_1 | Received: Hello, world
+client_1 |

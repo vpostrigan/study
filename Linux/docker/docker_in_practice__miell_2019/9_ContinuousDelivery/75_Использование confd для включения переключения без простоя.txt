@@ -1,0 +1,17 @@
+
+запуск файлового сервера в контейнере
+
+/mnt/c/WINDOWS/system32$ ip addr | grep 'inet' | grep -v 'lo$\|docker0$'
+    inet6 ::1/128 scope host
+    inet 172.17.231.115/20 brd 172.17.239.255 scope global eth0
+    inet6 fe80::215:5dff:fe04:9386/64 scope link
+
+$ HTTPIP=http://172.17.231.115
+
+$ docker run -d --name py1 -p 80 ubuntu:14.04.2 sh -c 'cd / && python3 -m http.server 80'
+
+$ docker inspect -f '{{.NetworkSettings.Ports}}' py1
+map[80/tcp:[{0.0.0.032768}]]
+
+$ curl -s localhost:32768 | tail | head -n 5
+<html...
