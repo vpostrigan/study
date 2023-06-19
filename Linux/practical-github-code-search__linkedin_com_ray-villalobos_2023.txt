@@ -1,0 +1,19 @@
++ https://www.linkedin.com/learning/practical-github-code-search/
+
+"syntax highlighter" stars:>1000
+"syntax highlighter" stars:>1000 language:javascript
+"syntax highlighter" NOT images stars:>1000 language:javascript
+"syntax highlighter" NOT images NOT python stars:>1000 language:javascript
+"syntax highlighter" NOT images NOT python stars:>1000 language:javascript pushed:>2023-01-01
+
+"react ui components" stars:>1000 sort:date-asc
+
+repo:planetoftheweb/planetoftheweb.github.io language:Markdown path:/^_site\/newsletter\//      /../ - regexp
+
+dockerfile language:Dockerfile path:/^.devcontainer\//
+dockerfile language:Dockerfile path:/^.devcontainer\// python org:LinkedinLearning
+dockerfile language:Dockerfile path:/^.devcontainer\// python org:LinkedinLearning is:public    // isn't supported
+
+owner:planetoftheweb path:*.py
+
+repo:planetoftheweb/podcast-generator path:*.py

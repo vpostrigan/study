@@ -1,0 +1,220 @@
++ https://www.youtube.com/watch?v=n9uCgUzfeRQ   Docker для Начинающих - Полный Курс
+
+1)
+index.py:
+print('Hello Python')
+
+Dockerfile:
+FROM python
+WORKDIR /app
+COPY . .
+CMD ["python", "index.py"]
+
+$ docker build .
+
+$ docker image ls                или docker images
+REPOSITORY                       TAG               IMAGE ID       CREATED         SIZE
+<none>                           <none>            bd434de6bda1   8 weeks ago     1.2GB
+
+$ docker run bd434de6bda1
+Hello Python
+$
+
+
+
+2) Docker Images & Containers
+hun.docker.com
+искать image для node
+
+$ docker pull node
+скачает образ последней node
+
+$ docker run node
+сразу завершилось
+$ docker run --help
+покажет документацию для команды 'docker run'
+
+$ docker ps             только запущенные
+$ docker ps -a          список всех контейнеров
+
+$ docker run -it node    -it interactive
+> откроется консоль node
+
+$ docker rm bd434de6bda1       удалит контейнер
+
+
+
+3) Как работает Dockerfile
+FROM node
+// из проекта в докер image
+COPY . .      // все положить в корень
+COPY . /app
+
+или
+WORKDIR /app   контекст где лежат все папки
+COPY . .      // все положить в /app
+COPY . /app   // все положить в /app
+
+RUN npm install   // чтобы получить папку node_modules
+
+EXPOSE 3000       // порт наружу
+
+CMD["node", "app.js"]   // запуск приложения
+
+RUN - запускается когда строим сам образ, CMD - запускается каждый раз когда запускаем этот образ
+
+
+$ docker build .  // создаст image
+$ docker run bd434de6bda1
+$ docker ps
+b5367...  bd434de6bda1
+$ docker stop b5367...
+$ docker start b5367...
+
+
+4) Основные команды
+$ docker images
+$ docker run -p 3000:3000 bd434de6bda1      // 3000 - снаружи :3000 - внутри
+docker run - каждый раз создает новый контейнер из image
+
+$ docker run -d -p 80:3000 bd434de6bda1    -d detach   не будет погружать в контейнер
+
+
+// кеширование (каждая строка это слой)
+FROM node
+WORKDIR /app
+COPY package.json /app  // 'RUN npm install' будет запущен только если package.json изменился
+RUN npm install
+COPY . /app
+EXPOSE 3000       // порт наружу
+CMD["node", "app.js"]   // запуск приложения
+
+
+// подключение к контейнеру
+$ docker ps
+CONTAINER ID
+eac123
+$ docker attach eac123
+
+
+// логи контейнера
+$ docker logs eac123
+
+$ docker run -p 3000:3000 --name logsapp bd434de6bda1    logsapp - имя для контейнера
+
+
+$ docker rm       - удалить контейнер
+$ docker rmi      - удалить image
+
+
+$ docker build -t logsapp .    -t name for image
+$ docker images
+
+
+$ docker build -t logsapp:v1 .    v1 - version
+$ docker images
+REPOSITORY   TAG
+logsapp      v1
+logsapp      latest
+$ docker run -p 3000:3000 --rm logsapp:v1     --rm - автоматически будет удален
+$ docker rmi logsapp:v1
+
+
+5) deploy в DockerHub
+$ docker login
+// переименовать
+$ docker tag logsapp vladilenm/logsapp
+$ docker push vladilenm/logsapp:latest        vladilenm is DockerHub id
+// достать этот image
+$ docker pull vladilenm/logsapp
+
+
+6) dockerignore   игнорировать папки для dockerimage
+создать файл
+.dockerignore
+
+в нем
+node_modules
+.git
+.idea
+Dockerfile
+
+$ docker image inspect logsapp
+[{"Id":
+  "RepoTags"
+...
+
+
+7) ENV переменные
+
+COPY . /app
+EXPOSE 3000       // порт наружу
+
+поменять на
+
+COPY . /app
+ENV PORT 4200
+EXPOSE $PORT       // порт наружу
+
+$ docker run -d -p 3000:4200 --rm --name logsapp logsapp:env
+
+$ docker run -d -p 3000:80 -e PORT=80 --rm --name logsapp logsapp:env    e - создать ENV переменную
+
+
+создать файл config/.env
+PORT=4200
+$ docker run -d -p 80:4200 --env-file ./config/.env --rm --name logsapp logsapp:env
+
+
+8) make файл
+создать файл Makefile
+run:
+    docker run -d -p 80:4200 --env-file ./config/.env --rm --name logsapp logsapp:env
+stop:
+    docker stop logsapp
+
+$ make run
+$ make stop
+
+
+
+9) Docker volumes
+
+WORKDIR /app
+ENV PORT 4200
+EXPOSE $PORT
+VOLUME ["/app/data"]
+
+
+$ docker run -d -p 3000:3000 -v logs:/app/data     logs - имя volume
+$ docker volume ls                  - список volume
+DRIVER   VOLUME NAME
+local    logs
+
+$ docker volume inspect logs
+дата создание ...
+
+$ docker volume create logs2
+$ docker run -d -p 3000:3000 -v logs2:/app/data
+
+//
+
+// запуск контейнера в режиме разработки, будет видеть локальный проект
+$ docker run -d -p 3000:3000 -v "/home/Projects/logs-app:/app" -v /app/node_modules -v logs2:/app/data
+
+
+10) Docker deploy
+
+$ docker tag logsapp:volume vladilenm/logsapp:volumes
+$ docker push vladilenm/logsapp:volumes
+образ добавлен на hub.docker.com
+
+на хостинге создать docker on ubuntu server
+подключиться к нему через ssh
+$ docker pull vladilenm/logsapp:volumes
+$ docker images
+REPOSITORY          TAG
+vladilenm/logsapp   volumes
+$ docker run -d -p 80:3000 --name logsapp --rm vladilenm/logsapp:volumes
+http://5.53.../   будет приложение
+$ docker stop logsapp
