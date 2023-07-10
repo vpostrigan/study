@@ -1,4 +1,9 @@
+INSPECTING CONTAINERS
 
+You want to find out a container’s IP address.
+
+
+Listing 5.3. Raw inspect output on an image
 > docker inspect ubuntu
 [
     {
@@ -95,6 +100,18 @@
 ]
 
 
+Listing 5.4. Determining a container’s IP address
+docker inspect \                                1
+ --format '{{.NetworkSettings.IPAddress}}' \    2
+ 0808ef13d450                                   3
 
+
+Listing 5.5. Getting IP addresses of running containers and pinging each in turn
 $ docker ps -q | xargs docker inspect --format='{{.NetworkSettings.IPAddress}}' | xargs -l1 ping -c1
 
+ PING 172.17.0.5 (172.17.0.5) 56(84) bytes of data.
+64 bytes from 172.17.0.5: icmp_seq=1 ttl=64 time=0.095 ms
+
+--- 172.17.0.5 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.095/0.095/0.095/0.000 ms

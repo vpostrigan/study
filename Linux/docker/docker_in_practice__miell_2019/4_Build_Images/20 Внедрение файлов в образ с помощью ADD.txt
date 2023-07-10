@@ -1,11 +1,16 @@
+INJECTING FILES INTO YOUR IMAGE USING ADD
 
+
+Listing 4.1. Downloading a TAR file
 $ curl https://www.flamingspork.com/projects/libeatmydata/libeatmydata-105.tar.gz > my.tar.gz
 
+Listing 4.2. Adding a TAR file to an image
 FROM debian
 RUN mkdir -p /opt/libeatmydata
 ADD my.tar.gz /opt/libeatmydata/
 RUN ls -lRt /opt/libeatmydata
 
+Listing 4.3. Building an image with a TAR file
 $ docker build --no-cache .       // кеш не используется
 $ docker build .                  // кеш используется
 
@@ -13,6 +18,7 @@ $ docker build .                  // кеш используется
 
 или
 
+Listing 4.4. Directly adding of the TAR file from the URL
 FROM debian
 RUN mkdir -p /opt/libeatmydata
 # /opt/libeatmydata/   - в конце / чтобы показать что это папка, а не файл

@@ -1,3 +1,14 @@
+RETAINING YOUR CONTAINER’S BASH HISTORY
+
+
+$ docker run -ti --rm ubuntu /bin/bash
+$ echo my amazing command
+$ exit
+
+
+$ history | grep amazing
+
+
 
 $ docker run -e HIST_FILE=/root/.bash_history \       // переменная окружения
  -v=$HOME/.bash_history:/root/.bash_history -ti ubuntu /bin/bash    // отображение файл истории контейнера в хост
@@ -5,3 +16,19 @@ $ docker run -e HIST_FILE=/root/.bash_history \       // переменная о
 
 можно сделать alias в ~/.bashrc
 $ alias dockbash='docker run -e HIST_FILE=/root/.bash_history -v=$HOME/.bash_history:/root/.bash_history
+
+
+Listing 5.6. Function alias to auto-mount host bash history
+function basher() {                                       1
+   if [[ $1 = 'run' ]]                                    2
+   then
+    shift                                                 3
+     /usr/bin/docker run \                                4
+       -e HIST_FILE=/root/.bash_history \
+      -v $HOME/.bash_history:/root/.bash_history "$@"     5
+   else
+    /usr/bin/docker "$@"                                  6
+   fi
+}
+alias docker=basher                                       7
+

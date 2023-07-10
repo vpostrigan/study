@@ -1,0 +1,36 @@
+SHARING DATA OVER NFS
+
+
+You want seamless access to a remote filesystem over NFS.
+
+
+
+# apt-get install nfs-kernel-server
+# mkdir /export
+# chmod 777 /export
+
+
+
+# mount --bind /opt/test/db /export
+
+
+
+/export       127.0.0.1(ro,fsid=0,insecure,no_subtree_check,async)
+
+
+# mount -t nfs 127.0.0.1:/export /mnt
+# exportfs -a
+# service nfs-kernel-server restart
+
+
+Now you’re ready to run your infrastructure container:
+# docker run -ti --name nfs_client --privileged
+ -v /mnt:/mnt busybox /bin/true
+
+
+# docker run -ti --volumes-from nfs_client debian /bin/bash
+root@079d70f79d84:/# ls /mnt
+myb
+root@079d70f79d84:/# cd /mnt
+root@079d70f79d84:/mnt# touch asd
+touch: cannot touch `asd': Read-only file system

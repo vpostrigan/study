@@ -1,0 +1,144 @@
+MANUAL MULTI-HOST DOCKER WITH HELIOS
+
+
+$ docker run --name zookeeper -d jplock/zookeeper:3.4.6
+cd0964d2ba18baac58b29081b227f15e05f11644adfa785c6e9fc5dd15b85910
+$ docker inspect -f '{{.NetworkSettings.IPAddress}}' zookeeper
+<*co>172.17.0.9
+
+
+
+$ docker exec -it zookeeper bin/zkCli.sh
+Connecting to localhost:2181
+2015-03-07 02:56:05,076 [myid:] - INFO  [main:Environment@100] - Client >
+environment:zookeeper.version=3.4.6-1569965, built on 02/20/2014 09:09 GMT
+2015-03-07 02:56:05,079 [myid:] - INFO  [main:Environment@100] - Client >
+environment:host.name=917d0f8ac077
+2015-03-07 02:56:05,079 [myid:] - INFO  [main:Environment@100] - Client >
+environment:java.version=1.7.0_65
+2015-03-07 02:56:05,081 [myid:] - INFO  [main:Environment@100] - Client >
+environment:java.vendor=Oracle Corporation
+[...]
+2015-03-07 03:00:59,043 [myid:] - INFO
+ [main-SendThread(localhost:2181):ClientCnxn$SendThread@1235] -
+ Session establishment complete on server localhost/0:0:0:0:0:0:0:1:2181,
+ sessionid = 0x14bf223e159000d, negotiated timeout = 30000
+
+WATCHER::
+
+WatchedEvent state:SyncConnected type:None path:null
+[zk: localhost:2181(CONNECTED) 0] ls /
+[zookeeper]
+
+
+
+$ IMG=dockerinpractice/docker-helios
+$ docker run -d --name hmaster $IMG helios-master --zk 172.17.0.9
+896bc963d899154436938e260b1d4e6fdb0a81e4a082df50043290569e5921ff
+$ docker logs --tail=3 hmaster
+03:20:14.460 helios[1]: INFO  [MasterService STARTING] ContextHandler: >
+Started i.d.j.MutableServletContextHandler@7b48d370{/,null,AVAILABLE}
+03:20:14.465 helios[1]: INFO  [MasterService STARTING] ServerConnector: >
+Started application@2192bcac{HTTP/1.1}{0.0.0.0:5801}
+03:20:14.466 helios[1]: INFO  [MasterService STARTING] ServerConnector: >
+Started admin@28a0d16c{HTTP/1.1}{0.0.0.0:5802}
+$ docker inspect -f '{{.NetworkSettings.IPAddress}}' hmaster
+172.17.0.11
+
+
+
+Now let’s see what’s new in Zookeeper:
+
+[zk: localhost:2181(CONNECTED) 1] ls /
+[history, config, status, zookeeper]
+[zk: localhost:2181(CONNECTED) 2] ls /status/masters
+[896bc963d899]
+[zk: localhost:2181(CONNECTED) 3] ls /status/hosts
+[]
+
+
+
+$ docker run -v /var/run/docker.sock:/var/run/docker.sock -d --name hagent \
+dockerinpractice/docker-helios helios-agent --zk 172.17.0.9
+5a4abcb271070d0171ca809ff2beafac5798e86131b72aeb201fe27df64b2698
+$ docker logs --tail=3 hagent
+03:30:53.344 helios[1]: INFO  [AgentService STARTING] ContextHandler: >
+Started i.d.j.MutableServletContextHandler@774c71b1{/,null,AVAILABLE}
+03:30:53.375 helios[1]: INFO  [AgentService STARTING] ServerConnector: >
+Started application@7d9e6c27{HTTP/1.1}{0.0.0.0:5803}
+03:30:53.376 helios[1]: INFO  [AgentService STARTING] ServerConnector: >
+Started admin@2bceb4df{HTTP/1.1}{0.0.0.0:5804}
+$ docker inspect -f '{{.NetworkSettings.IPAddress}}' hagent
+172.17.0.12
+
+
+
+Again, let’s check back in Zookeeper:
+
+[zk: localhost:2181(CONNECTED) 4] ls /status/hosts
+[5a4abcb27107]
+[zk: localhost:2181(CONNECTED) 5] ls /status/hosts/5a4abcb27107
+[agentinfo, jobs, environment, hostinfo, up]
+[zk: localhost:2181(CONNECTED) 6] get /status/hosts/5a4abcb27107/agentinfo
+{"inputArguments":["-Dcom.sun.management.jmxremote.port=9203", [...]
+[...]
+
+
+
+Let’s make it a bit easier to interact with Helios:
+
+$ alias helios="docker run -i --rm dockerinpractice/docker-helios \
+helios -z http://172.17.0.11:5801"
+
+
+
+$ helios create -p nc=8080:8080 netcat:v1 ubuntu:14.04.2 -- \
+sh -c 'echo hello | nc -l 8080'
+Creating job: {"command":["sh","-c","echo hello | nc -l 8080"], >
+"creatingUser":null,"env":{},"expires":null,"gracePeriod":null, >
+"healthCheck":null,"id": >
+"netcat:v1:2067d43fc2c6f004ea27d7bb7412aff502e3cdac", >
+"image":"ubuntu:14.04.2","ports":{"nc":{"externalPort":8080, >
+"internalPort":8080,"protocol":"tcp"}},"registration":{}, >
+"registrationDomain":"","resources":null,"token":"","volumes":{}}
+Done.
+netcat:v1:2067d43fc2c6f004ea27d7bb7412aff502e3cdac
+$ helios jobs
+JOB ID            NAME   VERSION HOSTS COMMAND                  ENVIRONMENT
+netcat:v1:2067d43 netcat v1      0     sh -c "echo hello | nc -l 8080"
+
+
+
+$ helios hosts
+HOST         STATUS        DEPLOYED RUNNING CPUS MEM  LOAD AVG MEM USAGE >
+OS                      HELIOS  DOCKER
+5a4abcb27107.Up 19 minutes 0        0       4    7 gb 0.61     0.84      >
+Linux 3.13.0-46-generic 0.8.213 1.3.1 (1.15)
+$ helios deploy netcat:v1 5a4abcb27107
+Deploying Deployment{jobId=netcat:v1: >
+2067d43fc2c6f004ea27d7bb7412aff502e3cdac, goal=START, deployerUser=null} >
+on [5a4abcb27107]
+5a4abcb27107: done
+$ helios status
+JOB ID            HOST         GOAL  STATE   CONTAINER ID PORTS
+netcat:v1:2067d43 5a4abcb27107.START RUNNING b1225bc      nc=8080:8080
+
+
+
+$ curl localhost:8080
+hello
+$ helios status
+JOB ID            HOST         GOAL  STATE         CONTAINER ID PORTS
+netcat:v1:2067d43 5a4abcb27107.START PULLING_IMAGE b1225bc      nc=8080:8080
+
+
+
+$ helios undeploy -a --yes netcat:v1
+Undeploying netcat:v1:2067d43fc2c6f004ea27d7bb7412aff502e3cdac from >
+[5a4abcb27107]
+5a4abcb27107: done
+$ helios remove --yes netcat:v1
+Removing job netcat:v1:2067d43fc2c6f004ea27d7bb7412aff502e3cdac
+netcat:v1:2067d43fc2c6f004ea27d7bb7412aff502e3cdac: done
+
+

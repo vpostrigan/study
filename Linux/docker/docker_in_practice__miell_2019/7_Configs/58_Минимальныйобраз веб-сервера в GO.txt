@@ -1,9 +1,64 @@
+THE GO MODEL OF MINIMAL CONTAINERS
 
+[A minimal Hello World binary]
+Listing 7.19. Hello Dockerfile
+FROM gcc                                                   1
+ RUN echo 'int main() { puts("Hello world!"); }' > hi.c    2
+ RUN gcc -static hi.c -w -o hi                             3
+
+Listing 7.20. Extracting the binary from the image
+$ docker build -t hello_build .                                            1
+$ docker run --name hello hello_build /bin/true                           2
+$ docker cp hello:/hi hi                                                  3
+$ docker rm hello                                                         4
+ hello                                                                     4
+$ docker rmi hello_build                                                   4
+ Deleted: 6afcbf3a650d9d3a67c8d67c05a383e7602baecc9986854ef3e5b9c0069ae9f2
+$ mkdir -p new_folder                                                      5
+$ mv hi new_folder                                                        6
+$ cd new_folder                                                           7
+
+Listing 7.21. Minimal Hello Dockerfile
+FROM scratch        1
+ ADD hi /hi         2
+ CMD ["/hi"]        3
+
+Listing 7.22. Creating the minimal container
+$ docker build -t hello_world .
+Sending build context to Docker daemon 931.3 kB
+Sending build context to Docker daemon
+Step 0 : FROM scratch
+ --->
+Step 1 : ADD hi /hi
+ ---> 2fe834f724f8
+Removing intermediate container 01f73ea277fb
+Step 2 : ENTRYPOINT /hi
+ ---> Running in 045e32673c7f
+ ---> 5f8802ae5443
+Removing intermediate container 045e32673c7f
+Successfully built 5f8802ae5443
+$ docker run hello_world
+Hello world!
+$ docker images | grep hello_world
+hello_world      latest    5f8802ae5443   24 seconds ago  928.3 kB
+
+
+
+[A minimal Go web server image]
+Listing 7.23. Dockerfile to statically compile a Go web server
 Dockerfile
 
-FROM golang
-RUN CGO_ENABLED=0 go get -a -ldflags '-s' -installsuffix cgo github.com/ianmiell/go-web-server
+FROM golang:1.4.2
+RUN CGO_ENABLED=0 go get -a -ldflags '-s' -installsuffix cgo github.com/docker-in-practice/go-web-server
 CMD ["cat","/go/bin/go-web-server"]
+
+
+Listing 7.24. Getting the Go web server from the image
+$ docker build -t go-web-server .                   1
+$ mkdir -p go-web-server && cd go-web-server       2
+$ docker run go-web-server > go-web-server         3
+$ chmod +x go-web-server                           4
+$ echo Hi > page.html                              5
 
 
 
@@ -17,8 +72,13 @@ FROM scratch
 ADD go-web-server /go-web-server
 ENTRYPOINT ["/go-web-server"]
 END
+
+
+Listing 7.26. Building and running the Go web server image
 $ docker build -t go-web-server .
-$ docker run -p8080:8080 go-web-server
+$ docker images | grep go-web-server
+go-web-server    latest    de1187ee87f3  3 seconds ago   4.156 MB
+$ docker run -p 8080:8080 go-web-server -port 8080
 
 
 

@@ -1,3 +1,8 @@
+TINY DOCKER IMAGES WITH BUSYBOX AND ALPINE
+
+You want a small, functional image.
+
+
 
 $ docker run -ti busybox /bin/bash
 нет /bin/bash
@@ -15,8 +20,17 @@ $ docker run -ti progrium/busybox /bin/ash
 
 
 
+Listing 7.17. Ubuntu plus mysql-client
+FROM ubuntu:14.04
+RUN apt-get update -q \
+&& DEBIAN_FRONTEND=noninteractive apt-get install -qy mysql-client \
+&& apt-get clean && rm -rf /var/lib/apt
+ENTRYPOINT ["mysql"]
 
+
+Listing 7.18. Alpine plus mysql-client
 FROM gliderlabs/alpine:3.6
 RUN apk-install mysql-client
 ENTRYPOINT ["mysql"]
+
 

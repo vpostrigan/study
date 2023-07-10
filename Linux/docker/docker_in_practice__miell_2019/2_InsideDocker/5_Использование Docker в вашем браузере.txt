@@ -1,0 +1,32 @@
+USING DOCKER IN YOUR BROWSER
+
+git clone https://github.com/aidanhs/Docker-Terminal.git
+cd Docker-Terminal
+
+
+Then you need to serve the files:
+python2 -m SimpleHTTPServer 8000
+
+
+$ docker pull tutum/wordpress
+
+To run the first blog, use the following command:
+$ docker run -d -p 10001:80 --name blog1 tutum/wordpress
+
+
+You can do the same for the second blog:
+$ docker run -d -p 10002:80 --name blog2 tutum/wordpress
+
+
+If you now run this command,
+$ docker ps | grep blog
+
+
+$ docker ps | grep blog
+9afb95ad3617  tutum/wordpress:latest  "/run.sh" 9 seconds ago
+ Up 9 seconds   3306/tcp, 0.0.0.0:10001->80/tcp  blog1
+31ddc8a7a2fd  tutum/wordpress:latest  "/run.sh" 17 seconds ago
+ Up 16 seconds  3306/tcp, 0.0.0.0:10002->80/tcp  blog2
+
+$ docker rm -f blog1 blog2
+

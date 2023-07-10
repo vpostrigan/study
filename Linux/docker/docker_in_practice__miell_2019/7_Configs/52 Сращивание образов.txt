@@ -2,6 +2,7 @@
 импортируйте, а затем пометьте исходным идентификатором образа
 
 
+Listing 7.3. A Dockerfile that copies in and deletes a secret
 FROM debian
 RUN echo "My Big Secret" >> /tmp/secret_key
 RUN cat /tmp/secret_key
@@ -10,18 +11,23 @@ RUN rm /tmp/secret_key
 $ docker build -t mysecret
 
 $ docker history mysecret
-IMAGE   CREATED ...
-55f3..                 /bin/sh  -c rm /tmp/secret_key
-5b37..                 /bin/sh  -c cat /tmp/secret_key
+ IMAGE        CREATED        CREATED BY                             SIZE
+55f3c131a35d 3 days ago /bin/sh -c rm /tmp/secret_key                       2
+ 5b376ff3d7cd 3 days ago /bin/sh -c cat /tmp/secret_key             0 B
+5e39caf7560f 3 days ago /bin/sh -c echo "My Big Secret" >> /tmp/se 14 B     3
+ c90d655b99b2 6 days ago /bin/sh -c #(nop) CMD [/bin/bash]          0 B
+30d39e59ffe2 6 days ago /bin/sh -c #(nop) ADD file:3f1a40df75bc567 85.01 MB 4
+ 511136ea3c5a 20 months ago
 
 
-$ docker run 5b37.. cat /tmp/secret_key
+$ docker run 5b376ff3d7cd cat /tmp/secret_key
 My Big Secret
 
 
 
-$ docker run -d mysecret /bin/true
-28cd
-$ docker export 28cd | docker import - mysecret
+$ docker run -d mysecret /bin/true                                  1
+ 28cde380f0195b24b33e19e132e81a4f58d2f055a42fa8406e755b2ef283630f
+$ docker export 28cde380f | docker import - mysecret                2
 $ docker history mysecret
-
+IMAGE             CREATED         CREATED BY  SIZE
+fdbeae08751b  13 seconds ago              85.01 MB                  3

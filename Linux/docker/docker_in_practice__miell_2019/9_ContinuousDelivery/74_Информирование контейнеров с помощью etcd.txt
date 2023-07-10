@@ -1,15 +1,98 @@
+INFORMING YOUR CONTAINERS WITH ETCD
+
+
+You need an external source of configuration when running containers.
+
+
 
 установите etcd, распределенное хранилище типа ключ/значение для хранения конфигурации контейнера
 
 
+Listing 9.7. Identifying IP addresses of the local machine
 все интерфейсы IPv4 и исключили LoopBack и Docker
 $ ip addr | grep 'inet ' | grep -v 'lo$\|docker0$'
- inet 192.168.1.80/24 brd 192.168.1.255 scope global...
+    inet 192.168.1.123/24 brd 192.168.1.255 scope global dynamic wlp3s0
+    inet 172.18.0.1/16 scope global br-0c3386c9db5b
 
 
 // Настройка трехузлового кластера etcd
 ...
-
+Listing 9.8. Setting up a three-node etcd cluster
+$ IMG=quay.io/coreos/etcd:v3.2.7
+$ docker pull $IMG
+[...]
+$ HTTPIP=http://192.168.1.123                                            1
+$ CLUSTER="etcd0=$HTTPIP:2380,etcd1=$HTTPIP:2480,etcd2=$HTTPIP:2580"    2
+$ ARGS="etcd"
+$ ARGS="$ARGS -listen-client-urls http://0.0.0.0:2379"                   3
+$ ARGS="$ARGS -listen-peer-urls http://0.0.0.0:2380"                    4
+$ ARGS="$ARGS -initial-cluster-state new"
+$ ARGS="$ARGS -initial-cluster $CLUSTER"
+$ docker run -d -p 2379:2379 -p 2380:2380 --name etcd0 $IMG \
+    $ARGS -name etcd0 -advertise-client-urls $HTTPIP:2379 \
+    -initial-advertise-peer-urls $HTTPIP:2380
+912390c041f8e9e71cf4cc1e51fba2a02d3cd4857d9ccd90149e21d9a5d3685b
+$ docker run -d -p 2479:2379 -p 2480:2380 --name etcd1 $IMG \
+    $ARGS -name etcd1 -advertise-client-urls $HTTPIP:2479 \
+    -initial-advertise-peer-urls $HTTPIP:2480
+446b7584a4ec747e960fe2555a9aaa2b3e2c7870097b5babe65d65cffa175dec
+$ docker run -d -p 2579:2379 -p 2580:2380 --name etcd2 $IMG \
+    $ARGS -name etcd2 -advertise-client-urls $HTTPIP:2579 \
+    -initial-advertise-peer-urls $HTTPIP:2580
+3089063b6b2ba0868e0f903a3d5b22e617a240cec22ad080dd1b497ddf4736be
+$ curl -L $HTTPIP:2579/version
+{"etcdserver":"3.2.7","etcdcluster":"3.2.0"}
+$ curl -sSL $HTTPIP:2579/v2/members | python -m json.tool | grep etcd
+            "name": "etcd0",                                             5
+             "name": "etcd1",                                            5
+             "name": "etcd2",                                            5
 
 
 // Тестирование устойчивости кластера etcd
+Listing 9.9. Testing the resilience of an etcd cluster
+$ curl -L $HTTPIP:2579/v2/keys/mykey -XPUT -d value="test key"
+{"action":"set","node": >
+{"key":"/mykey","value":"test key","modifiedIndex":7,"createdIndex":7}}
+$ sleep 5
+$ docker kill etcd2
+etcd2
+$ curl -L $HTTPIP:2579/v2/keys/mykey
+curl: (7) couldn't connect to host
+$ curl -L $HTTPIP:2379/v2/keys/mykey
+{"action":"get","node": >
+{"key":"/mykey","value":"test key","modifiedIndex":7,"createdIndex":7}}
+
+
+Listing 9.10. Using an etcd proxy
+$ docker run -d -p 8080:8080 --restart always --name etcd-proxy $IMG \
+    etcd -proxy on -listen-client-urls http://0.0.0.0:8080 \
+    -initial-cluster $CLUSTER
+037c3c3dba04826a76c1d4506c922267885edbfa690e3de6188ac6b6380717ef
+$ curl -L $HTTPIP:8080/v2/keys/mykey2 -XPUT -d value="t"
+{"action":"set","node": >
+{"key":"/mykey2","value":"t","modifiedIndex":12,"createdIndex":12}}
+$ docker kill etcd1 etcd2
+$ curl -L $HTTPIP:8080/v2/keys/mykey2
+{"action":"get","node": >
+{"key":"/mykey2","value":"t","modifiedIndex":12,"createdIndex":12}}
+
+
+Listing 9.11. Using etcd with more than half the nodes down
+$ curl -L $HTTPIP:8080/v2/keys/mykey3 -XPUT -d value="t"
+{"errorCode":300,"message":"Raft Internal Error", >
+"cause":"etcdserver: request timed out","index":0}
+$ docker start etcd2
+etcd2
+$ curl -L $HTTPIP:8080/v2/keys/mykey3 -XPUT -d value="t"
+{"action":"set","node": >
+{"key":"/mykey3","value":"t","modifiedIndex":16,"createdIndex":16}}
+
+
+
+Listing 9.12. Using an etcd proxy inside an ambassador container
+$ docker run -it --rm --link etcd-proxy:etcd ubuntu:14.04.2 bash
+root@8df11eaae71e:/# apt-get install -y wget
+root@8df11eaae71e:/# wget -q -O- http://etcd:8080/v2/keys/mykey3
+{"action":"get","node": >
+{"key":"/mykey3","value":"t","modifiedIndex":16,"createdIndex":16}}
+

@@ -1,3 +1,5 @@
+REFERRING TO A SPECIFIC IMAGE IN BUILDS
+
 
 FROM 8eaa4ff06b53
 RUN echo "Built from image id:" > /etc/buildinfo

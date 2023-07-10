@@ -1,0 +1,34 @@
+CONVERTING YOUR VM TO A CONTAINER
+
+
+Listing 3.1. Extracting the filesystem of a VM image
+$ VMDISK="$HOME/VirtualBox VMs/myvm/myvm.vdi"            1
+$ sudo modprobe nbd                                     2
+$ sudo qemu-nbd -c /dev/nbd0 -r $VMDISK3((CO1-3))       3
+$ ls /dev/nbd0p*                                        4
+ /dev/nbd0p1 /dev/nbd0p2
+$ sudo mount /dev/nbd0p2 /mnt                            5
+$ sudo tar cf img.tar -C /mnt .                         6
+$ sudo umount /mnt && sudo qemu-nbd -d /dev/nbd0        7
+
+
+Listing 3.2. Extracting a partition
+$ sudo mount -o loop partition.dump /mnt
+$ sudo tar cf $(pwd)/img.tar -C /mnt .
+$ sudo umount /mnt
+
+
+Listing 3.3. Extracting the filesystem of a running VM
+$ cd /
+$ sudo tar cf /img.tar --exclude=/img.tar --one-file-system /
+
+
+Listing 3.4. Adding an archive to a Docker image
+FROM scratch
+ADD img.tar /
+
+Docker provides an alternative to ADD in the form of the docker import command,
+ which you can use with
+    cat img.tar | docker import - new_image _name
+ But building on top of the image with additional instructions will require you to create a Dockerfile anyway,
+ so it may be simpler to go the ADD route, so you can easily see the history of your image.

@@ -1,3 +1,135 @@
+INTELLIGENT CACHE-BUSTING USING BUILD-ARGS
+
+
+Listing 4.7. Simple Dockerfile with bustable cache
 WORKDIR todo
 ARG CACHEBUST=no
 RUN npm install
+
+
+
+Now build that Dockerfile “normally”:
+$ docker build .
+Sending build context to Docker daemon   2.56kB
+Step 1/7 : FROM node
+latest: Pulling from library/node
+aa18ad1a0d33: Pull complete
+15a33158a136: Pull complete
+f67323742a64: Pull complete
+c4b45e832c38: Pull complete
+f83e14495c19: Pull complete
+41fea39113bf: Pull complete
+f617216d7379: Pull complete
+cbb91377826f: Pull complete
+Digest: sha256:
+ a8918e06476bef51ab83991aea7c199bb50bfb131668c9739e6aa7984da1c1f6
+Status: Downloaded newer image for node:latest
+ ---> 9ea1c3e33a0b
+Step 2/7 : MAINTAINER ian.miell@gmail.com
+ ---> Running in 03dba6770157
+ ---> a5b55873d2d8
+Removing intermediate container 03dba6770157
+Step 3/7 : RUN git clone https://github.com/docker-in-practice/todo.git
+ ---> Running in 23336fd5991f
+Cloning into 'todo'...
+ ---> 8ba06824d184
+Removing intermediate container 23336fd5991f
+Step 4/7 : WORKDIR todo
+ ---> f322e2dbeb85
+Removing intermediate container 2aa5ae19fa63
+Step 5/7 : ARG CACHEBUST=no
+ ---> Running in 9b4917f2e38b
+ ---> f7e86497dd72
+Removing intermediate container 9b4917f2e38b
+Step 6/7 : RUN npm install
+ ---> Running in a48e38987b04
+npm info it worked if it ends with ok
+[...]
+added 249 packages in 49.418s
+npm info ok
+ ---> 324ba92563fd
+Removing intermediate container a48e38987b04
+Step 7/7 : CMD npm start
+ ---> Running in ae76fa693697
+ ---> b84dbc4bf5f1
+Removing intermediate container ae76fa693697
+Successfully built b84dbc4bf5f1
+
+
+
+$ docker build .
+Sending build context to Docker daemon   2.56kB
+Step 1/7 : FROM node
+ ---> 9ea1c3e33a0b
+Step 2/7 : MAINTAINER ian.miell@gmail.com
+ ---> Using cache
+ ---> a5b55873d2d8
+Step 3/7 : RUN git clone https://github.com/docker-in-practice/todo.git
+ ---> Using cache
+ ---> 8ba06824d184
+Step 4/7 : WORKDIR todo
+ ---> Using cache
+ ---> f322e2dbeb85
+Step 5/7 : ARG CACHEBUST=no
+ ---> Using cache
+ ---> f7e86497dd72
+Step 6/7 : RUN npm install
+ ---> Using cache
+ ---> 324ba92563fd
+Step 7/7 : CMD npm start
+ ---> Using cache
+ ---> b84dbc4bf5f1
+Successfully built b84dbc4bf5f1
+
+
+
+$ docker build --build-arg CACHEBUST=${RANDOM} .       1
+ Sending build context to Docker daemon 4.096 kB
+Step 1/9 : FROM node
+ ---> 53d4d5f3b46e
+Step 2/9 : MAINTAINER ian.miell@gmail.com
+ ---> Using cache
+ ---> 3a252318543d
+Step 3/9 : RUN git clone https://github.com/docker-in-practice/todo.git
+ ---> Using cache
+ ---> c0f682653a4a
+Step 4/9 : WORKDIR todo
+ ---> Using cache
+ ---> bd54f5d70700
+Step 5/9 : ARG CACHEBUST=no                            2
+  ---> Using cache
+ ---> 3229d52b7c33
+Step 6/9 : RUN npm install                             3
+  ---> Running in 42f9b1f37a50
+npm info it worked if it ends with ok
+npm info using npm@4.1.2
+npm info using node@v7.7.2
+npm info attempt registry request try #1 at 11:25:55 AM
+npm http request GET https://registry.npmjs.org/compression
+npm info attempt registry request try #1 at 11:25:55 AM
+[...]
+Step 9/9 : CMD npm start
+ ---> Running in 19219fe5307b
+ ---> 129bab5e908a
+Removing intermediate container 19219fe5307b
+Successfully built 129bab5e908a
+
+
+
+$ echo ${RANDOM}
+19856
+$ echo ${RANDOM}
+26429
+$ echo ${RANDOM}
+2856
+
+
+$ echo ${RANDOM}${RANDOM}
+434320509
+$ echo ${RANDOM}${RANDOM}
+1327340
+
+
+
+$ docker build --build-arg CACHEBUST=$(date +%s) .
+

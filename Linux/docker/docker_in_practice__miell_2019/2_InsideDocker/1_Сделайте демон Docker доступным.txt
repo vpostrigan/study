@@ -1,0 +1,27 @@
+OPEN YOUR DOCKER DAEMON TO THE WORLD
+
+$ sudo service docker stop
+
+If you get a message that looks like this,
+
+The service command supports only basic LSB actions (start, stop, restart,
+try-restart, reload, force-reload, status). For other actions, please try
+to use systemctl.
+
+then you have a systemctl-based startup system. Try this command:
+$ systemctl stop docker
+
+
+$ ps -ef | grep -E 'docker(d| -d| daemon)\b' | grep -v grep
+
+
+$ sudo docker daemon -H tcp://0.0.0.0:2375
+
+
+$ docker -H tcp://<your host's ip>:2375 <subcommand>
+
+
+$ export DOCKER_HOST=tcp://<your host's ip>:2375
+$ docker <subcommand>
+
+

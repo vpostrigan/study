@@ -1,0 +1,20 @@
+
+13.3.1. The Cloud Native Computing Foundation (CNCF)
+
+Here’s a (very) simple example that defines a loopback interface:
+{
+    "cniVersion": "0.2.0",
+    "type": "loopback"
+}
+
+
+13.3.2. Docker, Inc.
+
+13.3.3. Google
+
+13.3.4. Microsoft
+
+13.3.5. Amazon
+
+13.3.6. Red Hat
+

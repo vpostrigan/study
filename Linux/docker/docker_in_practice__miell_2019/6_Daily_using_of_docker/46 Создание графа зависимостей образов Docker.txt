@@ -1,3 +1,5 @@
+GENERATING A DEPENDENCY GRAPH OF YOUR DOCKER IMAGES
+
 
 $ docker images -a
 REPOSITORY                       TAG               IMAGE ID       CREATED         SIZE

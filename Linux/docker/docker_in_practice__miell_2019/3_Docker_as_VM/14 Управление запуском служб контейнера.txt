@@ -1,4 +1,11 @@
+MANAGING THE STARTUP OF YOUR CONTAINER’S SERVICES
 
+You want to manage multiple processes within a container.
+
+Use Supervisor to manage the processes in your container.
+
+
+Listing 3.13. Example Supervisor Dockerfile
 FROM ubuntu14:04
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y python-pip apache2 tomcat7
@@ -11,3 +18,44 @@ ADD ./supervisord_add.conf /tmp/supervisord_add.conf
 RUN cat /tmp/supervisord_add.conf >> /etc/supervisord.conf
 RUN rm /tmp/supervisord_add.conf
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]
+
+
+Listing 3.14. supervisord_add.conf
+[supervisord]                                                              1
+ nodaemon=true                                                             2
+# apache
+[program:apache2]                                                          3
+ command=/bin/bash -c "source /etc/apache2/envvars && exec /usr/sbin/apache2
+ -DFOREGROUND"                                                          4
+# tomcat
+[program:tomcat]                                                           5
+ command=service start tomcat                                              6
+ redirect_stderr=true                                                      7
+ stdout_logfile=/var/log/tomcat/supervisor.log                             7
+ stderr_logfile=/var/log/tomcat/supervisor.error_log
+
+
+docker build -t supervised .
+
+
+You can now run your image!
+
+Listing 3.15. Run the supervised container
+$ docker run -p 9000:80 --name supervised supervised                         1
+ 2015-02-06 10:42:20,336 CRIT Supervisor running as root (no user in config
+ file)                                                                    2
+ 2015-02-06 10:42:20,344 INFO RPC interface 'supervisor' initialized
+2015-02-06 10:42:20,344 CRIT Server 'unix_http_server' running without any
+ HTTP authentication checking
+2015-02-06 10:42:20,344 INFO supervisord started with pid 1                  2
+ 2015-02-06 10:42:21,346 INFO spawned: 'tomcat' with pid 12                  3
+ 2015-02-06 10:42:21,348 INFO spawned: 'apache2' with pid 13                 3
+ 2015-02-06 10:42:21,368 INFO reaped unknown pid 29
+2015-02-06 10:42:21,403 INFO reaped unknown pid 30
+2015-02-06 10:42:22,404 INFO success: tomcat entered RUNNING state, process  4
+ has stayed up for > than 1 seconds (startsecs)                           4
+ 2015-02-06 10:42:22,404 INFO success: apache2 entered RUNNING state, process
+ has stayed up for > than 1 seconds (startsecs)                           4
+
+
+docker rm -f supervised

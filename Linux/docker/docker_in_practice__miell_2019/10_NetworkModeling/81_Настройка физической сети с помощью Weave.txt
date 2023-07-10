@@ -1,0 +1,55 @@
+SETTING UP A SUBSTRATE NETWORK WITH WEAVE
+
+
+You want to seamlessly communicate between containers across hosts.
+
+
+[Installing Weave]
+$ sudo curl -L git.io/weave -o /usr/local/bin/weave
+$ sudo chmod +x /usr/local/bin/weave
+
+
+[Setting up Weave]
+
+
+
+host1$ curl https://ifconfig.co                                         1
+ 1.2.3.4
+host1$ weave launch
+                                                                        2
+ [...]
+host1$ eval $(weave env)                                                3
+ host1$ docker run -it --name a1 ubuntu:14.04 bash                      4
+ root@34fdd53a01ab:/# ip addr show ethwe                                5
+ 43: ethwe@if44: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1376 qdisc noqueue
+ state UP group default
+    link/ether 72:94:41:e3:00:df brd ff:ff:ff:ff:ff:ff
+    inet 10.32.0.1/12 scope global ethwe
+       valid_lft forever preferred_lft forever
+
+
+
+
+host2$ sudo weave launch 1.2.3.4                                           1
+ host2$ eval $(weave env)                                                  2
+ host2$ docker run -it --name a2 ubuntu:14.04 bash
+                                                                           3
+ root@a2:/# ip addr show ethwe                                             3
+ 553: ethwe@if554: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1376 qdisc noqueue
+ state UP group default
+    link/ether fe:39:ca:74:8a:ca brd ff:ff:ff:ff:ff:ff
+    inet 10.44.0.0/12 scope global ethwe
+       valid_lft forever preferred_lft forever
+
+
+
+[Testing your connection]
+root@a2:/# ping -qc1 10.32.0.1                                   1
+ PING 10.32.0.1 (10.32.0.1) 56(84) bytes of data.
+
+--- 10.32.0.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms      2
+ rtt min/avg/max/mdev = 1.373/1.373/1.373/0.000 ms
+
+
+

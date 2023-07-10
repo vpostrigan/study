@@ -1,3 +1,9 @@
+MANUALLY MIRRORING REGISTRY IMAGES
+
+You want to copy an image between two registries.
+
+
+Listing 9.1. Transferring an image from a test to a staging registry
 $ IMAGE=mygroup/myimage:mytag
 $ OLDREG=test-registry.company.com
 $ NEWREG=stage-registry.company.com

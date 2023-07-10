@@ -1,2 +1,14 @@
+REPLACING TEXT WITH PERL -P-I -E
+
+
+Use the perl -p -i -e command.
+
+
 
 perl -p -i -e 's/127\.0\.0\.1/0.0.0.0/g' *
+
+
+perl -p -i -e 's/\/usr\/share\/www/\/var\/www\/html/g' /etc/apache2/*
+
+
+perl -p -i -e 's@/usr/share/www@/var/www/html/@g' /etc/apache2/*

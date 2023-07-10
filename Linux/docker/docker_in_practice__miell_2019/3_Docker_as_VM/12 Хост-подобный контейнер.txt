@@ -1,5 +1,10 @@
+DIFFERENCES BETWEEN VMS AND DOCKER CONTAINERS
 
 нужен контейнер для запуска нескольких процессов
+
+Use a base container designed to run multiple processes.
+
+
 
 $ docker pull phusion/baseimage:master
 $ docker run -d phusion/baseimage:master

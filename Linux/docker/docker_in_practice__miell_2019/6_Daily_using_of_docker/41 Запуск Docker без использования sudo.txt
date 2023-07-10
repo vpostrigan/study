@@ -1,2 +1,5 @@
+RUNNING DOCKER WITHOUT SUDO
+
+
 
 $ sudo addgroup -a username docker

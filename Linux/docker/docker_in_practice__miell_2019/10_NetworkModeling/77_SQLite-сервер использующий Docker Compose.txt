@@ -1,0 +1,24 @@
+A SQLITE SERVER USING DOCKER COMPOSE
+
+
+
+docker-compose-sqlite
+=====================
+
+run
+v@v:/mnt/d/workspace_study/study/Linux/docker/docker_in_practice__miell_2019/10_NetworkModeling/77_$ sudo apt-get update && sudo apt-get -y install rlwrap sqlite3 socat
+
+
+A Docker Compose example.
+It uses socat to create a sqlite server accessible on localhost:12346.
+
+Example run:
+
+```
+./setup_dbs.sh
+[sudo] docker-compose up
+[rlwrap] telnet localhost 12346
+[another terminal]
+[rlwrap] telnet localhost 12346
+select * from t1;
+```

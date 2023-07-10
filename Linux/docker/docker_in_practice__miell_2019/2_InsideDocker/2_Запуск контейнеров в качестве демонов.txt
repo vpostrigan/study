@@ -1,3 +1,6 @@
+RUNNING CONTAINERS AS DAEMONS
+
+
 $ docker run -d -i -p 1234:1234 --name daemon ubuntu:14.04 nc -l 1234
 
 флаг -d    запуск в качестве демона
@@ -5,10 +8,28 @@ $ docker run -d -i -p 1234:1234 --name daemon ubuntu:14.04 nc -l 1234
 nc -l 1234  прослушивающий эхо-сервер на порту 1234 с помощью netcat (nc)
 
 
+Listing 2.1. Connecting to the container netcat server with Telnet
+$ telnet localhost 1234            1
+ Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+hello daemon                       2
+ ^]                                3
+
+telnet> q                          4
+ Connection closed.
+$ docker logs daemon               5
+ hello daemon
+$ docker rm daemon                 6
+ daemon
+$
+
+
 
 $ docker run -d --restart=always ubuntu echo done
       --restart string                 Restart policy to apply when a
                                        container exits (default "no")
+no - Don’t restart when the container exits
 always - всегда перезапускать
 unless-stopped - всегда перезапускать, но помнить о явной остановке
 on-failure[:max-retry] - перезапускать только в случае сбоя

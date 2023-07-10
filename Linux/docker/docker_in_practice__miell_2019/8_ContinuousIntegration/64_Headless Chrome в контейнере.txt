@@ -1,1 +1,61 @@
+HEADLESS CHROME IN A CONTAINER
 
+
+Listing 8.5. Puppeteer Dockerfile
+FROM ubuntu:16.04                                                          1
+RUN apt-get update -y && apt-get install -y \                             2
+     npm python-software-properties curl git \                             2
+     libpangocairo-1.0-0 libx11-xcb1 \                                     2
+     libxcomposite1 libxcursor1 libxdamage1 \                              2
+     libxi6 libxtst6 libnss3 libcups2 libxss1 \                            2
+     libxrandr2 libgconf-2-4 libasound2 \                                  2
+     libatk1.0-0 libgtk-3-0 vim gconf-service \                            2
+     libappindicator1 libc6 libcairo2 libcups2 \                           2
+     libdbus-1-3 libexpat1 libfontconfig1 libgcc1 \                        2
+     libgdk-pixbuf2.0-0 libglib2.0-0 libnspr4 \                            2
+     libpango-1.0-0 libstdc++6 libx11-6 libxcb1 \                          2
+     libxext6 libxfixes3  libxrender1 libxtst6 \                           2
+     ca-certificates fonts-liberation lsb-release \                        2
+     xdg-utils wget                                                        2
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -                3
+RUN apt-get install -y nodejs                                             4
+RUN useradd -m puser                                                      5
+USER puser                                                                6
+RUN mkdir -p /home/puser/node_modules                                     7
+ENV NODE_PATH /home/puppeteer/node_modules                                8
+WORKDIR /home/puser/node_modules                                          9
+RUN npm i webpack                                                         10
+RUN git clone https://github.com/GoogleChrome/puppeteer                   11
+WORKDIR /home/puser/node_modules/puppeteer                                12
+RUN npm i .                                                               13
+WORKDIR /home/puser/node_modules/puppeteer/examples                       14
+RUN perl -p -i -e \                                                       15
+     "s/puppeteer.launch\(\)/puppeteer.launch({args: ['--no-sandbox']})/" *15
+CMD echo 'eg: node pdf.js' && bash                                        15
+
+
+Build and run this Dockerfile with this command:
+$ docker build -t puppeteer .
+
+
+Then run it:
+$ docker run -ti puppeteer
+eg: node pdf.js
+puser@03b9be05e81d:~/node_modules/puppeteer/examples$
+
+
+Listing 8.6. pdf.js
+'use strict';                                                  1
+ const puppeteer = require('puppeteer');                       2
+ (async() => {                                                 3
+   const browser = await puppeteer.launch();                   4
+   const page = await browser.newPage();                       5
+   await page.goto(
+    'https://news.ycombinator.com', {waitUntil: 'networkidle'}
+  );                                                           6
+   await page.pdf({                                            7
+     path: 'hn.pdf',                                           7
+     format: 'letter'                                          7
+   });                                                         7
+   await browser.close();                                      8
+ })();                                                         9

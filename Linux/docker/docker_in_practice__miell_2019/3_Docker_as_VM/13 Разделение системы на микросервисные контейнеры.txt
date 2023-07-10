@@ -1,5 +1,9 @@
+SPLITTING A SYSTEM INTO MICROSERVICE CONTAINERS
 
 Настройка простого приложения с PostgreSQL, NodeJS, Nginx
+
+Create a container for each discrete service process.
+
 
 Dockerfile
 
@@ -23,3 +27,39 @@ RUN cd app && npm install
 RUN cd app && ./minify_static.sh
 COPY conf /opt/conf
 RUN cp conf/mysite /etc/nginx/sites-available/ && cd /etc/nginx/sites-enabled && ln -s ../sites-available/mysite
+
+
+Listing 3.9. Dockerfile for the postgres service
+FROM ubuntu:14.04
+RUN apt-get update && apt-get install postgresql
+WORKDIR /opt
+COPY db /opt/db
+RUN service postgresql start && \
+    cat db/schema.sql | psql && \
+    service postgresql stop
+
+Listing 3.10. Dockerfile for the nodejs service
+FROM ubuntu:14.04
+RUN apt-get update && apt-get install nodejs npm
+WORKDIR /opt
+COPY app /opt/app
+RUN cd app && npm install
+RUN cd app && ./minify_static.sh
+
+Listing 3.11. Dockerfile for the nginx service
+FROM ubuntu:14.04
+RUN apt-get update && apt-get install nginx
+WORKDIR /opt
+COPY conf /opt/conf
+RUN cp conf/mysite /etc/nginx/sites-available/ && \
+    cd /etc/nginx/sites-enabled && \
+    ln -s ../sites-available/mysite
+
+Listing 3.12. Faster Dockerfile for the nginx service
+FROM ubuntu:14.04
+RUN apt-get update && apt-get install nodejs npm
+WORKDIR /opt
+COPY app/package.json /opt/app/package.json
+RUN cd app && npm install
+COPY app /opt/app
+RUN cd app && ./minify_static.sh

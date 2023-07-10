@@ -1,0 +1,46 @@
+DELIVERING IMAGES OVER CONSTRAINED CONNECTIONS
+
+Listing 9.2. Examining and saving two Ubuntu images
+$ docker pull ubuntu:14.04.1 && docker pull ubuntu:14.04.2
+[...]
+$ docker history ubuntu:14.04.1
+IMAGE        CREATED     CREATED BY                                    SIZE
+ab1bd63e0321 2 years ago /bin/sh -c #(nop) CMD [/bin/bash]             0B
+<missing>    2 years ago /bin/sh -c sed -i 's/^#\s*\(deb.*universe\... 1.9kB
+<missing>    2 years ago /bin/sh -c echo '#!/bin/sh' > /usr/sbin/po... 195kB
+<missing>    2 years ago /bin/sh -c #(nop) ADD file:62400a49cced0d7... 188MB
+<missing>    4 years ago                                                0B
+$ docker history ubuntu:14.04.2
+IMAGE        CREATED     CREATED BY                                    SIZE
+44ae5d2a191e 2 years ago /bin/sh -c #(nop) CMD ["/bin/bash"]           0B
+<missing>    2 years ago /bin/sh -c sed -i 's/^#\s*\(deb.*universe\... 1.9kB
+<missing>    2 years ago /bin/sh -c echo '#!/bin/sh' > /usr/sbin/po... 195kB
+<missing>    2 years ago /bin/sh -c #(nop) ADD file:0a5fd3a659be172... 188MB
+$ docker save ubuntu:14.04.1 | gzip | wc -c
+65973497
+$ docker save ubuntu:14.04.2 | gzip | wc -c
+65994838
+
+
+Listing 9.3. Saving two Ubuntu images into the bup data pool
+$ mkdir bup_pool
+$ alias dbup="docker run --rm \
+    -v $(pwd)/bup_pool:/pool -v /var/run/docker.sock:/var/run/docker.sock \
+    dockerinpractice/dbup"
+$ dbup save ubuntu:14.04.1
+Saving image!
+Done!
+$ du -sh bup_pool
+74M     bup_pool
+$ dbup save ubuntu:14.04.2
+Saving image!
+Done!
+$ du -sh bup_pool
+96M     bup_pool
+
+
+Listing 9.4. Loading an image from the bup data pool
+$ dbup load ubuntu:14.04.1
+Loading image!
+Done!
+

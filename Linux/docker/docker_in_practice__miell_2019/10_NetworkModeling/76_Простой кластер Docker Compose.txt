@@ -1,6 +1,14 @@
+A SIMPLE DOCKER COMPOSE CLUSTER
+
 
 $ mkdir server
 $ cd server
+
+Listing 10.1. Dockerfile—a simple echo server
+FROM debian
+RUN apt-get update && apt-get install -y nmap       1
+CMD ncat -l 2000 -k --exec /bin/cat                2
+
 
 $ docker build -t server .
 

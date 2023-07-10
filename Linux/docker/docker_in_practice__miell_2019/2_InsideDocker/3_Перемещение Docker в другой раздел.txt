@@ -1,0 +1,5 @@
+MOVING DOCKER TO A DIFFERENT PARTITION
+
+You want to move where Docker stores its data.
+
+$ dockerd -g /home/dockeruser/mydocker

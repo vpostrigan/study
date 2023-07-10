@@ -1,0 +1,16 @@
+
+It’s divided into three sections:
+-Security and control—Looks at items that will depend on your organization’s security and control stance
+-
+-
+
+13.2.1. Security and control
+
+
+
+container.id != host and proc.name = bash
+
+
+13.2.2. Building and shipping images
+
+13.2.3. Running containers

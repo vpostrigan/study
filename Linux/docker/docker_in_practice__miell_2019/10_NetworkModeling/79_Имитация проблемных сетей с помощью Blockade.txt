@@ -1,0 +1,88 @@
+SIMULATING TROUBLESOME NETWORKS WITH BLOCKADE
+
+
+Listing 10.11. The blockade.yml file
+containers:
+  server:
+    container_name: server
+    image: ubuntu:14.04.2
+    command: /bin/sleep infinity
+
+  client1:
+    image: ubuntu:14.04.2
+    command: sh -c "sleep 5 && ping server"
+
+  client2:
+    image: ubuntu:14.04.2
+    command: sh -c "sleep 5 && ping server"
+
+network:
+  flaky: 50%
+  slow: 100ms
+  driver: udn
+
+
+
+$ IMG=dockerinpractice/blockade
+$ docker pull $IMG
+latest: Pulling from dockerinpractice/blockade
+[...]
+Status: Downloaded newer image for dockerinpractice/blockade:latest
+$ alias blockade="docker run --rm -v \$PWD:/blockade \
+-v /var/run/docker.sock:/var/run/docker.sock $IMG"
+
+
+
+
+$ blockade up
+NODE     CONTAINER ID   STATUS  IP          NETWORK  PARTITION
+client1  613b5b1cdb7d   UP      172.17.0.4  NORMAL
+client2  2aeb2ed0dd45   UP      172.17.0.5  NORMAL
+server   53a7fa4ce884   UP      172.17.0.3  NORMAL
+
+
+
+
+$ blockade flaky --all                                           1
+ $ sleep 5                                                       2
+ $ blockade slow client1                                         3
+ $ blockade status                                               4
+ NODE     CONTAINER ID   STATUS  IP          NETWORK  PARTITION
+client1  613b5b1cdb7d   UP      172.17.0.4  SLOW
+client2  2aeb2ed0dd45   UP      172.17.0.5  FLAKY
+server   53a7fa4ce884   UP      172.17.0.3  FLAKY
+$ blockade fast --all                                            5
+
+
+
+
+64 bytes from 172.17.0.3: icmp_seq=638 ttl=64 time=0.054 ms        1
+ 64 bytes from 172.17.0.3: icmp_seq=639 ttl=64 time=0.098 ms
+64 bytes from 172.17.0.3: icmp_seq=640 ttl=64 time=0.112 ms
+64 bytes from 172.17.0.3: icmp_seq=645 ttl=64 time=0.112 ms        2
+ 64 bytes from 172.17.0.3: icmp_seq=652 ttl=64 time=0.113 ms
+64 bytes from 172.17.0.3: icmp_seq=654 ttl=64 time=0.115 ms
+64 bytes from 172.17.0.3: icmp_seq=660 ttl=64 time=100 ms          3
+ 64 bytes from 172.17.0.3: icmp_seq=661 ttl=64 time=100 ms
+64 bytes from 172.17.0.3: icmp_seq=662 ttl=64 time=100 ms
+64 bytes from 172.17.0.3: icmp_seq=663 ttl=64 time=100 ms
+
+
+
+$ blockade partition server client1,client2
+$ blockade status
+NODE     CONTAINER ID   STATUS  IP          NETWORK  PARTITION
+client1  613b5b1cdb7d   UP      172.17.0.4  NORMAL   2
+client2  2aeb2ed0dd45   UP      172.17.0.5  NORMAL   2
+server   53a7fa4ce884   UP      172.17.0.3  NORMAL   1
+
+
+
+$ docker exec 613b5b1cdb7d ping -qc 3 172.17.0.5
+PING 172.17.0.5 (172.17.0.5) 56(84) bytes of data.
+
+--- 172.17.0.5 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2030ms
+rtt min/avg/max/mdev = 0.109/0.124/0.150/0.018 ms
+
+

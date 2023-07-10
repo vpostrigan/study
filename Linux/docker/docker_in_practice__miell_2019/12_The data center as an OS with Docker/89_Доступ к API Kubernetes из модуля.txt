@@ -1,0 +1,81 @@
+ACCESSING THE KUBERNETES API FROM WITHIN A POD
+
+Listing 12.2. Creating and setting up a container
+$ kubectl run -it ubuntu --image=ubuntu:16.04 --restart=Never
+ If you don't see a command prompt, try pressing enter.
+ root@ubuntu:/# apt-get update -y && apt-get install -y curl
+ [...]
+root@ubuntu:/
+
+
+3 - URL-адрес для контакта составляется из переменных среды, доступных в модуле
+Listing 12.3. Access the Kubernetes API from a pod
+root@ubuntu:/# $ curl -k -X GET \                                           1
+   -H "Authorization: Bearer \                                              2
+   $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" <3> \
+  https://${KUBERNETES_PORT_443_TCP_ADDR}:${KUBERNETES_SERVICE_PORT_HTTPS}  3
+ {
+  "paths": [                                                                4
+     "/api",
+    "/api/v1",
+    "/apis",
+    "/apis/apps",
+    "/apis/apps/v1beta1",
+    "/apis/authentication.k8s.io",
+    "/apis/authentication.k8s.io/v1",
+    "/apis/authentication.k8s.io/v1beta1",
+    "/apis/authorization.k8s.io",
+    "/apis/authorization.k8s.io/v1",
+    "/apis/authorization.k8s.io/v1beta1",
+    "/apis/autoscaling",
+    "/apis/autoscaling/v1",
+    "/apis/autoscaling/v2alpha1",
+    "/apis/batch",
+    "/apis/batch/v1",
+    "/apis/batch/v2alpha1",
+    "/apis/certificates.k8s.io",
+    "/apis/certificates.k8s.io/v1beta1",
+    "/apis/extensions",
+    "/apis/extensions/v1beta1",
+    "/apis/policy",
+    "/apis/policy/v1beta1",
+    "/apis/rbac.authorization.k8s.io",
+    "/apis/rbac.authorization.k8s.io/v1alpha1",
+    "/apis/rbac.authorization.k8s.io/v1beta1",
+    "/apis/settings.k8s.io",
+    "/apis/settings.k8s.io/v1alpha1",
+    "/apis/storage.k8s.io",
+    "/apis/storage.k8s.io/v1",
+    "/apis/storage.k8s.io/v1beta1",
+    "/healthz",
+    "/healthz/ping",
+    "/healthz/poststarthook/bootstrap-controller",
+    "/healthz/poststarthook/ca-registration",
+    "/healthz/poststarthook/extensions/third-party-resources",
+    "/logs",
+    "/metrics",
+    "/swaggerapi/",
+    "/ui/",
+    "/version"
+  ]
+}
+root@ubuntu:/# curl -k -X GET -H "Authorization: Bearer $(cat              5
+ /var/run/secrets/kubernetes.io/serviceaccount/token)"                  5
+ https://${KUBERNETES_PORT_443_TCP_ADDR}:                               5
+ ${KUBERNETES_SERVICE_ORT_HTTPS}/version                                5
+ {
+  "major": "1",                                                            6
+   "minor": "6",
+  "gitVersion": "v1.6.4",
+  "gitCommit": "d6f433224538d4f9ca2f7ae19b252e6fcb66a3ae",
+  "gitTreeState": "dirty",
+  "buildDate": "2017-06-22T04:31:09Z",
+  "goVersion": "go1.7.5",
+  "compiler": "gc",
+  "platform": "linux/amd64"
+}
+
+
+
+-H "Authorization: Bearer
+$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"

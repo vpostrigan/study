@@ -1,0 +1,15 @@
+DEV TOOLS CONTAINER
+
+
+You want to access your development environment on others’ machines.
+
+
+Listing 5.7. Running dev-tools image with a GUI
+docker run -t -i \
+-v /var/run/docker.sock:/var/run/docker.sock \     1
+ -v /tmp/.X11-unix:/tmp/.X11-unix \                2
+ -e DISPLAY=$DISPLAY \                             3
+ --net=host --ipc=host \                           4
+ -v /opt/workspace:/home/dockerinpractice \        5
+ dockerinpractice/docker-dev-tools-image
+

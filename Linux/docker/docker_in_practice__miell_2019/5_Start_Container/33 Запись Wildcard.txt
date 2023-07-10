@@ -1,0 +1,4 @@
+WILDCARD DNS
+
+You need a DNS-resolvable URL for a specific IP address.
+

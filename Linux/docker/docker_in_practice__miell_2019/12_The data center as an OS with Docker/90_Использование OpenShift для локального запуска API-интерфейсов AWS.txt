@@ -1,0 +1,86 @@
+USING OPENSHIFT TO RUN AWS APIS LOCALLY
+
+Set up LocalStack and use the available AWS service equivalents.
+
+[Ensuring Minishift is set up]
+Listing 12.4. Check Minishift is set up OK
+$ eval $(minishift oc-env)
+$ oc get all
+No resources found.
+
+[Changing the default security context constraints]
+$ oc login -u system:admin
+
+$ oc edit scc restricted
+
+You’ll see the definition of the 'restricted' SCC.
+
+[Allowing RunAsAny]
+runAsUser:
+ type: MustRunAsRange
+
+to read as follows:
+runAsUser:
+ type: RunAsAny
+
+[Allowing SETUID and SETGID capabilities]
+- SETUID
+- SETGID
+
+[Saving the file]
+$ minishift console --machine-readable | grep HOST | sed 's/^HOST=\(.*\)/\1/'
+
+[Deploying the pod]
+Deploying the LocalStack is as easy as running this command:
+$ oc new-app localstack/localstack --name="localstack"
+
+[Creating the routes]
+Listing 12.5. route.yaml
+apiVersion: v1                        1
+ kind: Route                          2
+ metadata:                            3
+   name: sqs                          4
+ spec:                                5
+   host: sqs-test.HOST.nip.io         6
+   port:                              7
+     targetPort: 4576-tcp             7
+   to:                                8
+     kind: Service                    9
+     name: localstack                 9
+
+Create the route by running this command,
+$ oc create -f route.yaml
+
+
+$ oc get all                                                                 1
+ NAME DOCKER REPO TAGS UPDATED                                               2
+ is/localstack 172.30.1.1:5000/myproject/localstack latest 15 hours ago      2
+ NAME REVISION DESIRED CURRENT TRIGGERED BY                                  3
+ dc/localstack 1 1 1 config,image(localstack:latest)                         3
+ NAME DESIRED CURRENT READY AGE                                              4
+ rc/localstack-1 1 1 1 15
+                         4
+ NAME HOST/PORT PATH SERVICES PORT TERMINATION WILDCARD                      5
+ routes/sqs sqs-test.192.168.64.2.nip.io localstack 4576-tcp None
+ NAME CLUSTER-IP EXTERNAL-IP PORT(S) AGE                                     6
+ svc/localstack 172.30.187.65  4567/TCP,4568/TCP,4569/TCP,4570/TCP,4571/TCP  6
+4572/TCP,4573/TCP,4574/TCP,4575/TCP,4576/TCP,4577/TCP,4578/TCP,           6
+4579/TCP,4580/TCP,4581/TCP,4582/TCP,8080/TCP 15h                          6
+ NAME READY STATUS RESTARTS AGE                                              7
+ po/localstack-1-hnvpw 1/1 Running 0 15h                                     7
+
+[Accessing the services]
+$ aws --endpoint-url=http://kinesis-test.192.168.64.2.nip.io kinesis list-streams    1
+ {                                                                      2
+  "StreamNames": []                                                     2
+ }                                                                      2
+$ aws --endpoint-url=http://kinesis-test.192.168.64.2.nip.io kinesis
+ create-stream --stream-name teststream --shard-count 2              3
+$ aws --endpoint-url=http://kinesis-test.192.168.64.2.nip.io kinesis list-streams   4
+ {                                                                      5
+  "StreamNames": [                                                      5
+  "teststream"                                                          5
+  ]                                                                     5
+ }                                                                      5
+
+

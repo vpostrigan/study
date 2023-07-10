@@ -1,0 +1,110 @@
+SIMULATING TROUBLESOME NETWORKS WITH COMCAST
+
+
+Use Comcast (the networking tool, not the ISP).
+
+
+Listing 10.10. Preparing to run the comcast image
+$ IMG=dockerinpractice/comcast
+
+$ docker pull $IMG
+latest: Pulling from dockerinpractice/comcast
+[...]
+Status: Downloaded newer image for dockerinpractice/comcast:latest
+
+$ alias comcast="docker run --rm --pid=host --privileged \
+-v /var/run/docker.sock:/var/run/docker.sock $IMG"
+
+$ comcast -help
+Usage of comcast:
+  -cont string
+        Container ID or name to get virtual interface of
+  -default-bw int
+        Default bandwidth limit in kbit/s (fast-lane) (default -1)
+  -device string
+        Interface (device) to use (defaults to eth0 where applicable)
+  -dry-run
+        Specifies whether or not to actually commit the rule changes
+  -latency int
+        Latency to add in ms (default -1)
+  -packet-loss string
+        Packet loss percentage (e.g. 0.1%)
+  -stop
+        Stop packet controls
+  -target-addr string
+        Target addresses, (e.g. 10.0.0.1 or 10.0.0.0/24 or >
+10.0.0.1,192.168.0.0/24 or 2001:db8:a::123)
+  -target-bw int
+        Target bandwidth limit in kbit/s (slow-lane) (default -1)
+  -target-port string
+        Target port(s) (e.g. 80 or 1:65535 or 22,80,443,1000:1010)
+  -target-proto string
+        Target protocol TCP/UDP (e.g. tcp or tcp,udp or icmp) (default >
+"tcp,udp,icmp")
+  -version
+        Print Comcast's version
+
+
+
+$ docker run -it --name c1 ubuntu:14.04.2 bash
+root@0749a2e74a68:/# apt-get update && apt-get install -y wget
+[...]
+root@0749a2e74a68:/# ping -q -c 5 www.example.com
+PING www.example.com (93.184.216.34) 56(84) bytes of data.
+
+--- www.example.com ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, >
+time 4006ms                                                            1
+ rtt min/avg/max/mdev = 86.397/86.804/88.229/0.805 ms                  2
+ root@0749a2e74a68:/# time wget -o /dev/null https://www.example.com
+
+real    0m0.379s                                                       3
+ user    0m0.008s
+sys     0m0.008s
+root@0749a2e74a68:/#
+
+
+
+$ comcast -cont c1 -default-bw 50 -latency 100 -packet-loss 20%
+Found interface veth62cc8bf for container 'c1'
+sudo tc qdisc show | grep "netem"
+sudo tc qdisc add dev veth62cc8bf handle 10: root htb default 1
+sudo tc class add dev veth62cc8bf parent 10: classid 10:1 htb rate 50kbit
+sudo tc class add dev veth62cc8bf parent 10: classid 10:10 htb rate 1000000kb
+ it
+sudo tc qdisc add dev veth62cc8bf parent 10:10 handle 100: netem delay 100ms
+ loss 20.00%
+sudo iptables -A POSTROUTING -t mangle -j CLASSIFY --set-class 10:10 -p tcp
+sudo iptables -A POSTROUTING -t mangle -j CLASSIFY --set-class 10:10 -p udp
+sudo iptables -A POSTROUTING -t mangle -j CLASSIFY --set-class 10:10 -p icmp
+sudo ip6tables -A POSTROUTING -t mangle -j CLASSIFY --set-class 10:10 -p tcp
+sudo ip6tables -A POSTROUTING -t mangle -j CLASSIFY --set-class 10:10 -p udp
+sudo ip6tables -A POSTROUTING -t mangle -j CLASSIFY --set-class 10:10 -p icmp
+Packet rules setup...
+Run `sudo tc -s qdisc` to double check
+Run `comcast --device veth62cc8bf --stop` to reset
+
+
+
+root@0749a2e74a68:/# ping -q -c 5 www.example.com
+PING www.example.com (93.184.216.34) 56(84) bytes of data.
+
+--- www.example.com ping statistics ---
+5 packets transmitted, 2 received, 60% packet loss, time 4001ms
+rtt min/avg/max/mdev = 186.425/189.429/195.008/3.509 ms
+root@0749a2e74a68:/# time wget -o /dev/null https://www.example.com
+
+real    0m1.993s
+user    0m0.011s
+sys     0m0.011s
+
+
+
+$ comcast -cont c1 -stop
+Found interface veth62cc8bf for container 'c1'
+[...]
+Packet rules stopped...
+Run `sudo tc -s qdisc` to double check
+Run `comcast` to start
+
+

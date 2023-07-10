@@ -1,14 +1,45 @@
+SETTING THE RIGHT TIME ZONE IN YOUR CONTAINERS
 
+
+Listing 4.12. Container starting with wrong time zone
 $ date +%Z
 GMT
 $ docker run centos:7 date +%Z
 UTC
 
 
+Listing 4.13. Dockerfile for replacing the centos:7 default time zone
 FROM centos:7
 RUN rm -rf /etc/localtime
 RUN ln -s /usr/share/zoneinfo/GMT /etc/localtime
 CMD date +%Z
 
-$ docker build -t timezone_change .
-$ docker run timezone_change
+
+
+Listing 4.14. Building a time-zone-replacing Dockerfile
+$ docker build -t timezone_change .                    1
+ Sending build context to Docker daemon 62.98 kB
+Step 1 : FROM centos:7
+7: Pulling from library/centos
+45a2e645736c: Pull complete
+Digest: sha256:
+ c577af3197aacedf79c5a204cd7f493c8e07ffbce7f88f7600bf19c688c38799
+Status: Downloaded newer image for centos:7
+ ---> 67591570dd29
+Step 2 : RUN rm -rf /etc/localtime
+ ---> Running in fb52293849db
+ ---> 0deda41be8e3
+Removing intermediate container fb52293849db
+Step 3 : RUN ln -s /usr/share/zoneinfo/GMT /etc/localtime
+ ---> Running in 47bf21053b53
+ ---> 5b5cb1197183
+Removing intermediate container 47bf21053b53
+Step 4 : CMD date +%Z
+ ---> Running in 1e481eda8579
+ ---> 9477cdaa73ac
+Removing intermediate container 1e481eda8579
+Successfully built 9477cdaa73ac
+$ docker run timezone_change                         2
+ GMT                                                 3
+
+

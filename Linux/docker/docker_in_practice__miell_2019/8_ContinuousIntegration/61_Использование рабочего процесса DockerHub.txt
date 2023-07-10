@@ -1,0 +1,48 @@
+USING THE DOCKER HUB WORKFLOW
+
+[Add code to your Git repository]
+Now you need to add code to the project.
+
+Listing 8.1. Dockerfile—simple dev tools container Dockerfile
+FROM ubuntu:14.04
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update
+RUN apt-get install -y curl                              1
+RUN apt-get install -y nmap                             1
+RUN apt-get install -y socat                            1
+RUN apt-get install -y openssh-client                   1
+RUN apt-get install -y openssl                          1
+RUN apt-get install -y iotop                            1
+RUN apt-get install -y strace                           1
+RUN apt-get install -y tcpdump                          1
+RUN apt-get install -y lsof                             1
+RUN apt-get install -y inotify-tools                    1
+RUN apt-get install -y sysstat                          1
+RUN apt-get install -y build-essential                  1
+RUN echo "source /root/bash_extra" >> /root/.bashrc     2
+ADD bash_extra /root/bash_extra                         3
+CMD ["/bin/bash"]
+
+
+bash --version
+
+
+[Commit the source]
+To commit your source code source, use this command:
+git commit -am "Initial commit"
+
+[Push the Git repository]
+git push origin master
+
+[Create a new repository on the Docker Hub]
+
+[Link the Docker Hub repository to the Git repository]
+
+[Wait for the Docker Hub build to complete]
+
+[Commit and push a change to the source]
+
+bash --version
+cat /etc/issue
+
+[Wait for the second Docker Hub build to complete]

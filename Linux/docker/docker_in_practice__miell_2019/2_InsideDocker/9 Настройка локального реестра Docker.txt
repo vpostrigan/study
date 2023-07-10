@@ -1,3 +1,10 @@
+SETTING UP A LOCAL DOCKER REGISTRY
+
+You want a way to host your images locally.
+
+
+
+
 $ docker run -d -p 5000:5000 -v $HOME/registry:/var/lib/registry registry:2
 
 чтобы добавить в этот реестр

@@ -1,17 +1,22 @@
+THE “SAVE GAME” APPROACH: WINNING AT 2048
 
+
+Listing 3.24. Start the 2048 container
 $ docker run -d -p 5901:5901 -p 6080:6080 --name docker_in_practice_win2048 imiell/win2048
 
-// connect with "vnc client"
+// connect with "vnc client" ($ vncviewer localhost:1          )
 
 пароль vncpass
 
 // play in game then save it state
 
+Listing 3.25. Commit and tag the game state
 $ docker commit docker_in_practice_win2048((C014-1))
 4ba15c8d337
 $ docker tag 4ba15c8d337 docker_in_practice_win2048tag:$(date + %s)
 
 // возврат к сохраненной игре
 
+Listing 3.26. Return to the saved game
 $ docker rm -f docker_in_practice_win2048
 $ docker run -d -p 5901:5901 -p 6080:6080 --name docker_in_practice_win2048 docker_in_practice_win2048tag:$mytag

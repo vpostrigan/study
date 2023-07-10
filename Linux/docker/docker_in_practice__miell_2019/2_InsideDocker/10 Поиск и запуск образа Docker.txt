@@ -1,3 +1,7 @@
+FINDING AND RUNNING A DOCKER IMAGE
+
+
+
 $ docker search node
 NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
 node                              Node.js is a JavaScript-based platform for s…   12430     [OK]

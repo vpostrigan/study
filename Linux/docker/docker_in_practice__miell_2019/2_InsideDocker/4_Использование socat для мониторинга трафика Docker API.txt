@@ -1,0 +1,54 @@
+USING SOCAT TO MONITOR DOCKER API TRAFFIC
+
+You want to debug a problem with a Docker command.
+
+$ socat -v UNIX-LISTEN:/tmp/dockerapi.sock,fork \
+  UNIX-CONNECT:/var/run/docker.sock &
+
+
+$ docker -H unix:///tmp/dockerapi.sock ps -a                               1
+ > 2017/05/15 16:01:51.163427  length=83 from=0 to=82
+GET /_ping HTTP/1.1\r
+Host: docker\r
+User-Agent: Docker-Client/17.04.0-ce (linux)\r
+\r
+< 2017/05/15 16:01:51.164132  length=215 from=0 to=214
+HTTP/1.1 200 OK\r
+Api-Version: 1.28\r
+Docker-Experimental: false\r
+Ostype: linux\r
+Server: Docker/17.04.0-ce (linux)\r
+Date: Mon, 15 May 2017 15:01:51 GMT\r
+Content-Length: 2\r
+Content-Type: text/plain; charset=utf-8\r
+\r
+OK> 2017/05/15 16:01:51.165175  length=105 from=83 to=187                  2
+ GET /v1.28/containers/json?all=1 HTTP/1.1\r
+Host: docker\r
+User-Agent: Docker-Client/17.04.0-ce (linux)\r
+\r
+< 2017/05/15 16:01:51.165819  length=886 from=215 to=1100                  3
+ HTTP/1.1 200 OK\r
+Api-Version: 1.28\r
+Content-Type: application/json\r
+Docker-Experimental: false\r
+Ostype: linux\r
+Server: Docker/17.04.0-ce (linux)\r
+Date: Mon, 15 May 2017 15:01:51 GMT\r
+Content-Length: 680\r
+\r
+[{"Id":"1d0d5b5a7b506417949653a59deac030ccbcbb816842a63ba68401708d55383e",
+ "Names":["/example1"],"Image":"todoapp","ImageID":
+ "sha256:ccdda5b6b021f7d12bd2c16dbcd2f195ff20d10a660921db0ac5bff5ecd92bc2",
+ "Command":"npm start","Created":1494857777,"Ports":[],"Labels":{},
+ "State":"exited","Status":"Exited (0) 45 minutes ago","HostConfig":
+ {"NetworkMode":"default"},"NetworkSettings":{"Networks":{"bridge":
+ {"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":
+ "6f327d67a38b57379afa7525ea63829797fd31a948b316fdf2ae0365faeed632",
+ "EndpointID":"","Gateway":"","IPAddress":"","IPPrefixLen":0,
+ "IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,
+ "MacAddress":""}}},"Mounts":[]}]                                        4
+ CONTAINER ID        IMAGE               COMMAND             CREATED
+      STATUS                      PORTS               NAMES              5
+ 1d0d5b5a7b50        todoapp             "npm start"         45 minutes ago
+      Exited (0) 45 minutes ago                       example1

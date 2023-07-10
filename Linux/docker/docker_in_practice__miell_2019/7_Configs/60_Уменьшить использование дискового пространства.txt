@@ -1,0 +1,3 @@
+BIG CAN BE BEAUTIFUL
+
+Create a universal, large, monolithic base image for your organization.

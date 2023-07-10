@@ -1,3 +1,9 @@
+ALLOWING CONTAINER COMMUNICATION
+
+You want to allow communication between containers for internal purposes.
+
+
+
 
 $ docker network create docker_in_practice_network
 создает новую виртуальную сеть
@@ -13,3 +19,4 @@ $ docker run -it --network docker_in_practice_network ubuntu:16.04 bash
 через bash подключится к docker_in_practice_wordpress1
 # apt update && apt install -y curl
 # curl -sSL docker_in_practice_wordpress1 | head -n5
+

@@ -1,0 +1,31 @@
+CREATING RELIABLE BESPOKE TOOLS WITH ENTRYPOINT
+
+
+Use the Dockerfile ENTRYPOINT instruction.
+
+
+Listing 7.1. clean_log shell script
+#!/bin/bash
+echo "Cleaning logs over $1 days old"
+find /log_dir -ctime "$1" -name '*log' -exec rm {} \;
+
+
+
+Listing 7.2. Creating an image with the clean_log script
+FROM ubuntu:17.04
+ADD clean_log /usr/bin/clean_log        1
+RUN chmod +x /usr/bin/clean_log
+ENTRYPOINT ["/usr/bin/clean_log"]       2
+CMD ["7"]                              3
+
+
+docker build -t log-cleaner .
+docker run -v /var/log/myapplogs:/log_dir log-cleaner 365
+
+
+
+$ docker run -ti log-cleaner /bin/bash
+Cleaning logs over /bin/bash days old
+find: invalid argument `-name' to `-ctime'
+
+

@@ -1,0 +1,14 @@
+TRICKS FOR MAKING AN IMAGE SMALLER
+
+You want to make your images smaller.
+
+
+docker run -ti --name smaller --entrypoint /bin/bash \
+dockerinpractice/log-cleaner
+
+
+apt-get autoremove
+apt-get clean
+
+
+find /var | grep '\.log$' | xargs rm -v

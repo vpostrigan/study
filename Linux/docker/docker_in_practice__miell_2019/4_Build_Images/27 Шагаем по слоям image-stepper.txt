@@ -1,4 +1,7 @@
+STEPPING THROUGH LAYERS WITH THE IMAGE-STEPPER
 
+
+Listing 4.22. Dockerfile for image with multiple layers
 FROM debian
 RUN touch /file1
 RUN touch /file2
@@ -13,11 +16,13 @@ RUN touch /file10
 CMD ["cat","/file1"]
 
 
+Listing 4.23. Building the myimage image
 -q   quiet
 > docker build -t docker_in_practice_myimage -q .
 sha256:21742c344f6a99e61af06cceb00d54ad96653b8af23ae6053bcfdcb1914724de
 
 
+Listing 4.24. Tagging each layer of myimage in numerical order
 ./27_tag.sh
 #!/bin/bash
 x=1
@@ -28,9 +33,24 @@ do
 done
 
 
+Listing 4.25. Tagging and showing the layers
+$ ./tag.sh                                                              1
+ $ docker images | grep latest_step                                     2
+ myimage   latest_step_12   1bfca0ef799d   3 minutes ago   123.1 MB     3
+ myimage   latest_step_11   4d7f66939a4c   3 minutes ago   123.1 MB     3
+ myimage   latest_step_10   78d31766b5cb   3 minutes ago   123.1 MB     3
+ myimage   latest_step_9    f7b4dcbdd74f   3 minutes ago   123.1 MB     3
+ myimage   latest_step_8    69b2fa0ce520   3 minutes ago   123.1 MB     3
+ myimage   latest_step_7    b949d71fb58a   3 minutes ago   123.1 MB     3
+ myimage   latest_step_6    8af3bbf1e7a8   3 minutes ago   123.1 MB     3
+ myimage   latest_step_5    ce3dfbdfed74   3 minutes ago   123.1 MB     3
+ myimage   latest_step_4    598ed62cabb9   3 minutes ago   123.1 MB     3
+ myimage   latest_step_3    6b290f68d4d5   3 minutes ago   123.1 MB     3
+ myimage   latest_step_2    586da987f40f   3 minutes ago   123.1 MB     3
+ myimage   latest_step_1    19134a8202e7   7 days ago      123.1 MB     4
+
+
 $ docker images | grep latest_step
 docker_in_practice_myimage                 latest_step_1     21742c344f6a   35 minutes ago   124MB
-
-
 
 

@@ -1,15 +1,22 @@
+DIRECT ACTION: EXECUTING COMMANDS ON YOUR CONTAINER
+
+You want to perform commands on a running container.
+
 
 $ docker run -d --name sleeper debian sleep infinity
 
-1) базовый режим
+TABLE 6.1. DOCKER EXEC MODES
+1) Basic.  базовый режим
 $ docker exec sleeper echo "hello host from container"
 hello host from container
 
-2) режим демона
+2) Daemon.  режим демона
 $ docker exec -d sleeper \              -d - в фоновом режиме
  find / -ctime 7 -name '*log' -exec rm {} \;
 $ немедленно возвращается
 
-3) интерактивный режим
+3) Interactive.  интерактивный режим
 $ docker exec -i -t sleeper /bin/bash
 root@:/#
+
+

@@ -1,0 +1,91 @@
+MICROMANAGING MESOS WITH MARATHON
+
+- запуск marathon
+
+$ docker inspect -f '{{.NetworkSettings.IPAddress}}' mesmaster
+172.17.0.2
+$ docker inspect -f '{{.NetworkSettings.IPAddress}}' messlave
+172.17.0.3
+$ docker inspect -f '{{.NetworkSettings.IPAddress}}' zookeeper
+172.17.0.4
+$ docker pull mesosphere/marathon:v0.8.2
+[...]
+$ docker run -d -h $(hostname) --name marathon -p 8080:8080 \
+mesosphere/marathon:v0.8.2 --master 172.17.0.2:5050 --local_port_min 8000 \
+--local_port_max 8100 --zk zk://172.17.0.4:2181/marathon
+accd6de46cfab65572539ccffa5c2303009be7ec7dbfb49e3ab8f447453f2b93
+$ docker logs -f marathon
+MESOS_NATIVE_JAVA_LIBRARY is not set. Searching in /usr/lib /usr/local/lib.
+MESOS_NATIVE_LIBRARY, MESOS_NATIVE_JAVA_LIBRARY set to >
+'/usr/lib/libmesos.so'
+[2015-06-23 19:42:14,836] INFO Starting Marathon 0.8.2 >
+(mesosphere.marathon.Main$:87)
+[2015-06-23 19:42:16,270] INFO Connecting to Zookeeper... >
+(mesosphere.marathon.Main$:37)
+[...]
+[2015-06-30 18:20:07,971] INFO started processing 1 offers, >
+launching at most 1 tasks per offer and 1000 tasks in total
+ (mesosphere.marathon.tasks.IterativeOfferMatcher$:124)
+[2015-06-30 18:20:07,972] INFO Launched 0 tasks on 0 offers, >
+declining 1 (mesosphere.marathon.tasks.IterativeOfferMatcher$:216)
+
+
+localhost:8080  - marathon web interface
+задача на web interface
+echo "hello $MESOS_TASK_ID" | nc -l $PORT0
+
+
+$ curl http://localhost:8080/v2/apps/marathon-nc/versions
+{"versions":["2015-06-30T19:52:44.649Z"]}
+$ curl -s \
+http://localhost:8080/v2/apps/marathon-nc/versions/2015-06-30T19:52:44.649Z \
+> app.json
+$ cat app.json
+{"id":"/marathon-nc", >
+"cmd":"echo \"hello $MESOS_TASK_ID\" | nc -l $PORT0",[...]
+$ curl http://172.17.0.3:8000
+hello marathon-nc.f56f140e-19e9-11e5-a44d-0242ac110012
+
+
+изменение параметров marathon (для оркестровки контейнеров)
+$ JQ=https://github.com/stedolan/jq/releases/download/jq-1.3/jq-linux-x86_64
+$ curl -Os $JQ && mv jq-linux-x86_64 jq && chmod +x jq
+$ cat >container.json <<EOF
+{
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "ubuntu:14.04.2",
+      "network": "BRIDGE",
+      "portMappings": [{"hostPort": 8000, "containerPort": 8000}]
+    }
+  }
+}
+$ # merge the app and container details
+$ cat app.json container.json | ./jq -s add > newapp.json
+
+отправка определения нового приложения в API, и ывидеть как Marathon запустит его
+$ curl -X POST -H 'Content-Type: application/json; charset=utf-8' \
+--data-binary @newapp.json http://localhost:8080/v2/apps
+{"id":"/marathon-nc", >
+"cmd":"echo \"hello $MESOS_TASK_ID\" | nc -l $PORT0",[...]
+$ sleep 10
+$ docker ps --since=marathon
+CONTAINER ID  IMAGE         COMMAND              CREATED             >
+STATUS             PORTS                   NAMES
+284ced88246c  ubuntu:14.04  "\"/bin/sh -c 'echo  About a minute ago  >
+Up About a minute  0.0.0.0:8000->8000/tcp  mesos- >
+1da85151-59c0-4469-9c50-2bfc34f1a987
+$ curl localhost:8000
+hello mesos-nc.675b2dc9-1f88-11e5-bc4d-0242ac11000e
+$ docker ps --since=marathon
+CONTAINER ID  IMAGE         COMMAND              CREATED         >
+STATUS                     PORTS                   NAMES
+851279a9292f  ubuntu:14.04  "\"/bin/sh -c 'echo  44 seconds ago  >
+Up 43 seconds              0.0.0.0:8000->8000/tcp  mesos- >
+37d84e5e-3908-405b-aa04-9524b59ba4f6
+284ced88246c  ubuntu:14.04  "\"/bin/sh -c 'echo  24 minutes ago  >
+Exited (0) 45 seconds ago                          mesos-1da85151-59c0-
+4469-9c50-2bfc34f1a987
+
+

@@ -1,0 +1,43 @@
+CREATING ANOTHER DOCKER VIRTUAL NETWORK
+
+
+
+список встроенных сетей
+$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+100ce06cd9a8        bridge              bridge              local
+d53919a3bfa1        host                host                local
+2d7fcd86306c        none                null                local
+
+
+$ docker network create --driver=bridge mynet
+770ffbc81166d54811ecf9839331ab10c586329e72cea2eb53a0229e53e8a37f
+
+$ docker network ls | grep mynet
+770ffbc81166        mynet               bridge              local
+
+$ ip addr | grep br-
+522: br-91b29e0d29d5: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    inet 172.18.0.1/16 scope global br-91b29e0d29d5
+
+$ ip addr | grep docker
+5: docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
+    inet 172.17.0.1/16 scope global docker0
+
+
+
+
+$ docker run -it -d --name c1 ubuntu:14.04.2 bash                контейнер1 на мосту по умолчанию
+$ docker network connect mynet c1                                контейнер1 соединен с сетью mynet
+
+$ docker run -it -d --name c2 --net=mynet ubuntu:14.04.2 bash    контейнер2 внутри сети mynet
+
+$ docker run -it -d --name c3 ubuntu:14.04.2 bash                контейнер3 на мосту по умолчанию
+
+
+$ docker exec c2 ping -qc1 c1            контейнер2 подключился к контейнер1
+$ docker exec c2 ping -qc1 c3            контейнер2 не подключился к контейнер3
+$ docker exec c1 ping -qc1 c2            контейнер1 подключился к контейнер2
+$ docker exec c1 ping -qc1 c3            контейнер1 не подключился к контейнер3
+$ docker exec c1 ping -qc1 172.17.0.3    контейнер1 подключился к контейнер3
+

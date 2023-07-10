@@ -1,3 +1,8 @@
+THE “SAVE GAME” APPROACH: CHEAP SOURCE CONTROL
+
+You want to save the state of your development environment.
+
+
 
 $ docker run -d -p 8000:8000 --name docker_in_practice_todobug1 dockerinpractice/todoapp
 $ docker exec -i -t docker_in_practice_todobug1 /bin/bash 2((C07-2))

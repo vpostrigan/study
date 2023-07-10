@@ -1,9 +1,22 @@
+SHARING IMAGES ON THE DOCKER HUB
+
+You want to share a Docker image publicly.
+
+
 
 реестр Docker Hub
 
 пользователь adev
 тег mywheezy1
 
-docker pull debian:wheezy
-docker tag debian:wheezy adev/debian:mywheezy1
-docker push adev/debian:mywheezy1
+Listing 3.21. Copying a public image and pushing to adev’s Docker Hub account
+$ docker pull debian:wheezy
+$ docker tag debian:wheezy adev/debian:mywheezy1
+$ docker push adev/debian:mywheezy1
+
+
+Listing 3.22. Copying a public image and pushing to adev’s private registry
+docker pull debian                                                    1
+ docker tag debian:wheezy \
+mycorp.private.dockerregistry/adev/debian:mywheezy1                   2
+ docker push mycorp.private.dockerregistry/adev/debian:mywheezy1      3

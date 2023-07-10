@@ -1,0 +1,13 @@
+REMOTE VOLUME MOUNTING USING SSHFS
+
+
+$ docker run -t -i --privileged debian /bin/bash
+
+
+
+$ LOCALPATH=/path/to/local/directory                        1
+$ mkdir $LOCALPATH                                         2
+$ sshfs user@host:/path/to/remote/directory $LOCALPATH     3
+
+
+fusermount -u /path/to/local/directory

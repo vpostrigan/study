@@ -1,3 +1,6 @@
+DETACHING CONTAINERS WITHOUT STOPPING THEM
+
+
 
 docker run -t -i -p 9005:80 ubuntu /bin/bash
 

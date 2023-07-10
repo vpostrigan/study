@@ -1,3 +1,11 @@
+RUNNING THE JENKINS MASTER WITHIN A DOCKER CONTAINER
+
+You want a portable Jenkins server.
+
+
+[Building the server]
+swarm:3.4
+
 
 run
 66_server_Dockerfile
@@ -9,7 +17,7 @@ docker:x:999:imiell
 
 $ docker build -t jenkins_server .
 запуск сервера
-$ docker run -d -p 8080:8080 -p 50000:50000 \
+$ docker run --name jenkins_server -p 8080:8080 -p 50000:50000 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /tmp:/var/jenkins_home \
   -d jenkins_server

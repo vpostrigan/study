@@ -1,4 +1,16 @@
+LOCALE MANAGEMENT
 
+You’re seeing encoding errors in your application builds or deployments.
+
+Listing 4.15. Typical encoding errors
+MyFileDialog:66: error: unmappable character for encoding ASCII
+
+UnicodeEncodeError: 'ascii' codec can't encode character u'\xa0' in
+ position 20: ordinal not in range(128)
+
+
+
+Listing 4.16. Default environment on an Ubuntu container
 > docker run -ti ubuntu bash
 root@9f5371e9e271:/# env
 HOSTNAME=9f5371e9e271
@@ -25,6 +37,7 @@ root@9f5371e9e271:/#
 
 
 
+Listing 4.20. Setting up a Dockerfile example
 FROM ubuntu:16.04
 RUN apt-get update && apt-get install -y locales
 RUN locale-gen en_US.UTF-8
@@ -32,6 +45,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 CMD env
 
+Listing 4.21. Building and running the encoding image
 > docker build -t docker_in_practice_encoding .
 
 > docker run docker_in_practice_encoding

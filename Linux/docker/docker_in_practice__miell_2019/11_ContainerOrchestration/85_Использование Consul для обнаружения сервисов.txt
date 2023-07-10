@@ -1,0 +1,170 @@
+USING CONSUL TO DISCOVER SERVICES
+
+
+
+c1 $ IMG=dockerinpractice/consul-server
+c1 $ docker pull $IMG
+[...]
+c1 $ ip addr | grep 'inet ' | grep -v 'lo$\|docker0$\|vbox.*$'
+    inet 192.168.1.87/24 brd 192.168.1.255 scope global wlan0
+c1 $ EXTIP1=192.168.1.87
+c1 $ echo '{"ports": {"dns": 53}}' > dns.json
+c1 $ docker run -d --name consul --net host \
+-v $(pwd)/dns.json:/config/dns.json $IMG -bind $EXTIP1 -client $EXTIP1 \
+-recursor 8.8.8.8 -recursor 8.8.4.4 -bootstrap-expect 1
+88d5cb48b8b1ef9ada754f97f024a9ba691279e1a863fa95fa196539555310c1
+c1 $ docker logs consul
+[...]
+       Client Addr: 192.168.1.87 (HTTP: 8500, HTTPS: -1, DNS: 53, RPC: 8400)
+      Cluster Addr: 192.168.1.87 (LAN: 8301, WAN: 8302)
+[...]
+==> Log data will now stream in as it occurs:
+
+    2015/08/14 12:35:41 [INFO] serf: EventMemberJoin: mylaptop 192.168.1.87
+[...]
+    2015/08/14 12:35:43 [INFO] consul: member 'mylaptop' joined, marking >
+health alive
+    2015/08/14 12:35:43 [INFO] agent: Synced service 'consul'
+
+
+
+c2 $ IMG=dockerinpractice/consul-agent
+c2 $ docker pull $IMG
+[...]
+c2 $ EXTIP1=192.168.1.87
+c2 $ ip addr | grep docker0 | grep inet
+    inet 172.17.42.1/16 scope global docker0
+c2 $ BRIDGEIP=172.17.42.1
+c2 $ ip addr | grep 'inet ' | grep -v 'lo$\|docker0$'
+    inet 192.168.1.80/24 brd 192.168.1.255 scope global wlan0
+c2 $ EXTIP2=192.168.1.80
+c2 $ echo '{"ports": {"dns": 53}}' > dns.json
+c2 $ docker run -d --name consul-client --net host \
+-v $(pwd)/dns.json:/config/dns.json $IMG -client $BRIDGEIP -bind $EXTIP2 \
+-join $EXTIP1 -recursor 8.8.8.8 -recursor 8.8.4.4
+5454029b139cd28e8500922d1167286f7e4fb4b7220985ac932f8fd5b1cdef25
+c2 $ docker logs consul-client
+[...]
+    2015/08/14 19:40:20 [INFO] serf: EventMemberJoin: mylaptop2 192.168.1.80
+[...]
+    2015/08/14 13:24:37 [INFO] consul: adding server mylaptop >
+(Addr: 192.168.1.87:8300) (DC: dc1)
+
+
+
+c2 $ curl -sSL $BRIDGEIP:8500/v1/agent/members | tr ',' '\n' | grep Name
+[{"Name":"mylaptop2"
+{"Name":"mylaptop"
+
+
+
+c2 $ docker run -d --name files -p 8000:80 ubuntu:14.04.2 \
+python3 -m http.server 80
+96ee81148154a75bc5c8a83e3b3d11b73d738417974eed4e019b26027787e9d1
+c2 $ docker inspect -f '{{.NetworkSettings.IPAddress}}' files
+172.17.0.16
+c2 $ /bin/echo -e 'GET / HTTP/1.0\r\n\r\n' | nc -i1 172.17.0.16 80 \
+| head -n 1
+HTTP/1.0 200 OK
+c2 $ curl -X PUT --data-binary '{"Name": "files", "Port": 8000}' \
+$BRIDGEIP:8500/v1/agent/service/register
+c2 $ docker logs consul-client | tail -n 1
+    2015/08/15 03:44:30 [INFO] agent: Synced service 'files'
+
+
+
+c2 $ EXTIP1=192.168.1.87
+c2 $ dig @$EXTIP1 files.service.consul +short                  1
+ 192.168.1.80
+c2 $ BRIDGEIP=172.17.42.1
+c2 $ dig @$BRIDGEIP files.service.consul +short                2
+ 192.168.1.80
+c2 $ dig @$BRIDGEIP files.service.consul srv +short            3
+ 1 1 8000 mylaptop2.node.dc1.consul.
+c2 $ docker run -it --dns $BRIDGEIP ubuntu:14.04.2 bash        4
+ root@934e9c26bc7e:/# ping -c1 -q www.google.com               5
+ PING www.google.com (216.58.210.4) 56(84) bytes of data.
+
+--- www.google.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 25.358/25.358/25.358/0.000 ms
+root@934e9c26bc7e:/# ping -c1 -q files.service.consul          6
+ PING files.service.consul (192.168.1.80) 56(84) bytes of data.
+
+--- files.service.consul ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.062/0.062/0.062/0.000 ms
+
+
+
+c2 $ cat >check <<'EOF'                                              1
+ #!/bin/sh
+set -o errexit
+set -o pipefail
+
+SVC_ID="$1"
+SVC_PORT=\
+"$(wget -qO - 172.17.42.1:8500/v1/agent/services | jq ".$SVC_ID.Port")"
+wget -qsO - "localhost:$SVC_PORT"
+echo "Success!"
+EOF
+c2 $ cat check | docker exec -i consul-client sh -c \
+'cat > /check && chmod +x /check'                                    2
+ c2 $ cat >health.json <<'EOF'                                       3
+ {
+  "Name": "filescheck",
+  "ServiceID": "files",
+  "Script": "/check files",
+  "Interval": "10s"
+}
+EOF
+c2 $ curl -X PUT --data-binary @health.json \
+172.17.42.1:8500/v1/agent/check/register                             4
+ c2 $ sleep 300                                                      5
+ c2 $ curl -sSL 172.17.42.1:8500/v1/health/service/files | \
+python -m json.tool | head -n 13                                     6
+ [
+    {
+        "Checks": [
+            {
+                "CheckID": "filescheck",
+                "Name": "filescheck",
+                "Node": "mylaptop2",
+                "Notes": "",
+                "Output": "/check: line 6: jq: not \
+found\nConnecting to 172.17.42.1:8500 (172.17.42.1:8500)\n",
+                "ServiceID": "files",
+                "ServiceName": "files",
+                "Status": "critical"
+            },
+c2 $ dig @$BRIDGEIP files.service.consul srv +short                 7
+c2 $
+
+
+
+c2 $ docker exec consul-client sh -c 'apk update && apk add jq'
+fetch http://dl-4.alpinelinux.org/alpine/v3.2/main/x86_64/APKINDEX.tar.gz
+v3.2.3 [http://dl-4.alpinelinux.org/alpine/v3.2/main]
+OK: 5289 distinct packages available
+(1/1) Installing jq (1.4-r0)
+Executing busybox-1.23.2-r0.trigger
+OK: 14 MiB in 28 packages
+c2 $ docker exec consul-client sh -c \
+'wget -qO - 172.17.42.1:8500/v1/agent/services | jq ".files.Port"'
+8000
+c2 $ sleep 15
+c2 $ curl -sSL 172.17.42.1:8500/v1/health/service/files | \
+python -m json.tool | head -n 13
+[
+    {
+        "Checks": [
+            {
+                "CheckID": "filescheck",
+                "Name": "filescheck",
+                "Node": "mylaptop2",
+                "Notes": "",
+                "Output": "Success!\n",
+                "ServiceID": "files",
+                "ServiceName": "files",
+                "Status": "passing"
+            },

@@ -1,3 +1,49 @@
+USING INOTIFYWAIT TO SLIM CONTAINERS
+
 
 отслеживайте, к каким файлам получает доступ программа с помощью inotify
 а затем удалить все файлы, которые окажутся неиспользованными
+
+
+Listing 7.27. Performing manual install steps while monitoring with inotifywait
+[host]$ docker run -ti --entrypoint /bin/bash \                            1
+ --name reduce dockerinpractice/log-cleaner-purged                         2
+ $ apt-get update && apt-get install -y inotify-tools                      3
+ $ inotifywait -r -d -o /tmp/inotifywaitout.txt \                          4
+ /bin /etc /lib /sbin /var                                                 5
+ inotifywait[115]: Setting up watches.  Beware: since -r was given, this >
+may take a while!
+inotifywait[115]: Watches established.
+$ inotifywait -r -d -o /tmp/inotifywaitout.txt /usr/bin /usr/games \       6
+ /usr/include /usr/lib /usr/local /usr/sbin /usr/share /usr/src
+inotifywait[118]: Setting up watches.  Beware: since -r was given, this >
+may take a while!
+inotifywait[118]: Watches established.
+$ sleep 5                                                                  7
+ $ cp /usr/bin/clean_log /tmp/clean_log                                    8
+ $ rm /tmp/clean_log                                                       8
+ $ bash                                                                    9
+ $ echo "Cleaning logs over 0 days old"                                    9
+ $ find /log_dir -ctime "0" -name '*log' -exec rm {} \;                    9
+ $ awk '{print $1$3}' /tmp/inotifywaitout.txt | sort -u > \
+/tmp/inotify.txt                                                           10
+ $ comm -2 -3 \                                                            11
+ <(find /bin /etc /lib /sbin /var /usr -type f | sort) \
+<(cat /tmp/inotify.txt) > /tmp/candidates.txt
+$ cat /tmp/candidates.txt | xargs rm                                       12
+ $ exit                                                                    13
+ $ exit                                                                    13
+
+Listing 7.28. Flattening the image and running it
+$ ID=$(docker export reduce | docker import -)               1
+$ docker tag $ID smaller                                    2
+$ docker images | grep smaller
+smaller  latest  2af3bde3836a  18 minutes ago  6.378 MB      3
+$ mkdir -p /tmp/tmp                                         4
+$ touch /tmp/tmp/a.log                                      4
+$ docker run -v /tmp/tmp:/log_dir smaller /usr/bin/clean_log 0
+Cleaning logs over 0 days old
+$ ls /tmp/tmp/a.log                                          5
+ ls: cannot access /tmp/tmp/a.log: No such file or directory
+
+cat /tmp/candidates.txt | xargs wc -c | sort -n | tail

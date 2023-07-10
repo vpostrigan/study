@@ -1,2 +1,106 @@
+BUILDING IMAGES WITH CHEF SOLO
+
+You want to reduce configuration effort by using Chef.
+
 
 уменьшить объем работ по настройке с помощью Chef
+
+
+git clone https://github.com/docker-in-practice/docker-chef-solo-example.git
+
+
+Listing 7.11. Creating the necessary files for a Chef configuration
+$ mkdir chef_example
+$ cd chef_example
+$ touch attributes.json                                   1
+$ touch config.rb                                        2
+$ touch Dockerfile                                       3
+$ mkdir -p cookbooks/mysite/recipes                      4
+$ touch cookbooks/mysite/recipes/default.rb
+$ mkdir -p cookbooks/mysite/templates/default             5
+$ touch cookbooks/mysite/templates/default/message.erb
+
+
+
+First we’ll fill out attributes.json.
+Listing 7.12. attributes.json
+{
+        "run_list": [
+                "recipe[apache2::default]",
+                "recipe[mysite::default]"
+        ]
+}
+
+Listing 7.13. config.rb
+base_dir        "/chef/"
+file_cache_path base_dir + "cache/"
+cookbook_path   base_dir + "cookbooks/"
+verify_api_cert true
+
+
+Listing 7.14. cookbooks/mysite/recipes/default.rb
+user "mysiteuser" do                                   1
+     comment "mysite user"
+    home "/home/mysiteuser"
+    shell "/bin/bash"
+end
+
+directory "/var/www/html/mysite" do                    2
+     owner "mysiteuser"
+    group "mysiteuser"
+    mode 0755
+    action :create
+end
+
+template "/var/www/html/mysite/index.html" do          3
+     source "message.erb"
+    variables(
+        :message => "Hello World!"
+    )
+    user "mysiteuser"
+    group "mysiteuser"
+    mode 0755
+end
+
+web_app "mysite" do                                    4
+     server_name "mysite.com"
+    server_aliases ["www.mysite.com","mysite.com"]     5
+     docroot "/var/www/html/mysite"
+    cookbook 'apache2'
+end
+
+
+Listing 7.15. cookbooks/mysite/templates/default/message.erb
+<%= @message %>
+
+
+Listing 7.16. Dockerfile
+FROM ubuntu:14.04
+
+RUN apt-get update && apt-get install -y git curl
+
+RUN curl -L \
+https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64
+ /chefdk_0.3.5-1_amd64.deb \
+-o chef.deb
+RUN dpkg -i chef.deb && rm chef.deb                                1
+
+COPY . /chef                                                       2
+
+WORKDIR /chef/cookbooks                                            3
+ RUN knife cookbook site download apache2                          3
+ RUN knife cookbook site download iptables                         3
+ RUN knife cookbook site download logrotate                        3
+
+RUN /bin/bash -c 'for f in $(ls *gz); do tar -zxf $f; rm $f; done' 4
+
+RUN chef-solo -c /chef/config.rb -j /chef/attributes.json          5
+
+CMD /usr/sbin/service apache2 start && sleep infinity              6
+
+
+You’re now ready to build and run the \image:
+docker build -t chef-example .
+docker run -ti -p 8080:80 chef-example
+
+

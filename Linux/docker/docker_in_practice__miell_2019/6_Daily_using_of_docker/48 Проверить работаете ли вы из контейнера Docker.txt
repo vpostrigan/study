@@ -1,10 +1,22 @@
+ARE YOU IN A DOCKER CONTAINER?
+
+
 
 проверить наличие файла /.dockerenv
 
-
+Listing 6.3. Shell script fails if it’s run outside a container
 #!/bin/bash
 if ! [ -f /.dockerenv ]
 then
     echo 'Not in a Docker container, exiting.'
+    exit 1
+fi
+
+
+Listing 6.4. Shell script fails if it’s run inside a container
+#!/bin/bash
+if [ -f /.dockerenv ]
+then
+    echo 'In a Docker container, exiting.'
     exit 1
 fi

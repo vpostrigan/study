@@ -1,0 +1,54 @@
+TRADITIONAL: USING MAKE WITH DOCKER
+
+You want to add additional tasks around docker build execution.
+
+Use an ancient (in computing terms) tool called make.
+
+
+
+Listing 7.4. A simple Makefile
+.PHONY: default createfile catfile               1
+
+default: createfile                              2
+
+createfile: x.y.z                                3
+
+catfile:                                         4
+     cat x.y.z
+
+x.y.z:                                           5
+     echo "About to create the file x.y.z"
+    echo abc > x.y.z
+
+
+Listing 7.5. Makefile for building an image
+base:
+    docker build -t corp/base .
+
+Listing 7.6. Makefile for building an image in a subdirectory
+app1: base
+    cd repos/app1 && docker build -t corp/app1 .
+
+Listing 7.7. Makefile for building an image with a specific set of files
+base:
+    tar -cvf - file1 file2 Dockerfile | docker build -t corp/base -
+
+Listing 7.8. Makefile for building an image with a specific set of files with renamed paths
+base:
+    tar --transform 's/^deps\///' -cf - deps/* Dockerfile | \
+        docker build -t corp/base -
+
+Listing 7.9. Makefile for building an image with basic Dockerfile variable substitution
+VAR1 ?= defaultvalue
+base:
+    cp Dockerfile.in Dockerfile
+    sed -i 's/{VAR1}/$(VAR1)/' Dockerfile
+    docker build -t corp/base .
+
+Listing 7.10. Makefile for copying files out of an image
+singlefile: base
+    docker run --rm corp/base cat /path/to/myfile > outfile
+multifile: base
+    docker run --rm -v $(pwd)/outdir:/out corp/base sh \
+        -c "cp -r /path/to/dir/* /out/"
+

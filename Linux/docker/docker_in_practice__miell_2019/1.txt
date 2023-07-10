@@ -1,3 +1,7 @@
 https://github.com/orgs/docker-in-practice/repositories
 
 https://hub.docker.com/u/dockerinpractice
+
+https://livebook.manning.com/book/docker-in-practice-second-edition/chapter-11/1
+old version
+https://livebook.manning.com/book/docker-in-practice/about-this-book/

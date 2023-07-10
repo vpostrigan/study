@@ -1,2 +1,48 @@
+SETTING UP A PACKAGE CACHE FOR FASTER BUILDS
+
 
 прокси-сервер squid для кеша
+
+
+On your Debian-based host run this command:
+sudo apt-get install squid-deb-proxy
+
+
+$ telnet localhost 8000
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+
+
+
+Listing 8.3. Configuring a Debian image to use an apt proxy
+FROM debian
+RUN apt-get update -y && apt-get install net-tools                 1
+RUN echo "Acquire::http::Proxy \"http://$( \
+route -n | awk '/^0.0.0.0/ {print $2}' \                           2
+ ):8000\";" \                                                       3
+ > /etc/apt/apt.conf.d/30proxy                                     4
+RUN echo "Acquire::http::Proxy::ppa.launchpad.net  DIRECT;" >> \
+    /etc/apt/apt.conf.d/30proxy
+CMD ["/bin/bash"]
+
+
+Ensure the service is started by telneting to port 3128:
+$ telnet localhost 3128
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+
+
+Listing 8.4. Configuring a CentOS image to use a yum proxy
+FROM centos:centos7
+RUN yum update -y && yum install -y net-tools            1
+RUN echo "proxy=http://$(route -n | awk '/^0.0.0.0/ {print $2}'):3128" >> /etc/yum.conf     3
+RUN sed -i 's/^mirrorlist/#mirrorlist/' \
+/etc/yum.repos.d/CentOS-Base.repo                        4
+RUN sed -i 's/^#baseurl/baseurl/' \                     4
+/etc/yum.repos.d/CentOS-Base.repo                        4
+RUN rm -f /etc/yum/pluginconf.d/fastestmirror.conf      5
+RUN yum update -y                                       6
+CMD ["/bin/bash"]
+

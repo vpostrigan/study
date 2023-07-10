@@ -1,0 +1,7 @@
+THE DOCKER CONTRACT: REDUCING FRICTION
+
+
+Use the Docker contract to facilitate clean deliverables between teams.
+
+
+[The Docker contract]

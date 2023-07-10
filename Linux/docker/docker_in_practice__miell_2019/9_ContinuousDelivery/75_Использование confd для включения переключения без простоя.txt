@@ -1,17 +1,120 @@
+USING CONFD TO ENABLE ZERO-DOWNTIME SWITCHOVERS
+
+
 
 запуск файлового сервера в контейнере
 
-/mnt/c/WINDOWS/system32$ ip addr | grep 'inet' | grep -v 'lo$\|docker0$'
-    inet6 ::1/128 scope host
-    inet 172.17.231.115/20 brd 172.17.239.255 scope global eth0
-    inet6 fe80::215:5dff:fe04:9386/64 scope link
+Listing 9.13. Starting a simple fileserver in a container
+$ ip addr | grep 'inet ' | grep -v 'lo$\|docker0$'
+    inet 10.194.12.221/20 brd 10.194.15.255 scope global eth0
 
-$ HTTPIP=http://172.17.231.115
+$ HTTPIP=http://10.194.12.221
 
-$ docker run -d --name py1 -p 80 ubuntu:14.04.2 sh -c 'cd / && python3 -m http.server 80'
+$ docker run -d --name py1 -p 80 ubuntu:14.04.2 \
+  sh -c 'cd / && python3 -m http.server 80'
+e6b769ec3efa563a959ce771164de8337140d910de67e1df54d4960fdff74544
 
 $ docker inspect -f '{{.NetworkSettings.Ports}}' py1
-map[80/tcp:[{0.0.0.032768}]]
+map[80/tcp:[{0.0.0.0 32768}]]
 
 $ curl -s localhost:32768 | tail | head -n 5
-<html...
+<li><a href="sbin/">sbin/</a></li>
+<li><a href="srv/">srv/</a></li>
+<li><a href="sys/">sys/</a></li>
+<li><a href="tmp/">tmp/</a></li>
+<li><a href="usr/">usr/</a></li>
+
+
+Listing 9.14. Download and use the etcdctl Docker image
+$ IMG=dockerinpractice/etcdctl
+$ docker pull dockerinpractice/etcdctl
+[...]
+$ alias etcdctl="docker run --rm $IMG -C \"$HTTPIP:8080\""
+$ etcdctl set /test value
+value
+$ etcdctl ls
+/test
+
+
+Listing 9.15. Start an nginx + confd container
+$ IMG=dockerinpractice/confd-nginx
+$ docker pull $IMG
+[...]
+$ docker run -d --name nginx -p 8000:80 $IMG $HTTPIP:8080
+ebdf3faa1979f729327fa3e00d2c8158b35a49acdc4f764f0492032fa5241b29
+
+
+Listing 9.16. Demonstrating the auto-configuration of the nginx container
+$ docker logs nginx
+Using http://10.194.12.221:8080 as backend
+2015-05-18T13:09:56Z ebdf3faa1979 confd[14]: >
+ERROR 100: Key not found (/app) [14]
+2015-05-18T13:10:06Z ebdf3faa1979 confd[14]: >
+ERROR 100: Key not found (/app) [14]
+$ echo $HTTPIP
+http://10.194.12.221
+$ etcdctl set /app/upstream/py1 10.194.12.221:32768
+10.194.12.221:32768
+$ sleep 10
+$ docker logs nginx
+Using http://10.194.12.221:8080 as backend
+2015-05-18T13:09:56Z ebdf3faa1979 confd[14]: >
+ERROR 100: Key not found (/app) [14]
+2015-05-18T13:10:06Z ebdf3faa1979 confd[14]: >
+ERROR 100: Key not found (/app) [14]
+2015-05-18T13:10:16Z ebdf3faa1979 confd[14]: >
+ERROR 100: Key not found (/app) [14]
+2015-05-18T13:10:26Z ebdf3faa1979 confd[14]: >
+INFO Target config /etc/nginx/conf.d/app.conf out of sync
+2015-05-18T13:10:26Z ebdf3faa1979 confd[14]: >
+INFO Target config /etc/nginx/conf.d/app.conf has been updated
+$ curl -s localhost:8000 | tail | head -n5
+<li><a href="sbin/">sbin/</a></li>
+<li><a href="srv/">srv/</a></li>
+<li><a href="sys/">sys/</a></li>
+<li><a href="tmp/">tmp/</a></li>
+<li><a href="usr/">usr/</a></li>
+
+
+Listing 9.17. Using confd to set up two backend web services for nginx
+$ docker run -d --name py2 -p 80 ubuntu:14.04.2 \
+  sh -c 'cd /etc && python3 -m http.server 80'
+9b5355b9b188427abaf367a51a88c1afa2186e6179ab46830715a20eacc33660
+$ docker inspect -f '{{.NetworkSettings.Ports}}' py2
+map[80/tcp:[{0.0.0.0 32769}]]
+$ curl -s $HTTPIP:32769 | tail | head -n 5
+<li><a href="udev/">udev/</a></li>
+<li><a href="update-motd.d/">update-motd.d/</a></li>
+<li><a href="upstart-xsessions">upstart-xsessions</a></li>
+<li><a href="vim/">vim/</a></li>
+<li><a href="vtrgb">vtrgb@</a></li>
+$ echo $HTTPIP
+http://10.194.12.221
+$ etcdctl set /app/upstream/py2 10.194.12.221:32769
+10.194.12.221:32769
+$ etcdctl ls /app/upstream
+/app/upstream/py1
+/app/upstream/py2
+$ curl -s localhost:8000 | tail | head -n 5
+<li><a href="sbin/">sbin/</a></li>
+<li><a href="srv/">srv/</a></li>
+<li><a href="sys/">sys/</a></li>
+<li><a href="tmp/">tmp/</a></li>
+<li><a href="usr/">usr/</a></li>
+$ curl -s localhost:8000 | tail | head -n 5
+<li><a href="udev/">udev/</a></li>
+<li><a href="update-motd.d/">update-motd.d/</a></li>
+<li><a href="upstart-xsessions">upstart-xsessions</a></li>
+<li><a href="vim/">vim/</a></li>
+<li><a href="vtrgb">vtrgb@</a></li>
+
+
+Listing 9.18. Removing the old upstream address
+$ etcdctl rm /app/upstream/py1
+PrevNode.Value: 192.168.1.123:32768
+$ etcdctl ls /app/upstream
+/app/upstream/py2
+$ docker rm -f py1
+py1
+
+

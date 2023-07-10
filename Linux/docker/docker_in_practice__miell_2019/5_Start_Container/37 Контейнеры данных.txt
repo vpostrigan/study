@@ -1,0 +1,10 @@
+DATA CONTAINERS
+
+$ docker run -v /shared-data --name dc busybox \
+  touch /shared-data/somefile
+
+
+
+docker run -t -i --volumes-from dc busybox /bin/sh
+/ # ls /shared-data
+somefile

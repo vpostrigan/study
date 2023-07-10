@@ -1,3 +1,8 @@
+DISTRIBUTED VOLUMES WITH RESILIO SYNC
+
+
+You want to share volumes across hosts over the internet.
+
 
 сервер
 $ docker run -d -p 8888:8888 -p 55555:55555 --name resilio ctlc/btsync

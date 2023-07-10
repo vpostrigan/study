@@ -1,5 +1,28 @@
+DOCKER TAGGING
 
+You want to conveniently reference and store a Docker commit.
+
+
+Listing 3.19. A simple docker tag command
 $ docker tag 748918397e imageName
 
 $ docker run imagename
 
+
+
+TABLE 3.1. DOCKER TAGGING TERMS
+Term          Meaning
+---------------------
+Image	      A read-only layer.
+Name	      The name of your image, such as “todoapp.”
+Tag	          As a verb, it refers to giving an image a name. As a noun, it’s a modifier for your image name.
+Repository	  A hosted collection of tagged images that together create the filesystem for a container.
+
+
+Listing 3.20. An image with multiple tags
+$ docker images
+REPOSITORY      TAG        IMAGE ID       CREATED       VIRTUAL SIZE
+ubuntu          trusty     8eaa4ff06b53   4 weeks ago   192.7 MB
+ubuntu          14.04      8eaa4ff06b53   4 weeks ago   192.7 MB
+ubuntu          14.04.1    8eaa4ff06b53   4 weeks ago   192.7 MB
+ubuntu          latest     8eaa4ff06b53   4 weeks ago   192.7 MB

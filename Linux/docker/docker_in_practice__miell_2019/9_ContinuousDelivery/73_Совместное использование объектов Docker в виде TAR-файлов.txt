@@ -1,3 +1,15 @@
+SHARING DOCKER OBJECTS AS TAR FILES
+
+
+TABLE 9.1. EXPORT AND IMPORT VS. SAVE AND LOAD
+Command     Creates?        Of what?                       From what?
+---------------------------------------------------------------------
+export	    TAR file	    Container filesystem	       Container
+import	    Docker image	Flat filesystem                TAR file
+save	    TAR file	    Docker image (with history)	   Image
+load	    Docker image	Docker image (with history)	   TAR file
+
+
 
 docker pull debian:7.3
 docker save debian:7.3 > debian7_3.tar
@@ -7,11 +19,13 @@ docker save debian:7.3 > debian7_3.tar
 scp debian7_3.tar example.com:/tmp/debian7_3.tar
 
 
+Listing 9.5. Sending an image directly over SSH
 отправка образа напрямую через ssh
 docker save debian:7.3 | ssh example.com docker load -
 
 
 
+Listing 9.6. Transferring a Docker image directly over SSH, discarding layers
 передача образа Docker напрямую через SSH, отбрасывая слои
 docker export $(docker run -d debian:7.3 true) | ssh example.com docker import
 

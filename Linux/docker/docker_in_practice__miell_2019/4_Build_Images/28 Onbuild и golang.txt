@@ -1,20 +1,30 @@
+ONBUILD AND GOLANG
+
 
 git clone https://github.com/golang/example
 cd example/outyet
 docker build -t outyet
 
 
+Listing 4.30. Running and validating the outyet image
+$ docker run                                                          1
+ --publish 8080:8080                                               2
+ --name outyet1 -d outyet                                          3
+ $ curl localhost:8080                                                4
+ <!DOCTYPE html><html><body><center>                                  5
+     <h2>Is Go 1.4 out yet?</h2>                                      5
+     <h1>                                                             5
+         <a href="https://go.googlesource.com/go/+/go1.4">YES!</a>    5
+     </h1>                                                            5
+ </center></body></html>                                              5
 
-docer run --publish 8080:8080 --name outyet1 -d outyet
-curl localhost:8080
 
-
-
+Listing 4.31. The onyet Dockerfile
 FROM golang:onbuild
 EXPOSE 8080
 
 
-
+Listing 4.32. The golang:onbuild Dockerfile
 FROM golang:1.7
 RUN mkdir -p /go/src/app
 WORKDIR /go/src/app

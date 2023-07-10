@@ -1,0 +1,59 @@
+AUTOMATIC SERVICE REGISTRATION WITH REGISTRATOR
+
+
+Вручную управлять записями служб и проверками работоспособности в Consul
+
+
+
+$ IMG=gliderlabs/registrator:v6
+$ docker pull $IMG
+[...]
+$ ip addr | grep 'inet ' | grep -v 'lo$\|docker0$'
+    inet 192.168.1.80/24 brd 192.168.1.255 scope global wlan0
+$ EXTIP=192.168.1.80
+$ ip addr | grep docker0 | grep inet
+    inet 172.17.42.1/16 scope global docker0
+$ BRIDGEIP=172.17.42.1
+$ docker run -d --name registrator -h $(hostname)-reg \
+-v /var/run/docker.sock:/tmp/docker.sock $IMG -ip $EXTIP -resync \
+60 consul://$BRIDGEIP:8500 # if this fails, $EXTIP is an alternative
+b3c8a04b9dfaf588e46a255ddf4e35f14a9d51199fc6f39d47340df31b019b90
+$ docker logs registrator
+2015/08/14 20:05:57 Starting registrator v6 ...
+2015/08/14 20:05:57 Forcing host IP to 192.168.1.80
+2015/08/14 20:05:58 consul: current leader  192.168.1.87:8300
+2015/08/14 20:05:58 Using consul adapter: consul://172.17.42.1:8500
+2015/08/14 20:05:58 Listening for Docker events ...
+2015/08/14 20:05:58 Syncing services on 2 containers
+2015/08/14 20:05:58 ignored: b3c8a04b9dfa no published ports
+2015/08/14 20:05:58 ignored: a633e58c66b3 no published ports
+
+
+
+$ curl -sSL 172.17.42.1:8500/v1/catalog/services | python -m json.tool
+{
+    "consul": []
+}
+$ docker run -d -e "SERVICE_NAME=files" -p 8000:80 ubuntu:14.04.2 python3 \
+-m http.server 80
+3126a8668d7a058333d613f7995954f1919b314705589a9cd8b4e367d4092c9b
+$ docker inspect 3126a8668d7a | grep 'Name.*/'
+    "Name": "/evil_hopper",
+$ curl -sSL 172.17.42.1:8500/v1/catalog/services | python -m json.tool
+{
+    "consul": [],
+    "files": []
+}
+$ curl -sSL 172.17.42.1:8500/v1/catalog/service/files | python -m json.tool
+[
+    {
+        "Address": "192.168.1.80",
+        "Node": "mylaptop2",
+        "ServiceAddress": "192.168.1.80",
+        "ServiceID": "mylaptop2-reg:evil_hopper:80",
+        "ServiceName": "files",
+        "ServicePort": 8000,
+        "ServiceTags": null
+    }
+]
+

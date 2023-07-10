@@ -1,3 +1,8 @@
+HOUSEKEEPING CONTAINERS
+
+You want to prune the containers on your system.
+
+
 
 $ docker ps -a -q | \         // список всех идентификаторов
    xargs --no-run-if-empty docker rm -f     // 'docker rm -f' для всех переданных контейнеров, включая рабочие
@@ -37,3 +42,5 @@ comm -3 \      сравнение двух файлов, -3 - убрать од�
 ...
 
 
+alias dockernuke='docker ps -a -q | \
+xargs --no-run-if-empty docker rm -f'

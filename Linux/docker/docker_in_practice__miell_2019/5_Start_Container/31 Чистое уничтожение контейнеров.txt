@@ -1,7 +1,14 @@
+CLEANLY KILLING CONTAINERS
 
-kill           - TERM
-docker kill    - KILL
-docker stop    - TERM
+You want to cleanly terminate a container.
+
+
+TABLE 5.1. STOPPING AND KILLING
+Command      Default signal      Default signal value
+kill         TERM                15
+docker kill	 KILL	             9
+docker stop	 TERM	             15
+
 
 
 лучше  docker stop

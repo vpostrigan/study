@@ -1,4 +1,10 @@
+UPGRADING YOUR CONTAINERIZED JENKINS SERVER SAFELY
 
+
+You want to reliably upgrade your Jenkins server.
+
+
+[The jenkins-updater image invocation]
 Команда Docker для запуска Jenkins updater
 
 docker run --rm -d \
@@ -6,3 +12,13 @@ docker run --rm -d \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v /var/docker/mounts:/var/docker/mounts
 		dockerinpractice/jenkins-updater
+
+
+[Automating the upgrade]
+0 * * * * docker run --rm -d -v /var/lib/docker:/var/lib/docker -v
+ /var/run/docker.sock:/var/run/docker.sock -v
+ /var/docker/mounts:/var/docker/mounts dockerinpractice/jenkins-updater
+
+
+[Database upgrades and Docker]
+
