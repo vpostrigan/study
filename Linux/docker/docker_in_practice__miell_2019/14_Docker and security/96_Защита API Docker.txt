@@ -1,0 +1,76 @@
+SECURING YOUR DOCKER API
+
+
+[Setting up the Docker server certificate]
+First you create the certificates and keys.
+
+Listing 14.3. Creating certificates and keys with OpenSSL
+$ sudo su                                                                  1
+$ read -s PASSWORD                                                        2
+$ read SERVER                                                             2
+$ mkdir -p /etc/docker                                                    3
+$ cd /etc/docker                                                          3
+$ openssl genrsa -aes256 -passout pass:$PASSWORD -out ca-key.pem 2048                                                       4
+$ openssl req -new -x509 -days 365 -key ca-key.pem -passin pass:$PASSWORD \
+-sha256 -out ca.pem -subj "/C=NL/ST=./L=./O=./CN=$SERVER"                  5
+$ openssl genrsa -out server-key.pem 2048                                 6
+$ openssl req -subj "/CN=$SERVER" -new -key server-key.pem -out server.csr                                                            7
+$ openssl x509 -req -days 365 -in server.csr -CA ca.pem -CAkey ca-key.pem
+-passin "pass:$PASSWORD" -CAcreateserial -out server-cert.pem                                                       8
+$ openssl genrsa -out key.pem 2048                                        9
+$ openssl req -subj '/CN=client' -new -key key.pem -out client.csr                                                            10
+$ sh -c 'echo "extendedKeyUsage = clientAuth" > extfile.cnf'
+$ openssl x509 -req -days 365 -in client.csr -CA ca.pem -CAkey ca-key.pem \
+-passin "pass:$PASSWORD" -CAcreateserial -out cert.pem -extfile extfile.cnf                                                       11
+$ chmod 0400 ca-key.pem key.pem server-key.pem                            12
+$ chmod 0444 ca.pem server-cert.pem cert.pem                              13
+$ rm client.csr server.csr                                                14
+
+
+[Setting up the Docker server]
+Listing 14.4. Docker options for using the new keys and certificates
+
+DOCKER_OPTS="$DOCKER_OPTS --tlsverify"                 1
+DOCKER_OPTS="$DOCKER_OPTS --tlscacert=/etc/docker/ca.pem"                        2
+DOCKER_OPTS="$DOCKER_OPTS --tlscert=/etc/docker/server-cert.pem"                 3
+DOCKER_OPTS="$DOCKER_OPTS --tlskey=/etc/docker/server-key.pem"                   4
+DOCKER_OPTS="$DOCKER_OPTS -H tcp://0.0.0.0:2376"      5
+DOCKER_OPTS="$DOCKER_OPTS -H unix:///var/run/docker.sock"                        6
+
+[Distributing client keys]
+user@client:~$ sudo su
+root@client:~$ mkdir -p /etc/docker
+
+// передача ключей клиенту
+user@server:~$ sudo su
+root@server:~$ scp /etc/docker/ca.pem client:/etc/docker
+root@server:~$ scp /etc/docker/cert.pem client:/etc/docker
+root@server:~$ scp /etc/docker/key.pem client:/etc/docker
+
+[Testing]
+root@client~: docker -H myserver.localdomain:2376 info
+FATA[0000] Get http://myserver.localdomain:2376/v1.17/info: malformed HTTP >
+response "\x15\x03\x01\x00\x02\x02". Are you trying to connect to a TLS-enabled daemon without TLS?
+
+
+Then connect with the credentials, which should return useful output:
+root@client~: docker --tlsverify --tlscacert=/etc/docker/ca.pem \
+--tlscert=/etc/docker/cert.pem --tlskey=/etc/docker/key.pem \
+-H myserver.localdomain:2376 info
+243 info
+Containers: 3
+Images: 86
+Storage Driver: aufs
+ Root Dir: /var/lib/docker/aufs
+ Backing Filesystem: extfs
+ Dirs: 92
+Execution Driver: native-0.2
+Kernel Version: 3.16.0-34-generic
+Operating System: Ubuntu 14.04.2 LTS
+CPUs: 4
+Total Memory: 11.44 GiB
+Name: rothko
+ID: 4YQA:KK65:FXON:YVLT:BVVH:Y3KC:UATJ:I4GK:S3E2:UTA6:R43U:DX5T
+WARNING: No swap limit support
+
+

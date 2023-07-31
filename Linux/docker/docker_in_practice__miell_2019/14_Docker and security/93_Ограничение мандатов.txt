@@ -1,0 +1,59 @@
+CONSTRAINING CAPABILITIES
+
+[The Unix trust model]
+
+[Linux capabilities]
+
+
+TABLE 14.1. LINUX CAPABILITIES IN DOCKER CONTAINERS
+Capability       Description         Switched on?
+
+CHOWN           Make ownership changes to any files	             Y
+DAC_OVERRIDE	Override read, write, and execution checks	    Y
+FSETID	        Don’t clear suid and guid bits when modifying files	Y
+FOWNER      	Override ownership checks when saving files	    Y
+KILL        	Bypass permission checks on signals     	    Y
+MKNOD       	Make special files with	                        Y
+NET_RAW     	Use raw and packet sockets, and bind to ports for transparent proxying	Y
+SETGID	        Make changes to group ownership of processes	Y
+SETUID	        Make changes to user ownership of processes	    Y
+SETFCAP     	Set file capabilities	                        Y
+SETPCAP	        If file capabilities aren’t supported, apply capability limits to and from other processes	Y
+NET_BIND_SERVICE	Bind sockets to ports under 1024	        Y
+SYS_CHROOT	    Use chroot	                                    Y
+AUDIT_WRITE	    Write to kernel logs	                        Y
+AUDIT_CONTROL	Enable/disable kernel logging	                N
+BLOCK_SUSPEND	Employ features that block the ability of the system to suspend	N
+DAC_READ_SEARCH	Bypass file permission checks on reading files and directories	N
+IPC_LOCK	    Lock memory	                                    N
+IPC_OWNER	    Bypass permissions on interprocess communication objects	N
+LEASE	        Establish leases (watches on attempts to open or truncate) on ordinary files	N
+LINUX_IMMUTABLE	Set the FS_APPEND_FL and FS_IMMUTABLE_FL i-node flags	N
+MAC_ADMIN	    Override mandatory access control (related to the Smack Linux Security Module (SLM))	N
+MAC_OVERRIDE	Mandatory access control changes (related to SLM)	N
+NET_ADMIN	    Various network-related operations, including IP firewall changes and interface configuration	N
+NET_BROADCAST	Unused                                      	N
+SYS_ADMIN	    A range of administrative functions—see man capabilities for more information	N
+SYS_BOOT	    Rebooting                                   	N
+SYS_MODULE	    Load/unload kernel modules	                    N
+SYS_NICE	    Manipulate nice priority of processes	        N
+SYS_PACCT	    Turn on or off process accounting	            N
+SYS_PTRACE	    Trace processes’ system calls and other process manipulation capabilities	N
+SYS_RAWIO	    Perform I/O on various core parts of the system, such as memory and SCSI device commands	N
+SYS_RESOURCE	Control and override various resource limits	N
+SYS_TIME	    Set the system clock	                        N
+SYS_TTY_CONFIG	Privileged operations on virtual terminals	    N
+
+удалить все мандаты и посмотреть что будет (можно --cap-drop=all)
+$ docker run -ti --cap-drop=CHOWN --cap-drop=DAC_OVERRIDE \
+--cap-drop=FSETID --cap-drop=FOWNER --cap-drop=KILL --cap-drop=MKNOD \
+--cap-drop=NET_RAW --cap-drop=SETGID --cap-drop=SETUID \
+--cap-drop=SETFCAP --cap-drop=SETPCAP --cap-drop=NET_BIND_SERVICE \
+--cap-drop=SYS_CHROOT --cap-drop=AUDIT_WRITE debian /bin/bash
+
+$ docker run -ti --cap-drop=CHOWN --cap-drop=DAC_OVERRIDE \
+--cap-drop=FSETID  --cap-drop=KILL --cap-drop=MKNOD \
+--cap-drop=NET_RAW --cap-drop=SETGID --cap-drop=SETUID \
+--cap-drop=SETFCAP --cap-drop=SETPCAP --cap-drop=NET_BIND_SERVICE \
+--cap-drop=SYS_CHROOT --cap-drop=AUDIT_WRITE debian /bin/bash
+

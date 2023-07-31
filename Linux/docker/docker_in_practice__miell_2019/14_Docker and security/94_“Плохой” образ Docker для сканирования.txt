@@ -1,0 +1,18 @@
+A “BAD” DOCKER IMAGE TO SCAN
+
+
+
+You want to determine how effective an image scanner is.
+Create a “known-bad” image to test your scanners on.
+
+$ docker pull imiell/bad-dockerfile
+
+
+https://github.com/ianmiell/bad-dockerfile
+FROM <base image>                           1
+ RUN <install 'bad' software>               2
+ COPY <copy 'bad' software in>              2
+ [...]
+CMD echo 'Vulnerable image' && /bin/false   3
+
+

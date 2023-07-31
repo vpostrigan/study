@@ -1,0 +1,140 @@
+REDUCING A CONTAINER’S ATTACK SURFACE WITH DOCKERSLIM
+
+уменьшение не только образа но и объема действий, который он может выполнять
+
+
+[Setting up DockerSlim]
+
+Listing 14.5. Downloading docker-slim and installing it to a directory
+$ mkdir -p docker-slim/bin && cd docker-slim/bin                           1
+$ wget https://github.com/docker-slim/docker-slim/releases/download/1.18 /dist_linux.zip   2
+$ unzip dist_linux.zip                                                    3
+$ cd ..                                                                   4
+
+
+Now you have the docker-slim binary in a bin subfolder.
+
+[Building the fat image]
+
+Listing 14.6. Building an example docker-slim application
+$ git clone https://github.com/docker-slim/docker-slim.git    1
+$ cd docker-slim && git checkout 1.18                        2
+$ cd sample/apps/node                                        3
+$ docker build -t sample-node-app .                          4
+$ cd -                                                       5
+
+
+[Running the fat image]
+$ ./docker-slim build --http-probe sample-node-app &                        1
+$ sleep 10 && curl localhost:32770                                         2
+{"status":"success","info":"yes!!!","service":"node"}                      3
+$ fg                                                                       4
+./docker-slim build --http-probe sample-node-app                           5
+INFO[0014] docker-slim: HTTP probe started...                              5
+INFO[0014] docker-slim: http probe - GET http://127.0.0.1:32770/ => 200    5
+INFO[0014] docker-slim: HTTP probe done.                                   5
+INFO[0015] docker-slim: shutting down 'fat' container...                   5
+INFO[0015] docker-slim: processing instrumented 'fat' container info...    5
+INFO[0015] docker-slim: generating AppArmor profile...                     5
+INFO[0015] docker-slim: building 'slim' image...                           5
+
+Step 1 : FROM scratch                                                      6
+ --->                                                                      6
+Step 2 : COPY files /                                                      6
+ ---> 0953a87c8e4f                                                         6
+Removing intermediate container 51e4e625017e                               6
+Step 3 : WORKDIR /opt/my/service                                           6
+ ---> Running in a2851dce6df7                                              6
+ ---> 2d82f368c130                                                         6
+Removing intermediate container a2851dce6df7                               6
+Step 4 : ENV PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+                                                                            6
+ ---> Running in ae1d211f118e                                              6
+ ---> 4ef6d57d3230                                                         6
+Removing intermediate container ae1d211f118e                               6
+Step 5 : EXPOSE 8000/tcp                                                   6
+ ---> Running in 36e2ced2a1b6                                              6
+ ---> 2616067ec78d                                                         6
+Removing intermediate container 36e2ced2a1b6                               6
+Step 6 : ENTRYPOINT node /opt/my/service/server.js                         6
+ ---> Running in 16a35fd2fb1c                                              6
+ ---> 7451554aa807                                                         6
+Removing intermediate container 16a35fd2fb1c                               6
+Successfully built 7451554aa807                                            6
+INFO[0016] docker-slim: created new image: sample-node-app.slim            6
+$                                                                          7
+$
+
+
+// разный размер
+$ docker images
+REPOSITORY             TAG      IMAGE ID       CREATED             SIZE
+sample-node-app.slim   latest   7451554aa807   About an hour ago   14.02 MB  1
+sample-node-app        latest   78776db92c2a   About an hour ago   418.5 MB 2
+
+
+// тонкий и толстый образы разные по структуре
+$ docker history sample-node-app                                              1
+IMAGE         CREATED       CREATED BY                              SIZE     2
+78776db92c2a  42 hours ago  /bin/sh -c #(nop)  ENTRYPOINT ["node"   0 B      2
+0f044b6540cd  42 hours ago  /bin/sh -c #(nop)  EXPOSE 8000/tcp      0 B      2
+555cf79f13e8  42 hours ago  /bin/sh -c npm install                  14.71 MB 2
+6c62e6b40d47  42 hours ago  /bin/sh -c #(nop)  WORKDIR /opt/my/ser  0 B      2
+7871fb6df03b  42 hours ago  /bin/sh -c #(nop) COPY dir:298f558c6f2  656 B    2
+618020744734  42 hours ago  /bin/sh -c apt-get update &&   apt-get  215.8 MB 2
+dea1945146b9  7 weeks ago   /bin/sh -c #(nop)  CMD ["/bin/bash"]    0 B      2
+<missing>     7 weeks ago   /bin/sh -c mkdir -p /run/systemd && ec  7 B      2
+<missing>     7 weeks ago   /bin/sh -c sed -i 's/^#\s*\(deb.*unive  2.753 kB 2
+<missing>     7 weeks ago   /bin/sh -c rm -rf /var/lib/apt/lists/*  0 B      2
+<missing>     7 weeks ago   /bin/sh -c set -xe   && echo '#!/bin/s  194.6 kB 2
+<missing>     7 weeks ago   /bin/sh -c #(nop) ADD file:8f997234193  187.8 MB 2
+$ docker history sample-node-app.slim                                        3
+IMAGE         CREATED       CREATED BY                              SIZE     4
+7451554aa807  42 hours ago  /bin/sh -c #(nop)  ENTRYPOINT ["node"   0 B      4
+2616067ec78d  42 hours ago  /bin/sh -c #(nop)  EXPOSE 8000/tcp      0 B      4
+4ef6d57d3230  42 hours ago  /bin/sh -c #(nop)  ENV PATH=/usr/local  0 B      4
+2d82f368c130  42 hours ago  /bin/sh -c #(nop)  WORKDIR /opt/my/ser  0 B      4
+0953a87c8e4f  42 hours ago  /bin/sh -c #(nop) COPY dir:36323da1e97  14.02 MB 4
+
+
+Listing 14.7. A seccomp profile
+$ SECCOMPFILE=$(ls $(pwd)/.images/*/artifacts/sample-node-app-seccomp.json)  1
+ $ cat ${SECCOMPFILE}                                                        2
+ {
+"defaultAction": "SCMP_ACT_ERRNO",                                           3
+   "architectures": [                                                        4
+   "SCMP_ARCH_X86_64"                                                        4
+   ],                                                                        4
+   "syscalls": [                                                             5
+     {                                                                       5
+       "name": "capset",                                                     5
+       "action": "SCMP_ACT_ALLOW"                                            5
+     },                                                                      5
+     {                                                                       5
+       "name": "rt_sigaction",                                               5
+       "action": "SCMP_ACT_ALLOW"                                            5
+     },                                                                      5
+     {                                                                       5
+       "name": "write",                                                      5
+       "action": "SCMP_ACT_ALLOW"                                            5
+     },                                                                      5
+ [...]                                                                       5
+    {                                                                        5
+     "name": "execve",                                                       5
+       "action": "SCMP_ACT_ALLOW"                                            5
+     },                                                                      5
+     {                                                                       5
+       "name": "getcwd",                                                     5
+       "action": "SCMP_ACT_ALLOW"                                            5
+     }                                                                       5
+   ]
+}
+
+
+// запускаем тонкий образ и проверям что он работает как нужно
+$ docker run -p32770:8000 -d --security-opt seccomp=/root/docker-slim-bin/.images/${IMAGEID}/artifacts
+ /sample-node-app-seccomp.json sample-node-app.slim                   1
+ 4107409b61a03c3422e07973248e564f11c6dc248a6a5753a1db8b4c2902df55        2
+$ sleep 10 && curl localhost:3277l                                      3
+{"status":"success","info":"yes!!!","service":"node"}                   4
+

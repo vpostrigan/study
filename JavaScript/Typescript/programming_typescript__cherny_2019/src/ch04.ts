@@ -642,3 +642,104 @@ type InnerNode = TreeNode & {
 let a30: TreeNode = {value: 'a'}
 let b30: LeafNode = {value: 'b', isLeaf: true}
 let c30: InnerNode = {value: 'c', children: [b30]}
+
+let a301 = mapNode(a30, _ => _.toUpperCase()) // TreeNode
+let b301 = mapNode(b30, _ => _.toUpperCase()) // LeafNode
+let c301 = mapNode(c30, _ => _.toUpperCase()) // InnerNode
+
+// T — это либо TreeNode, либо подтип TreeNode.
+function mapNode<T extends TreeNode>(node: T, // node должен быть либо TreeNode, либо подтипом TreeNode
+                                     f: (value: string) => string): T {
+    return {
+        ...node,
+        value: f(node.value)
+    }
+}
+
+
+// Ограниченный полиморфизм с несколькими ограничениями
+type HasSides = {numberOfSides: number}
+type SidesHaveLength = {sideLength: number}
+
+function logPerimeter<Shape extends HasSides & SidesHaveLength>(s: Shape): Shape {
+    console.log(s.numberOfSides * s.sideLength)
+    return s
+}
+
+type Square = HasSides & SidesHaveLength
+let square: Square = {numberOfSides: 4, sideLength: 3}
+logPerimeter(square) // Square, logs "12"
+
+
+// Использование ограниченного полиморфизма для моделирования арности
+function call<T extends unknown[], R>(
+    f: (...args: T) => R, // Первый параметр call — это переменная функция f, аргументы которой получают тип как у args.
+    ...args: T
+): R { // call возвращает значение типа R (R привязан к тому типу, который возвращает f)
+    return f(...args)
+}
+
+function fill2(length: number, value: string): string[] {
+    return Array.from({length}, () => value)
+}
+let a_call = call(fill2, 10, 'a') // вычисляется как массив 10и 'a'
+let b_call = call(fill2, 10)                 // Ошибка TS2554: ожидается 3 аргумента, но получено 2.
+let c_call = call(fill2, 10, 'a', 'z') // Ошибка TS2554: ожидается 3 аргумента, но получено 4.
+
+
+// Предустановки обобщенных типов
+type MyEvent1<T> = {
+    target: T,
+    type: string
+}
+// Чтобы создать новое событие, явно привяжем обобщенный тип к MyEvent,
+// представляя тип HTML-элемента, на который было направлено событие:
+let buttonEvent: MyEvent1<HTMLButtonElement> = {
+    target: myButton,
+    type: string
+}
+// Если тип элемента, к которому будет привязан MyEvent, заранее не известен,
+// можно добавить предустановку для обобщенного типа MyEvent:
+type MyEvent2<T = HTMLElement> = {
+    target: T,
+    type: string
+}
+// Или добавить ограничение для T, чтобы убедиться, что T является HTML элементом:
+type MyEvent3<T extends HTMLElement = HTMLElement> = {
+    target: T,
+    type: string
+}
+let myEvent1: MyEvent3 = {
+    target: myElement,
+    type: string
+}
+
+// Обратите внимание, что, подобно опциональным параметрам в функции,
+// обобщенные типы с предустановками должны идти после обобщенных типов без предустановок:
+// Хорошо
+type MyEvent20<
+    Type extends string,
+    Target extends HTMLElement = HTMLElement
+> = {
+    target: Target
+    type: Type
+}
+// Плохо
+type MyEvent30<
+    Target extends HTMLElement = HTMLElement,
+    Type extends string // Ошибка TS2706: необходимые параметры типов не могут следовать за опциональными.
+> = {
+    target: Target
+    type: Type
+}
+
+
+// [Разработка на основе типов]
+// Начните написание программы в TypeScript с определения сигнатур типов функций
+function map0<T, U>(array: T[], f: (item: T) => U): U[] {
+// ...
+    return []
+}
+// Даже если вы раньше не видели эту функцию, с первого взгляда понятно, что она делает:
+// получает массив T и функцию, производящую отображение из T в U, и возвращает массив U.
+

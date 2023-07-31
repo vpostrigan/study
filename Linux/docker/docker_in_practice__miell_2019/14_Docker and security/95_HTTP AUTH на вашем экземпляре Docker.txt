@@ -1,0 +1,68 @@
+HTTP AUTH ON YOUR DOCKER INSTANCE
+
+
+Listing 14.1. Dockerfile
+FROM debian
+RUN apt-get update && apt-get install -y nginx apache2-utils                                           1
+RUN htpasswd -c /etc/nginx/.htpasswd username                2
+RUN htpasswd -b /etc/nginx/.htpasswd username password       3
+RUN sed -i 's/user .*;/user root;/' /etc/nginx/nginx.conf                                         4
+ADD etc/nginx/sites-enabled/docker /etc/nginx/sites-enabled/docker                               5
+CMD service nginx start && sleep infinity                    6
+
+
+
+Listing 14.2. /etc/nginx/sites-enabled/docker
+upstream docker {
+  server unix:/var/run/docker.sock;                   1
+ }
+server {
+  listen 2375 default_server;                         2
+   location / {
+    proxy_pass http://docker;                         3
+     auth_basic_user_file /etc/nginx/.htpasswd;       4
+     auth_basic "Access restricted";                  5
+   }
+}
+
+
+$ docker run -d --name docker-authenticate -p 2375:2375 -v /var/run:/var/run dockerinpractice/docker-authenticate
+
+
+$ curl http://username:password@localhost:2375/info                      1
+ {"Containers":115,"Debug":0, >                                          2
+ "DockerRootDir":"/var/lib/docker","Driver":"aufs", >
+"DriverStatus":[["Root Dir","/var/lib/docker/aufs"], >
+["Backing Filesystem","extfs"],["Dirs","1033"]], >
+"ExecutionDriver":"native-0.2", >
+"ID":"QSCJ:NLPA:CRS7:WCOI:K23J:6Y2V:G35M:BF55:OA2W:MV3E:RG47:DG23", >
+"IPv4Forwarding":1,"Images":792, >
+"IndexServerAddress":"https://index.docker.io/v1/", >
+"InitPath":"/usr/bin/docker","InitSha1":"", >
+"KernelVersion":"3.13.0-45-generic", >
+"Labels":null,"MemTotal":5939630080,"MemoryLimit":1, >
+"NCPU":4,"NEventsListener":0,"NFd":31,"NGoroutines":30, >
+"Name":"rothko","OperatingSystem":"Ubuntu 14.04.2 LTS", >
+"RegistryConfig":{"IndexConfigs":{"docker.io": >
+{"Mirrors":null,"Name":"docker.io", >
+"Official":true,"Secure":true}}, >
+"InsecureRegistryCIDRs":["127.0.0.0/8"]},"SwapLimit":0}
+
+
+$ docker rm -f docker-authenticate
+
+Access is now revoked.
+
+
+
+
+[Using the docker command?]
+docker -H tcp://username:password@localhost:2375 ps
+
+$ docker run -d --name docker-authenticate-client \      1
+   -p 127.0.0.1:12375:12375 \                            2
+   dockerinpractice/docker-authenticate-client \         3
+   192.168.1.74:2375 username:password                   4
+
+теперь можно применить auth connection с командой
+docker -H localhost:12375 ps
