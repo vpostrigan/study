@@ -1,0 +1,57 @@
+EXTRACTING A FILE FROM AN IMAGE
+
+
+
+Copying a file from a container is easily achieved using the docker cp command.
+Not infrequently, you’ll want to extract a file from an image, but you don’t have a clean container
+running to copy from. In these cases, you can artificially run a container of the image,
+run docker cp, and then remove the container. This is already three commands,
+and you may run into trouble if, for example, the image has a default entrypoint that demands a meaningful argument.
+
+
+Listing 16.4. Extracting a file from an image using docker run
+$ docker run --rm  \                                1
+     -i \                                           2
+     -t \                                           3
+     --entrypoint=cat \                             4
+     ubuntu \                                       5
+     /etc/os-release \                              6
+     > ubuntu_os-release                            7
+ $ cat ubuntu_os-release
+NAME="Ubuntu"
+VERSION="16.04.1 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.1 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
+$ cat /etc/os-release                               8
+ cat: /etc/os-release: No such file or directory
+
+
+Listing 16.5. Using an alias to extract a file from an image
+$ alias imagecat='docker run --rm -i -t --entrypoint=cat'      1
+$ imagecat ubuntu /etc/os-release                             2
+NAME="Ubuntu"
+VERSION="16.04.1 LTS (Xenial Xerus)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 16.04.1 LTS"
+VERSION_ID="16.04"
+HOME_URL="http://www.ubuntu.com/"
+SUPPORT_URL="http://help.ubuntu.com/"
+BUG_REPORT_URL="http://bugs.launchpad.net/ubuntu/"
+VERSION_CODENAME=xenial
+UBUNTU_CODENAME=xenial
+
+
+If that’s the case, you’ll want to consider using docker export from technique 73,
+but rather than sending them to another machine, you can just extract the file you want from them.
+Bear in mind that a container doesn’t need to successfully start for you to export it—you can attempt
+to run it with a command that doesn’t exist inside the container and then export the stopped container
+(or just use docker create, which prepares a container for execution without starting it).
+

@@ -1,0 +1,114 @@
+REMOVING SECRETS ADDED DURING A BUILD
+
+You want to remove a file from an image’s history.
+Use 'docker-squash' to remove layers from the image.
+
+
+Listing 14.8. Crude method of not leaving a secret within a layer
+FROM ubuntu
+RUN echo mysecret > secretfile && command_using_secret && rm secretfile
+
+
+[An image with a secret]
+
+Listing 14.9. Simple Dockerfile with a secret
+FROM ubuntu
+CMD ls /                             1
+ADD /secret_file secret_file        2
+RUN cat /secret_file                3
+RUN rm /secret_file                 4
+
+
+Listing 14.10. Building the simple Docker image with a secret
+$ echo mysecret > secret_file
+$ docker build -t secret_build .
+Sending build context to Docker daemon  5.12 kB
+Sending build context to Docker daemon
+Step 0 : FROM ubuntu
+ ---> 08881219da4a
+Step 1 : CMD ls /
+ ---> Running in 7864e2311699
+ ---> 5b39a3cba0b0
+Removing intermediate container 7864e2311699
+Step 2 : ADD /secret_file secret_file
+ ---> a00886ff1240
+Removing intermediate container 4f279a2af398
+Step 3 : RUN cat /secret_file
+ ---> Running in 601fdf2659dd
+My secret
+ ---> 2a4238c53408
+Removing intermediate container 601fdf2659dd
+Step 4 : RUN rm /secret_file
+ ---> Running in 240a4e57153b
+ ---> b8a62a826ddf
+Removing intermediate container 240a4e57153b
+Successfully built b8a62a826ddf
+
+
+Listing 14.11. Tagging each step and demonstrating the layer with the secret
+$ x=0; for id in $(docker history -q secret_build:latest);
+ do ((x++)); docker tag $id secret_build:step_$x; done      1
+$ docker run secret_build:step_3 cat /secret_file'            2
+ mysecret
+
+
+[Squashing images to remove secrets]
+Listing 14.12. Using docker_squash to reduce layers of an image
+$ wget -qO- https://github.com/jwilder/docker-squash/releases/download
+ /v0.2.0/docker-squash-linux-amd64-v0.2.0.tar.gz | \
+  tar -zxvf -  && mv docker-squash /usr/local/bin                          1
+$ docker save secret_build:latest | \                                     2
+   docker-squash -t secret_build_squashed | \                              2
+   docker load                                                             2
+$ docker history secret_build_squashed                                    3
+ IMAGE         CREATED        CREATED BY                          SIZE
+ee41518cca25  2 seconds ago  /bin/sh -c #(nop) CMD ["/bin/sh" "  0 B
+b1c283b3b20a  2 seconds ago  /bin/sh -c #(nop)  CMD ["/bin/bash  0 B
+f443d173e026  2 seconds ago  /bin/sh -c #(squash) from 93c22f56  2.647 kB
+93c22f563196  2 weeks ago    /bin/sh -c #(nop) ADD file:7529d28  128.9 MB
+$ docker history secret_build                                              4
+ IMAGE         CREATED        CREATED BY                          SIZE
+b8a62a826ddf  3 seconds ago  /bin/sh -c rm /secret_file          0 B
+2a4238c53408  3 seconds ago  /bin/sh -c cat /secret_file         0 B
+a00886ff1240  9 seconds ago  /bin/sh -c #(nop) ADD file:69e77f6  10 B
+5b39a3cba0b0  9 seconds ago  /bin/sh -c #(nop) CMD ["/bin/sh" "  0 B
+08881219da4a  2 weeks ago    /bin/sh -c #(nop)  CMD ["/bin/bash  0 B
+6a4ec4bddc58  2 weeks ago    /bin/sh -c mkdir -p /run/systemd &  7 B
+98697477f76a  2 weeks ago    /bin/sh -c sed -i 's/^#\s*\(deb.*u  1.895 kB
+495ec797e6ba  2 weeks ago    /bin/sh -c rm -rf /var/lib/apt/lis  0 B
+e3aa81f716f6  2 weeks ago    /bin/sh -c set -xe && echo '#!/bin  745 B
+93c22f563196  2 weeks ago    /bin/sh -c #(nop) ADD file:7529d28  128.9 MB
+$ docker run secret_build_squashed ls /secret_file                         5
+ ls: cannot access '/secret_file': No such file or directory
+$ docker run f443d173e026 ls /secret_file                                  6
+ ls: cannot access '/secret_file': No such file or directory
+
+
+[A note on “missing” image layers]
+Listing 14.13. “Missing” layers in downloaded images
+$ docker history ubuntu                                                        1
+ IMAGE         CREATED      CREATED BY                               SIZE
+104bec311bcd  2 weeks ago  /bin/sh -c #(nop)  CMD ["/bin/bash"]     0 B
+<missing>     2 weeks ago  /bin/sh -c mkdir -p /run/systemd && ech  7 B
+<missing>     2 weeks ago  /bin/sh -c sed -i 's/^#\s*\(deb.*univer  1.9 kB
+<missing>     2 weeks ago  /bin/sh -c rm -rf /var/lib/apt/lists/*   0 B
+<missing>     2 weeks ago  /bin/sh -c set -xe   && echo '#!/bin/sh  745 B
+<missing>     2 weeks ago  /bin/sh -c #(nop) ADD file:7529d28035b4  129 MB
+$ docker save ubuntu | tar -xf -                                               2
+$ find . | grep tar$                                                          3
+ ./042e55060780206b2ceabe277a8beb9b10f48262a876fd21b495af318f2f2352/layer.tar
+./1037e0a8442d212d5cc63d1bc706e0e82da0eaafd62a2033959cfc629f874b28/layer.tar
+./25f649b30070b739bc2aa3dd877986bee4de30e43d6260b8872836cdf549fcfc/layer.tar
+./3094e87864d918dfdb2502e3f5dc61ae40974cd957d5759b80f6df37e0e467e4/layer.tar
+./41b8111724ab7cb6246c929857b0983a016f11346dcb25a551a778ef0cd8af20/layer.tar
+./4c3b7294fe004590676fa2c27a9a952def0b71553cab4305aeed4d06c3b308ea/layer.tar
+./5d1be8e6ec27a897e8b732c40911dcc799b6c043a8437149ab021ff713e1044f/layer.tar
+./a594214bea5ead6d6774f7a09dbd7410d652f39cc4eba5c8571d5de3bcbe0057/layer.tar
+./b18fcc335f7aeefd87c9d43db2888bf6ea0ac12645b7d2c33300744c770bcec7/layer.tar
+./d899797a09bfcc6cb8e8a427bb358af546e7c2b18bf8e2f7b743ec36837b42f2/layer.tar
+./ubuntu.tar
+$ tar -tvf ./4c3b7294fe004590676fa2c27a9a952def0b71553cab4305aeed4d06c3b308ea /layer.tar
+drwxr-xr-x  0 0      0           0 15 Dec 17:45 etc/
+drwxr-xr-x  0 0      0           0 15 Dec 17:45 etc/apt/
+-rw-r--r--  0 0      0        1895 15 Dec 17:45 etc/apt/sources.list
+

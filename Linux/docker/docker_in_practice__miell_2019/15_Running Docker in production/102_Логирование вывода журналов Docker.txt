@@ -1,0 +1,37 @@
+LOGGING YOUR DOCKER LOGS OUTPUT
+
+By default, Docker logs are captured within the Docker daemon, and you can access these with the docker logs command.
+As you’re probably aware, this shows you the output of the container’s main process.
+
+This technique requires Docker version 1.6.1 or higher.
+
+
+Journald is a system service that collects and stores logging data.
+ It creates and maintains a structured index of logs received from a variety of sources.
+ The logs can be queried with the journalctl command.
+
+
+[Logging to syslog]
+$ docker run --log-driver=syslog ubuntu echo 'outputting to syslog'
+outputting to syslog
+
+
+$ grep 'outputting to syslog' /var/log/syslog
+Jun 23 20:37:50 myhost docker/6239418882b6[2559]: outputting to syslog
+
+
+[Logging to journald]
+
+Outputting to a journal daemon looks similar:
+$ docker run --log-driver=journald ubuntu echo 'outputting to journald'
+outputting to journald
+$ journalctl | grep 'outputting to journald'
+Jun 23 11:49:23 myhost docker[2993]: outputting to journald
+
+
+[Applying across all containers]
+DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4"
+
+change it to this:
+DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4 --log-driver syslog"
+

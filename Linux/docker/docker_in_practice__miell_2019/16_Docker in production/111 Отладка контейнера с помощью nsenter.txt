@@ -1,0 +1,76 @@
+DEBUGGING A CONTAINER’S NETWORK WITH NSENTER
+
+
+$ docker run -v /usr/local/bin:/target jpetazzo/nsenter
+
+
+$ docker run -ti busybox /bin/bash
+FATA[0000] Error response from daemon: Cannot start container >
+a81e7e6b2c030c29565ef7adb94de20ad516a6697deeeb617604e652e979fda6: >
+exec: "/bin/bash": stat /bin/bash: no such file or directory
+$ CID=$(docker run -d busybox sleep 9999)                      1
+ $ PID=$(docker inspect --format {{.State.Pid}} $CID)          2
+ $ sudo nsenter --target $PID \                                3
+ --uts --ipc --net /bin/bash                                   4
+ root@781c1fed2b18:~#
+
+
+$ docker run -d --name offlinetest ubuntu:14.04.2 sleep infinity
+fad037a77a2fc337b7b12bc484babb2145774fde7718d1b5b53fb7e9dc0ad7b3
+$ docker exec offlinetest ping -q -c1 8.8.8.8                              1
+ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 2.966/2.966/2.966/0.000 ms
+$ docker exec offlinetest ifconfig eth0 down                               2
+ SIOCSIFFLAGS: Operation not permitted
+$ PID=$(docker inspect --format {{.State.Pid}} offlinetest)
+$ nsenter --target $PID --net ethtool -S eth0                              3
+ NIC statistics:
+     peer_ifindex: 53
+$ ip addr | grep '^53'                                                     4
+ 53: veth2e7d114: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue >
+master docker0 state UP
+$ sudo ifconfig veth2e7d114 down                                           5
+ $ docker exec offlinetest ping -q -c1 8.8.8.8                             6
+ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+
+--- 8.8.8.8 ping statistics ---
+1 packets transmitted, 0 received, 100% packet loss, time 0ms
+
+
+
+root@781c1fed2b18:/# tcpdump -XXs 0 -w /tmp/google.tcpdump &
+root@781c1fed2b18:/# wget google.com
+--2015-08-07 15:12:04--  http://google.com/
+Resolving google.com (google.com)... 216.58.208.46, 2a00:1450:4009:80d::200e
+Connecting to google.com (google.com)|216.58.208.46|:80... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: http://www.google.co.uk/?gfe_rd=cr&ei=tLzEVcCXN7Lj8wepgarQAQ >
+[following]
+--2015-08-07 15:12:04--  >
+http://www.google.co.uk/?gfe_rd=cr&ei=tLzEVcCXN7Lj8wepgarQAQ
+Resolving www.google.co.uk (www.google.co.uk)... 216.58.208.67, >
+2a00:1450:4009:80a::2003
+Connecting to www.google.co.uk (www.google.co.uk)|216.58.208.67|:80... >
+connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: 'index.html'
+
+index.html             [ <=>             ]  18.28K  --.-KB/s   in 0.008s
+
+2015-08-07 15:12:05 (2.18 MB/s) - 'index.html' saved [18720]
+
+root@781c1fed2b18:# 15:12:04.839152 IP 172.17.0.26.52092 > >
+google-public-dns-a.google.com.domain: 7950+ A? google.com. (28)
+15:12:04.844754 IP 172.17.0.26.52092 > >
+google-public-dns-a.google.com.domain: 18121+ AAAA? google.com. (28)
+15:12:04.860430 IP google-public-dns-a.google.com.domain > >
+172.17.0.26.52092: 7950 1/0/0 A 216.58.208.46 (44)
+15:12:04.869571 IP google-public-dns-a.google.com.domain > >
+172.17.0.26.52092: 18121 1/0/0 AAAA 2a00:1450:4009:80d::200e (56)
+15:12:04.870246 IP 172.17.0.26.47834 > lhr08s07-in-f14.1e100.net.http: >
+Flags [S], seq 2242275586, win 29200, options [mss 1460,sackOK,TS val >
+49337583 ecr 0,nop,wscale 7], length 0

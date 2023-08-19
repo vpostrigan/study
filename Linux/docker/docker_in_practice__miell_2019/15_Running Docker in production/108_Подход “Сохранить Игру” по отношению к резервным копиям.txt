@@ -1,0 +1,23 @@
+THE “SAVE GAME” APPROACH TO BACKUPS
+
+
+For such critical systems, it can pay to take the simple but effective approach of backing up the Docker service containers.
+Although your database is likely to be separate from your Docker infrastructure, the state of config, code, and logs can be stored in a registry with a couple of simple commands.
+
+PROBLEM
+
+You want to keep backups of Docker containers.
+
+SOLUTION
+
+
+Following Docker best practices and taking advantage of some Docker features can help you avoid the need to store container backups.
+As one example, using a logging driver as described in technique 102 instead of logging to the container filesystem means logs don’t need to be retrieved from the container backups.
+
+
+Listing 15.8. Committing and pushing a backup container
+DATE=$(date +%Y%m%d_%H%M%S)                                                1
+ TAG="your_log_registry:5000/live_pmt_svr_backup:$(hostname -s)_${DATE}"   2
+ docker commit -m="$DATE" -a="Backup Admin" live_pmt_svr $TAG              3
+ docker push $TAG                                                          4
+

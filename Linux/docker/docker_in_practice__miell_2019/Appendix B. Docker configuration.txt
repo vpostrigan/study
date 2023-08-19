@@ -1,0 +1,76 @@
+Appendix B. Docker configuration
+At various points in this book you’re advised to change your Docker configuration to make
+changes permanent on starting up your Docker host machines.
+Appendix B will advise you on the best practices to achieve this.
+The operating system distribution you use will be significant in this context.
+
+
+[Configuring Docker]
+The location of the config files for most mainstream distributions is listed in table B.1.
+
+Table B.1. Docker configuration file locations
+Distribution                   Configuration
+--------------------------------------------
+Ubuntu, Debian, Gentoo   	/etc/default/docker
+OpenSuse, CentOS, Red Hat	/etc/sysconfg/docker
+
+Note that some distributions keep the configuration to a single file, whereas others use a directory
+and multiple files. For example, on Red Hat Enterprise License, there’s a file
+called /etc/sysconfig/docker/docker-storage, which by convention contains configuration relating
+to storage options for the Docker daemon.
+
+If your distribution doesn’t have any files that match the names in table B.1,
+it’s worth checking for an /etc/docker folder, as there may be relevant files in there.
+
+Within these files, arguments to the Docker daemon’s startup command are managed.
+For example, when edited, a line such as the following allows you to set the starting arguments
+for the Docker daemon on your host.
+
+DOCKER_OPTS=""
+copy
+For example, if you want to change the location of Docker’s root directory from the default
+(which is /var/lib/docker), you might change the preceding line as follows:
+
+DOCKER_OPTS="-g /mnt/bigdisk/docker"
+
+
+[Unit]
+Description=Docker Application Container Engine
+Documentation=http://docs.docker.io
+After=network.target
+
+[Service]
+Type=notify
+EnvironmentFile=-/etc/sysconfig/docker
+ExecStart=/usr/bin/docker -d --selinux-enabled
+Restart=on-failure
+LimitNOFILE=1048576
+LimitNPROC=1048576
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+[Restarting Docker]
+
+
+[Restarting with systemctl]
+
+$ systemctl stop docker
+$ systemctl start docker
+
+Or you can just restart:
+
+$ systemctl restart docker
+
+Check the progress by running these commands:
+
+$ journalctl -u docker
+$ journalctl -u docker -f
+
+
+[Restarting with service]
+
+$ service docker stop
+$ service docker start

@@ -1,0 +1,61 @@
+LOGGING YOUR CONTAINERS TO THE HOST’S SYSLOG
+
+You want to capture syslogs centrally on your Docker host.
+
+
+The syslogger container can be created with this straightforward Dockerfile.
+Listing 15.1. Building a syslogger container
+FROM ubuntu:14.043
+RUN apt-get update && apt-get install rsyslog     1
+ VOLUME /dev                                      2
+ VOLUME /var/log                                  3
+ CMD rsyslogd -n                                  4
+
+
+
+docker build -t syslogger .
+docker run --name syslogger -d -v /tmp/syslogdev:/dev syslogger
+
+
+$ ls -1 /tmp/syslogdev/
+fd
+full
+fuse
+kcore
+log
+null
+ptmx
+random
+stderr
+stdin
+stdout
+tty
+urandom
+zero
+
+
+First, start up the containers.
+Listing 15.2. Starting up the logger containers
+for d in {1..100}
+do
+    docker run -d -v /tmp/syslogdev/log:/dev/log ubuntu logger hello_$d
+done
+
+
+
+$ docker exec -ti syslogger tail -f /var/log/syslog
+May 25 11:51:25 f4fb5d829699 logger: hello
+May 25 11:55:15 f4fb5d829699 logger: hello_1
+May 25 11:55:15 f4fb5d829699 logger: hello_2
+May 25 11:55:16 f4fb5d829699 logger: hello_3
+[...]
+May 25 11:57:38 f4fb5d829699 logger: hello_97
+May 25 11:57:38 f4fb5d829699 logger: hello_98
+May 25 11:57:39 f4fb5d829699 logger: hello_99
+
+
+
+$ docker exec syslogger bash -c "cat /var/log/syslog | \
+grep '^May 25 11'" | xz - > /var/log/archive/May25_11.log.xz
+
+

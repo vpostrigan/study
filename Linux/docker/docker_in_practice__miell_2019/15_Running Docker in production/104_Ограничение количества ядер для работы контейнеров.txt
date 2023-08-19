@@ -1,0 +1,18 @@
+RESTRICTING THE CORES A CONTAINER CAN EXECUTE ON
+
+By default, Docker allows containers to execute on any cores on your machine.
+Containers with a single process and thread will obviously only be able to max out one core,
+but multithreaded programs in a container (or multiple single-threaded programs)
+will be able to use all your CPU cores. You might want to change this behavior if you have a container
+that’s more important than others—it’s not ideal for customer-facing applications to have
+to fight for the CPU every time your internal daily reports run.
+You could also use this technique to prevent runaway containers from locking you out of SSH to a server.
+
+PROBLEM
+
+docker run ubuntu:14.04 sh -c 'cat /dev/zero >/dev/null'
+
+
+// использовать только первое ядро
+docker run --cpuset-cpus=0 ubuntu:14.04 sh -c 'cat /dev/zero >/dev/null'
+

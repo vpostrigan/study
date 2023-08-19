@@ -1,0 +1,86 @@
+ACCESSING HOST RESOURCES FROM THE CONTAINER
+
+In addition to the overhead imposed by some storage backends, another performance hit comes about
+as a result of the network interfaces Docker sets up to give each container its own network.
+As with filesystem performance, network performance is definitely not a bottleneck for everyone,
+but it’s something you may wish to benchmark for yourself (although the fine details of network tuning are very much outside the scope of this book).
+Alternatively, you may have other reasons to want to bypass Docker networking entirely
+—a server that opens random ports to listen on may not be well served by listening on port ranges
+ with Docker, especially because exposing a range of ports will allocate them on the host whether they’re in use or not.
+
+
+TABLE 16.1. NAMESPACES AND DOCKER
+Kernel namespace | Description             | Used in Docker? | “Switch off” option
+--------------------------------------------------------------------------
+Network	         | The network subsystem   | Yes             | --net=host
+IPC              | Inter-process communication:
+                   shared memory, semaphores,
+                   and so on               | Yes             | --ipc=host
+UTS              | Hostname and NIS domain | Yes             | --uts=host
+PID              | Process IDs             | Yes             | --pid=host
+Mount            | Mount points            | Yes             | --volume, --device
+User             | User and group IDs      | No              | N/A
+
+
+[Network and hostname]
+user@yourhostname:/$ docker run -ti --net=host ubuntu /bin/bash
+root@yourhostname:/#
+
+
+
+host$ docker run -ti ubuntu
+root@b1c4877a00cd:/# netstat
+Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+Active UNIX domain sockets (w/o servers)
+Proto RefCnt Flags       Type       State         I-Node   Path
+root@b1c4877a00cd:/#
+
+
+
+$ docker run -ti --net=host ubuntu
+root@host:/# netstat -nap | head
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address   Foreign Address State       PID /Program name
+tcp        0      0 127.0.0.1:47116 0.0.0.0:*       LISTEN      -
+tcp        0      0 127.0.1.1:53    0.0.0.0:*       LISTEN      -
+tcp        0      0 127.0.0.1:631   0.0.0.0:*       LISTEN      -
+tcp        0      0 0.0.0.0:3000    0.0.0.0:*       LISTEN      -
+tcp        0      0 127.0.0.1:54366 0.0.0.0:*       LISTEN      -
+tcp        0      0 127.0.0.1:32888 127.0.0.1:47116 ESTABLISHED -
+tcp        0      0 127.0.0.1:32889 127.0.0.1:47116 ESTABLISHED -
+tcp        0      0 127.0.0.1:47116 127.0.0.1:32888 ESTABLISHED -
+root@host:/#
+
+
+--net=host  - два контейнера не смогут использовать один порт 80
+но скорость сети значительно улучшается
+
+
+Figure 16.1 shows at a high level the layers of overhead a network packet must go through in Docker versus a native network. Whereas the native network need only go through the TCP/IP stack of the host to the network interface card (NIC), Docker has to additionally maintain a virtual Ethernet pair (a “veth pair”—a virtual representation of a physical connection via an Ethernet cable), a network bridge between this veth pair and the host network, and a layer of network address translation (NAT). This overhead can cause the Docker network to be half the speed of a native host network in normal use cases.
+
+
+[PID]
+
+The PID namespace flag is similar to the others:
+imiell@host:/$ docker run ubuntu ps -p 1                    1
+   PID TTY          TIME CMD
+    1 ?        00:00:00 ps                                  2
+imiell@host:/$ docker run --pid=host ubuntu ps -p 1         3
+   PID TTY          TIME CMD
+    1 ?        00:00:27 systemd                             4
+
+
+[Mount]
+docker run -ti --volume /:/host ubuntu /bin/bash
+
+
+[A host-like container]
+host:/$ docker run -ti --net=host --pid=host --ipc=host \    1
+ --volume /:/host \                                          2
+ busybox chroot /host                                        3
+
+
+$ docker run -ti --workdir /host \
+   --volume /:/host:ro ubuntu /bin/bash
+

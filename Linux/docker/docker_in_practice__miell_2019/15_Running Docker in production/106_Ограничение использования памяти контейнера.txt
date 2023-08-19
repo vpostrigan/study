@@ -1,0 +1,35 @@
+LIMITING THE MEMORY USAGE OF A CONTAINER
+
+
+SOLUTION
+Use the -m/--memory parameter to docker run.
+
+
+-GRUB_CMDLINE_LINUX=""
++GRUB_CMDLINE_LINUX="cgroup_enable=memory swapaccount=1"
+
+
+Listing 15.5. Setting the lowest-possible memory limit for a container (4m)
+$ docker run -it -m 4m ubuntu:14.04 bash             1
+
+root@cffc126297e2:/# \
+python3 -c 'open("/dev/zero").read(10*1024*1024)'    2
+ Killed                                              3
+
+root@e9f13cacd42f:/# \
+A=$(dd if=/dev/zero bs=1M count=10 | base64)         4
+
+$                                                   5
+$ echo $?                                           6    Код завершения
+137                                                 7
+
+
+docker run -m 100m jess/stress --vm 1 --vm-bytes 150M --vm-hang 0
+// отработает, память была зарезервирована 2 раза (100 + 100)
+
+docker top <container_id> -eo pid,size,args
+
+
+docker run -m 100m jess/stress --vm 1 --vm-bytes 250M --vm-hang 0
+// немедленно завершит работу
+

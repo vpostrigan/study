@@ -1,0 +1,17 @@
+GIVING IMPORTANT CONTAINERS MORE CPU
+
+
+когда контейнер запускается, ему присваивается количество (по умолчанию 1024) общих ресурсов процессора
+есть три контейнера A B C
+- A и B - 512; C - 1024; C - получить половину ЦП, A и B - четверть
+- A - 10; B - 100; C - 1000; A - получит менее 1%
+
+
+
+If you want to try this out, run the following:
+
+Listing 15.4. Starving a Docker shell of CPU
+docker run --cpuset-cpus=0 -c 10000 ubuntu:14.04 sh -c 'cat /dev/zero > /dev/null' &
+docker run --cpuset-cpus=0 -c 1 -it ubuntu:14.04 bash
+
+

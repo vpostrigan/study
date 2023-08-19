@@ -26,3 +26,9 @@ https://www.youtube.com/@urtaev/playlists    Компьютерные курсы
 https://www.youtube.com/@sm_80   UKR   assistance in setting up your PC, Android
 + https://www.youtube.com/watch?v=mGKE74jlX3M    Как отключить экран приветствия в Windows 10. Способ 1.
 + https://www.youtube.com/watch?v=NCB3IReZHe8    Как отключить безопасный режим в Windows 10?
+
+
+
+https://www.youtube.com/@vova_tech/videos
++ https://www.youtube.com/watch?v=z0udzOmWnsY    Встановлення та налаштування Kubuntu як для себе (частина 1)
++ https://www.youtube.com/watch?v=8piuudEtB7c    Встановлення та налаштування Kubuntu як для себе (частина 2)

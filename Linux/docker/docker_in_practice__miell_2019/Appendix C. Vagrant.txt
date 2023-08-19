@@ -1,0 +1,40 @@
+Appendix C. Vagrant
+
+At various points in this book we use virtual machines to demonstrate a technique for Docker
+that requires a full machine representation, or even multiple virtual-machine orchestration.
+Vagrant offers a simple way to start, provision, and manage virtual machines from the command line,
+and it’s available on several platforms.
+
+[Setting up]
+Go to https://www.vagrantup.com and follow the instructions from there to get set up.
+
+[GUIs]
+When running vagrant up to start up a virtual machine, Vagrant reads the local file
+called Vagrantfile to determine the settings.
+
+A useful setting that you can create or change within the section for your provider is the gui one:
+
+v.gui = true
+
+For example, if your provider is VirtualBox, a typical config section might look like this:
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "hashicorp/precise64"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 1024
+    v.cpus = 2
+    v.gui = false
+  end
+end
+copy
+You could change the v.gui line’s false setting to true (or add it if it isn’t already there)
+before running vagrant up to get a GUI for the running VM.
+
+TIP
+Livebook feature - Free preview
+In livebook, text is plciqdatc in books you do not own, but our free preview unlocks it
+for a couple of minutes.
+
+
+[Memory]

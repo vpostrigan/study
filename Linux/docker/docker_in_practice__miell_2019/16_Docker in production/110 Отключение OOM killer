@@ -1,0 +1,20 @@
+DISABLING THE OOM KILLER
+
+
+Use the --oom-kill-disable flag when starting your container.
+
+Listing 16.1. --oom-kill-disable shows a Warning
+$ docker run -ti --oom-kill-disable ubuntu sleep 1                     1
+ WARNING: Disabling the OOM killer on containers without setting a
+ '-m/--memory' limit may be dangerous.                              2
+
+
+Listing 16.2. --oom-kill-disable without a Warning
+$ docker run -ti --oom-kill-disable --memory 4M ubuntu sleep 1      1
+$                                                                   2
+
+
+Listing 16.3. Determining whether your container was “OOM-killed”
+$ docker inspect logger | grep OOMKilled
+            "OOMKilled": false,
+

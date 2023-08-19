@@ -1,0 +1,51 @@
+DEBUGGING CONTAINERS THAT FAIL ON SPECIFIC HOSTS
+
+
+
+[SELinux interference with containers]
+
+[root@centos vagrant]# docker run -ti ubuntu:12.04
+Unable to find image 'ubuntu:12.04' locally
+Pulling repository ubuntu
+78cef618c77e: Download complete
+b5da78899d3a: Download complete
+87183ecb6716: Download complete
+82ed8e312318: Download complete
+root@afade8b94d32:/# useradd -m -d /home/dockerinpractice dockerinpractice
+root@afade8b94d32:/# echo $?
+12
+
+
+[Debugging Linux API calls]
+
+Figure 16.2. How strace works
+# strace -f \
+                                                                             1
+ useradd -m -d /home/dockerinpractice dockerinpractice                       2
+ execve("/usr/sbin/useradd", ["useradd", "-m", "-d", >                       3
+ "/home/dockerinpractice", "dockerinpractice"], [/* 9 vars */]) = 0
+[...]
+open("/proc/self/task/39/attr/current", >                                    4
+ O_RDONLY) = 9
+read(9, "system_u:system_r:svirt_lxc_net_"..., >                             5
+ 4095) = 46
+close(9)                                = 0                                  6
+ [...]
+open("/etc/selinux/config", O_RDONLY)   = >
+                                                                             7
+ -1 ENOENT (No such file or directory)                                       7
+open("/etc/selinux/targeted/contexts/files/ >
+                                                                             7
+ file_contexts.subs_dist", O_RDONLY) = -1 ENOENT (No such file or directory) 7
+open("/etc/selinux/targeted/contexts/files/ >
+                                                                             7
+ file_contexts.subs", O_RDONLY) = -1 ENOENT (No such file or directory)
+                                                                             7
+open("/etc/selinux/targeted/contexts/files/ >
+                                                                             7
+ file_contexts", O_RDONLY) = -1 ENOENT (No such file or directory)
+                                                                             7
+[...]
+exit_group(12)                                                               8
+
+

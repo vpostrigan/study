@@ -1,0 +1,166 @@
+Appendix A. Installing and using Docker
+The techniques in this book sometimes require you to make files and clone repositories from GitHub.
+ To avoid interference, we suggest you create a new empty folder for each technique when you need some working space.
+
+Linux users have it relatively easy when it comes to installing and using Docker,
+though the fine details can vary significantly between different Linux distributions.
+Rather than enumerating the different possibilities here, we suggest you check the latest Docker documentation at https://docs.docker.com/installation/.
+The community edition (CE) of Docker is suitable for use with this book.
+
+Although we assume that you’re using a Linux distribution (the containers you’ll be looking at are Linux-based,
+so this keeps things simple), many users interested in Docker work on either Windows- or macOS-based machines.
+For these users it’s worth pointing out that the techniques in this book will still work, as Docker for Linux is officially supported on those platforms.
+For those who don’t want to (or can’t) follow the instructions at the preceding link, you can use one of the following approaches to set up the Docker daemon.
+
+NOTE
+Microsoft is committed to supporting the Docker container paradigm and management interface and has partnered with Docker Inc.
+to allow the creation of Windows-based containers.
+Although there are a number of learnings you can take to Windows containers after learning on Linux,
+there are many things that differ due to the very different ecosystems and underlying layers.
+We recommend getting started with the free ebook from Microsoft and Docker if you’re interested,
+but be aware that the space is newer and may not be as mature: https://blogs.msdn.microsoft.com/microsoft_press/2017/08/30/free-ebook-introduction-to-windows-containers/.
+
+[The virtual machine approach]
+One approach to using Docker on Windows or macOS is to install a full Linux virtual machine.
+Once that’s achieved, you can use the virtual machine exactly as you would any native Linux machine.
+
+The most common way to achieve this is to install VirtualBox.
+See http://virtualbox.org for more information and installation guides.
+
+[Docker client connected to an external Docker server]
+If you already have a Docker daemon set up as a server, you can install a client natively on your Windows or macOS machine that talks to it.
+Be aware that exposed ports will be exposed on the external Docker server, not on your local machine—you may need to alter IP addresses in order to access the exposed services.
+
+See technique 1 for the essentials of this more advanced approach and technique 96 for details on making it secure.
+
+[Native Docker client and virtual machine]
+A common (and officially recommended) approach is to have a minimal virtual machine that runs Linux and Docker,
+and a Docker client that talks to Docker on that virtual machine.
+
+The currently recommended and supported way of doing this is
+
+Mac users should install Docker for Mac: https://docs.docker.com/docker-for-mac/
+Windows users should install Docker for Windows: https://docs.docker.com/docker-for-windows/
+Unlike the virtual machine approach described previously, the VM created by the Docker for Mac/Windows tools is very lightweight,
+as it only runs Docker, but it’s worth being aware that you may still need to modify the memory of the VM in the settings if you’re running resource-heavy programs.
+
+Docker for Windows shouldn’t be confused with Windows Containers (though you can use Windows Containers after installing Docker for Windows).
+Be aware that Docker for Windows requires Windows 10 (but not Windows 10 Home Edition) due to a dependency on recent Hyper-V functionality.
+
+If you’re on Windows 10 Home or an older version of Windows, you may also want to try installing the Docker Toolbox,
+an older take on the same approach. Docker Inc. describes it as legacy,
+and we strongly recommend pursuing one of the alternative methods of using Docker if possible,
+as you’ll likely stumble across some oddities like these:
+
+Volumes need a double-slash at the beginning (https://github.com/docker/docker/issues/12751).
+Because containers are running in a VM that isn’t well integrated into the system, if you want to access an exposed port from the host,
+you’ll need to use docker-machine ip default in a shell to find the IP of the VM in order to visit it.
+If you want to expose ports to outside of the host, you’ll need to use a tool like socat to forward the port.
+If you’ve previously been using the Docker Toolbox and are looking to upgrade to the newer tools,
+you can find migration instructions for both Mac and Windows on the Docker website.
+
+We won’t cover the Docker Toolbox beyond noting it as an alternative approach above.
+
+Docker on Windows
+
+Because Windows is a very different operating system from Mac and Linux, we’ll go into a bit more detail to highlight some common problems and solutions.
+You should have installed Docker for Windows from https://docs.docker.com/docker-for-windows/ and made sure not to check the Use Windows Containers Instead of Linux Containers box.
+Starting the newly created Docker for Windows will begin loading Docker, which may take a minute—it will notify you once it’s started, and you’ll be ready to go!
+
+You can check that it’s working by opening PowerShell and running docker run hello-world.
+Docker will automatically pull the hello-world image from the Docker Hub and run it.
+The output of this command gives a brief description of the steps just taken regarding communication between the Docker client and daemon.
+Don’t worry if it doesn’t make much sense—there’s more detail about what goes on behind the scenes in chapter 2.
+
+Be aware that there will be some unavoidable oddities on Windows because the scripting used throughout this
+book assumes that you’re using bash (or a similar shell) and have a number of utilities available,
+including git for downloading code examples throughout the book.
+We recommend looking into Cygwin and the Windows Subsystem for Linux (WSL) in order to fill this gap—both provide
+a Linux-like environment with commands like socat, ssh, and perl, though you’ll likely find WSL a more complete experience
+when it comes to very Linux-specific tools like strace and ip (for ip addr).
+
+TIP
+Cygwin, available at https://www.cygwin.com/, is a collection of tools from Linux made available on Windows.
+If you want a Linux-like environment to experiment with or want to obtain a Linux tool for use natively on Windows (as a .exe),
+Cygwin should be top of your list. It comes with a package manager, so you can browse available software.
+By contrast, WSL (described at https://docs.microsoft.com/en-us/windows/wsl/install-win10) is
+an attempt from Microsoft to provide a complete emulated Linux environment on Windows,
+to the extent that you can copy executables from actual Linux machines and run them in WSL.
+It’s not perfect yet (you can’t run the Docker daemon, for example),
+but you can effectively treat it as a Linux machine for most purposes.
+A complete treatment of each of these is beyond the scope of this appendix.
+
+A couple of Windows replacements for some commands and components is listed below,
+but it’s worth bearing in mind that some of these will be noticeably imperfect
+replacements—this book focuses on using Docker to run Linux containers,
+and it makes sense that a “full” Linux installation
+(be it a fat VM, a box in the cloud, or an installation on your local machine)
+will be more capable at teasing out the full potential of Docker.
+
+ip addr—This command is typically used in this book to find the IP address of your machine
+on the local network. The Windows equivalent is ipconfig.
+strace—This is used in the book to attach to a process running in a container.
+Take a look at the “A host-like container” section in technique 109 for details on how to bypass
+Docker containerization and get host-like access inside the virtual machine running Docker—you’ll
+want to start a shell rather than run chrootand also use a Linux distribution with a package manager,
+like Ubuntu, rather than BusyBox. From there you can install and run commands as if you’re running
+on the host. This tip applies to many commands, and it almost lets you treat your Docker VM as a fat VM.
+
+
+[Exposing ports externally on Windows]
+
+Ports forwarding is handled automatically when using Docker for Windows, so you should be able
+to use localhost to access exposed ports as you’d expect. The Windows firewall may get in the way
+if you’re attempting to connect from external machines.
+
+If you’re on a trusted and firewalled network, you can work around this problem by temporarily disabling
+the Windows firewall, but remember to re-enable it again afterwards!
+One of us found that on a particular network this didn’t help, eventually determining that
+the network was set up in Windows as a “Domain” network, requiring a trip into
+the Windows Firewall advanced settings to perform the temporary disabling.
+
+[Graphical applications on Windows]
+
+Running Linux graphical applications on Windows can be challenging—not only do you have
+to make all the code work on Windows, you also need to decide how to display it.
+The windowing system used on Linux (known as the X Window System or X11) isn’t built into Windows.
+Fortunately, X allows you to display an application window over a network, so you can use
+an implementation of X on Windows to display applications running in a Docker container.
+
+There are a few different implementations of X on Windows, so we’re just going to cover
+the installation you can obtain with Cygwin. The official documentation is
+at http://x.cygwin.com/docs/ug/setup.html#setup-cygwin-x-installing, which you should follow.
+When selecting packages to install, you must ensure xorg-server, xinit, and xhost are selected.
+
+Once the installation has completed, open a Cygwin terminal and run XWin :0 -listen tcp -multiwindow.
+This will start an X server on your Windows machine with the ability to listen to connections from
+the network (-listen tcp) and display each application in its own window (-multiwindow) rather than
+a single window acting as a virtual screen to display applications on. Once it’s started,
+you should see an “X” icon in your system tray area.
+
+NOTE
+Although this X server can listen to the network, it currently only trusts the local machine.
+In all cases we’ve seen, this allows access from your Docker VM, but if you see issues
+with authorization you may want to try running the insecure xhost + command to permit access
+from all machines. If you do this, be sure your firewall is configured to reject any connection
+attempts from the network—under no circumstances run it with the Windows firewall disabled!
+If you do run this command, remember to run xhost- later to resecure it.
+
+It’s time to try out your X server. Find out the IP address of your local machine with ipconfig.
+We generally have success when using the IP address on the external facing adapter,
+be it a wireless or wired connection, as this seems to be where connections from your containers look
+like they’re coming from. If you have multiple adapters like this,
+you may need to try the IP address for each in turn.
+
+Starting your first graphical application should be as simple as running
+docker run -e DISPLAY=$MY_IP:0 --rm fr3nd/xeyes
+in PowerShell, where $MY_IP is the IP address you’ve found.
+
+If you’re not connected to a network, you can simplify matters by using the
+insecure xhost + command to allow you to use the DockerNAT interface.
+As before, remember to run xhost + when you’re done.
+
+Getting help
+If you run a non-Linux operating system and want to get further help or advice,
+the Docker documentation (https://docs.docker.com/install/) has the latest officially
+recommended advice for Windows and macOS users.
