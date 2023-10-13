@@ -11,6 +11,7 @@ interface Currency {
 
 namespace Currency {
   export let DEFAULT: Currency['unit'] = 'USD'
+
   export function from(value: number, unit = Currency.DEFAULT): Currency {
     return {unit, value}
   }
@@ -22,6 +23,8 @@ let amountDue: Currency = {
 }
 
 let otherAmountDue = Currency.from(330, 'EUR')
+
+
 
 // 1b. Add static methods to an enum.
 

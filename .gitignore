@@ -11,12 +11,9 @@ build/
 tmp/
 classes/
 Servers/
-events-grailsPlugins.iml
-events.iml
 logs/
 stacktrace.log
 target-eclipse/
 target/
 *.iml
 TempWmicBatchFile.bat
-/JavaScript/NodeJS/basic/node_modules/

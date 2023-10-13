@@ -1,6 +1,8 @@
 export default null // Force module mode
 
-// 1. Implement a general-purpose promisify function, which takes any function that takes exactly one argument and a callback, and wraps it in a function that returns a promise.
+// 1. Implement a general-purpose promisify function,
+// which takes any function that takes exactly one argument and a callback,
+// and wraps it in a function that returns a promise.
 function promisify<T, A>(
   f: (arg: A, f: (error: unknown, result: T | null) => void) => void
 ): (arg: A) => Promise<T> {
@@ -25,7 +27,9 @@ readFilePromise(__dirname + '/exercises.js').then(result =>
   console.log('done!', result.toString())
 )
 
-// 2. In the section on Typesafe Protocols we derived one half of a protocol for typesafe matrix math. Given this half of the protocol that runs in the main thread, implement the other half that runs in a Web Worker thread.
+// 2. In the section on Typesafe Protocols we derived one half of a protocol for typesafe matrix math.
+// Given this half of the protocol that runs in the main thread,
+// implement the other half that runs in a Web Worker thread.
 
 type Matrix = number[][]
 
