@@ -1,5 +1,0 @@
-// policy.all
-// grant AllPermission to all code (DANGEROUS!)
-grant {
-   permission java.security.AllPermission "", "";
-};
