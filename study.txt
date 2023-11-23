@@ -1,6 +1,6 @@
 ﻿
-https://www.w3schools.com/typescript/typescript_intro.php
 https://www.typescriptlang.org/docs/
+https://www.typescriptlang.org/docs/handbook/intro.html
 
 // //
 
@@ -123,7 +123,14 @@ https://www.youtube.com/c/devcolibri/playlists
 
 
 
+https://my-js.org/docs/guide/ts/
 
+
+https://docs.docker.com/
+https://docs.docker.com/get-started/overview/
+https://docs.docker.com/engine/reference/run/
+https://docs.docker.com/desktop/
+https://docs.docker.com/language/java/build-images/
 
 
 https://git-scm.com/book/ru/v2/%D0%92%D0%B5%D1%82%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D0%B2-Git-%D0%A0%D0%B0%D0%B1%D0%BE%D1%82%D0%B0-%D1%81-%D0%B2%D0%B5%D1%82%D0%BA%D0%B0%D0%BC%D0%B8
@@ -201,15 +208,13 @@ https://docs.google.com/document/d/1gQ2lsidvN2cDUUsHEkT05L-wGbX5mROB7d70Aaj3R64/
 https://www.youtube.com/watch?v=f76y3Id0Ayo
 https://tomassetti.me/antlr-mega-tutorial/#chapter38
 
-Docker для Начинающих - Полный Курс [2021]
-https://www.youtube.com/watch?v=n9uCgUzfeRQ
 
-Testcontainers – From Zero to Hero
-https://www.youtube.com/watch?v=v3eQCIWLYOw
+
 
 https://www.youtube.com/c/intellijidea/videos
+https://www.youtube.com/watch?v=v3eQCIWLYOw    Testcontainers – From Zero to Hero
 https://www.youtube.com/c/TechWorldwithNana/playlists?view=1&sort=dd&shelf_id=0
-https://www.youtube.com/watch?v=3c-iBn73dDE   Docker tutorial 2.45hours
+https://www.youtube.com/watch?v=3c-iBn73dDE    Docker tutorial 2.45hours
 
 
 https://esl.culips.com/2019/12/chatterbox-242-new-year-extravaganza/
@@ -276,11 +281,16 @@ https://www.youtube.com/@zaemiel
 + https://www.youtube.com/watch?v=wGJQWnmlSpc   Git, Git Flow, TDD #2 - Git Flow: Основы работы с ветками в Git
 + https://www.youtube.com/watch?v=ptssYZR4kus   Git, Git Flow, TDD #3 - Введение в TDD и тестирование в Python
 
+https://www.youtube.com/@VladilenMinin
++ https://www.youtube.com/watch?v=zZBiln_2FhM   Git и GitHub Курс Для Новичков
+
 
   Docker
 + https://www.youtube.com/watch?v=ck6xQqSOlpw   Docker in IntelliJ IDEA (2021)
 
 + https://habr.com/ru/company/ruvds/blog/450312/   Руководство по Docker Compose для начинающих
+
++ https://www.youtube.com/watch?v=n9uCgUzfeRQ   Docker для Начинающих - Полный Курс
 
 
   Typescript
@@ -298,6 +308,10 @@ https://www.youtube.com/playlist?list=PL4rYLeYunVf03ipmEcQAPWGmX26_IrVMQ
 + https://www.youtube.com/watch?v=lOBdQuB3eXw   TypeScript Generics type. Обобщенные типы
 + https://www.youtube.com/watch?v=ZCrExFH2bSA   TypeScript. Class decorator. Decorator factory.
 
+  https://www.youtube.com/@VladilenMinin/videos
++ https://www.youtube.com/watch?v=b598TqLzBb4   TypeScript за 2 минуты
++ https://www.youtube.com/watch?v=w2n5HkUNEv4   Полная настройка Node.js с TypeScript в 2023
++ https://www.youtube.com/watch?v=nyIpDs2DJ_c   TypeScript - Быстрый Курс за 70 минут
 
   NodeJS
 https://www.youtube.com/c/VladilenMinin/playlists
@@ -325,6 +339,9 @@ https://www.youtube.com/channel/UCEu9BEyJwzHj6lQgiPiCBMQ/videos
 CSS
 + https://www.youtube.com/watch?v=i-odJ-svB1Q   Сила селектора CSS
 
+  https://www.youtube.com/@VladilenMinin/videos
++ https://www.youtube.com/watch?v=SpCUuyZZTp8   CSS для Начинающих - Практический Курс
+
 CSS LESS
 + https://www.youtube.com/watch?v=GHYPsEDd_bs   Препроцессор LESS. Как быстро писать CSS код. Молниеносная верстка. (https://www.youtube.com/@Glo_Academy)
 
@@ -338,3 +355,7 @@ https://www.youtube.com/c/intellijidea/videos
 
 Быстрый курс по SQL для начинающих
 + https://www.youtube.com/playlist?list=PL4rYLeYunVf3DCrXe4XHdKAg8UJj0yzxG
+
+
++ https://www.linkedin.com/learning/practical-github-copilot       Practical GitHub Copilot
++ https://www.linkedin.com/learning/practical-github-code-search   Practical GitHub Code Search
