@@ -211,8 +211,8 @@ https://tomassetti.me/antlr-mega-tutorial/#chapter38
 
 
 
-https://www.youtube.com/c/intellijidea/videos
-https://www.youtube.com/watch?v=v3eQCIWLYOw    Testcontainers – From Zero to Hero
+
+
 https://www.youtube.com/c/TechWorldwithNana/playlists?view=1&sort=dd&shelf_id=0
 https://www.youtube.com/watch?v=3c-iBn73dDE    Docker tutorial 2.45hours
 
@@ -352,6 +352,8 @@ IntelliJ IDEA by JetBrains
 https://www.youtube.com/c/intellijidea/videos
 (https://www.youtube.com/channel/UC4ogdcPcIAOOMJktgBMhQnQ)
 + https://www.youtube.com/watch?v=2xOtyGUTpQU   Refactoring to Java 8
+
++ https://www.youtube.com/watch?v=P3C0iO1yqhk   Database Tools and SQL Support in IntelliJ IDEA (2012)
 
 Быстрый курс по SQL для начинающих
 + https://www.youtube.com/playlist?list=PL4rYLeYunVf3DCrXe4XHdKAg8UJj0yzxG

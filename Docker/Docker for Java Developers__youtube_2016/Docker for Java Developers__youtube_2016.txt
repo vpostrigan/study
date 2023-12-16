@@ -1,0 +1,160 @@
+https://www.youtube.com/watch?v=IgJXYU3GOM4       Docker for Java Developers
+
+
+// example1
+FROM ubuntu
+CMD echo "Hello world"
+
+
+// example2
+FROM java
+COPY target/hello.jar /usr/src/hello.jar
+CMD java -cp /usr/src/hello.jar org.example.App
+
+
+// Docker Workflow
+1) Client.   docker build   docker pull   docker run
+2) DOCKER_HOST.  Docker daemon, Containers, Images
+3) Registry (docker images).  Ubuntu, Nginx
+
+
+// Docker Machine
+(create Docker Host on computer or cloud provider)
+$ docker-machine create --driver=virtualbox myhost
+- configure Docker client to talk to host
+- create and pull images
+- start/stop/restart containers
+- Upgrade Docker
+
+
+// Docker Compose
+- defining and running multi-container applications
+- configuration defined in one or more files
+  - docker-compose.yml (default)
+  - docker-compose.override.yml (default)
+  - multiple files specified using -f
+  - all paths relative to base configuration file
+
+
+// Docker Compose - One Service
+version: "2"
+services:
+  db:
+    image: couchbase
+    volumes:
+      - ~/couchbase:/opt/couchbase/var
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 11210:11210
+
+// Docker Compose - Two Service   (both uses db)
+version: "2"
+services:
+  db:
+    container_name: "db"
+    image: couchbase
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 11210:11210
+  web:
+    image: jboss/wildfly
+    environment:
+      - COUCHBASE_URI=db
+    ports:
+      - 8080:8080
+      - 9990:9990
+
+
+// Overriding Services in Docker Compose
+docker-compose.yml:
+  mywildfly:
+    image: jboss/wildfly
+    ports:
+      - 8080:8080
+
+docker-compose.override.yml:
+  mywildfly:
+    image: jboss/wildfly
+    ports:
+      - 9080:8080               // override port
+
+$ docker-compose up -d
+
+
+// Dev/Prod with Compose
+docker-compose.yml:    $ docker-compose up -d
+  mycouchbase:
+    container_name: "db-dev"
+    image: arungupta/couchbase
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 11210:11210
+  mywildfly:
+    image: arungupta/wildfly
+    environment:
+      - COUCHBASE_URI=db-dev:8093
+    ports:
+      - 8080:8080
+
+production.yml:        $ docker-compose up -f docker-compose.yml -f production.yml -d
+  mycouchbase:
+    container_name: "db-prod"
+  mywildfly:
+    environment:
+      - COUCHBASE_URI=db-prod:8093
+    ports:
+      - 8080:80
+
+
+// Docker Swarm (containers from different clouds (AWS, Azure, ...) can run in one network)
+- Native clustering for Docker
+- Provides a unified interface to a pool of Docker hosts
+- Fully integrated with Machine and Compose
+- serves the standard Docker API
+
+
+//
+$ docker-machine ls                  list of active virtualbox
+$ docker-machine env default         environments
+$ docker images                      list of images
+$ docker ps                          list of containers
+
+
+// example
+Dockerfile:
+FROM jboss/wildfly
+ADD dockerjava.war /opt/jboss/wildfly/standalone/deployments/
+
+in Idea. Create 'Docker Deployment' with own name, and select Dockerfile.
+Look 1.png
+2.png
+
+
+Create docker-compose.yml:
+version: "2"
+services:
+  db:
+    image: arungupta/oreilly-couchbase:latest
+    ports:
+      - 8091:8091
+      - 8092:8092
+      - 8093:8093
+      - 11210:11210
+  web:
+    image: arungupta/oreilly-wildfly:latest
+    depends_on:
+      - db
+    environment:
+      - COUCHBASE_URI=db
+    ports:
+      - 8080:8080
+
+in Idea. Create 'Docker Deployment'
+Look 3.png
+
