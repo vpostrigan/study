@@ -33,3 +33,12 @@ https://www.youtube.com/@vova_tech/videos
 + https://www.youtube.com/watch?v=z0udzOmWnsY    Встановлення та налаштування Kubuntu як для себе (частина 1)
 + https://www.youtube.com/watch?v=8piuudEtB7c    Встановлення та налаштування Kubuntu як для себе (частина 2)
 + https://www.ubuntubuzz.com/2022/07/what-do-after-installing-kubuntu-2204-kde-plasma-524.html
+
+https://www.youtube.com/@user-hm6ut8tt4p         обычный пользователь
++ https://www.youtube.com/watch?v=BPBfViYa5-c    Kubuntu 22.04 - установка рядом с windows на один диск, настройка, kde 5.24, глюки, тест игр
+
+
+https://www.xda-developers.com/how-install-nodejs-linux/
+https://askubuntu.com/questions/90260/how-do-i-view-files-and-folders-in-a-list
+R-Linux
+Btop
