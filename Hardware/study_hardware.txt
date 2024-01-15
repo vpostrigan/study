@@ -2,10 +2,10 @@
 HP PC service videos | repair and replace parts
 https://www.youtube.com/playlist?list=PL1--vpgQOyau2tYUihT_XLx_p6FS9kK5b
 
++ https://www.youtube.com/watch?v=0HM1G0EkBE8    Обмен файлами по локальной сети между двумя ПК ноутбуками
 
 
 https://www.youtube.com/@urtaev/playlists    Компьютерные курсы
-+ https://www.youtube.com/watch?v=DCxVYb6Cj0U    Ускорение и оптимизация Windows 10 2004
 + https://www.youtube.com/watch?v=Ru9HsJcP4mQ    Правда ли что Windows 10 2004 "убивает" SSD диск? Решено.
 + https://www.youtube.com/watch?v=e80DsCdHMsQ    Делает ли Windows дефрагментацию SSD? Майкрософт подлатал Windows обновлениями KB4571744 и KB4571756
 + https://www.youtube.com/watch?v=10P2qjQu-ZM    Восстановление удаленных файлов в программе Windows File Recovery
@@ -21,6 +21,17 @@ https://www.youtube.com/@urtaev/playlists    Компьютерные курсы
 + https://www.youtube.com/watch?v=dxcnvijGRQQ    Загрузочная флешка Виндовс 8.1 создание в Rufus для начинающих
 + https://www.youtube.com/watch?v=xJpaPShcRYQ    Как установить Виндовс 8 с флешки на ноутбук и компьютер, для начинающих
 + https://www.youtube.com/watch?v=qqb9MMNH-y4    Как узнать GPT или MBR диск на компьютере или ноутбуке
++ https://www.youtube.com/watch?v=sHbeZ2-e46g    Перезагружать или Выключать? (Завершать работу) Быстрый запуск. Гибернация.
++ https://www.youtube.com/watch?v=Rj-MGIRaVKo    Настройка обновлений Manjaro Linux Plasma Desktop и еще несколько настроек после установки
++ https://www.youtube.com/watch?v=TfKtVbb73Js    Программы из Windows на Linux. Wine для начинающих
++ https://www.youtube.com/watch?v=tuDt_S_51Cs    Как заблокировать обновление до Windows 11 и остаться на Windows 10
++ https://www.youtube.com/watch?v=qhdeClhTiTo    Поиск текста в файлах Windows 11, 10 Поиск в Ворде, архивах
++ https://www.youtube.com/watch?v=H0YUAIhPo60    Ubuntu 22.04 настройка после установки. Ликбез
++ https://www.youtube.com/watch?v=JzL5yDGizmo    Поиск в Windows 10 настройка, поиск в Проводнике
++ https://www.youtube.com/watch?v=xqGXrb44sFc    Как найти и удалить точки восстановления Виндовс
++ https://www.youtube.com/watch?v=lpoXsPWqlB4    Точка восстановления Windows 10. Как создать и откатить для начинающих
++ https://www.youtube.com/watch?v=ulE99iQLf9o    Как удалить учетную запись Майкрософт
++ https://www.youtube.com/watch?v=Ld6vdJ9bmBE    Как установить драйвера на Windows и обновить их
 
 
 https://www.youtube.com/@sm_80   UKR   assistance in setting up your PC, Android

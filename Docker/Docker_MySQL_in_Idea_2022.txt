@@ -11,4 +11,4 @@ https://youtrack.jetbrains.com/issue/IDEA-297446
 Unable to type in Services -> Docker -> container -> Terminal window with Docker 4.10.1
 
 
-$ docker run -p 3306:3306 --name MySQLContainer8.0.28 --detach -e MYSQL_ROOT_PASSWORD="password" -e MYSQL_ROOT_HOST=% -e MYSQL_DATABASE=myDB -d mysql:8.0.28 --init-connect='GRANT CREATE USER ON *.* TO 'root'@'%';FLUSH PRIVILEGES;'
+$ docker run -p 3306:3306 --name MySQLContainer8.0.35 --detach -e MYSQL_ROOT_PASSWORD="password" -e MYSQL_ROOT_HOST=% -e MYSQL_DATABASE=myDB -d mysql:8.0.35 --init-connect='GRANT CREATE USER ON *.* TO 'root'@'%';FLUSH PRIVILEGES;'
