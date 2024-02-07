@@ -1,0 +1,10 @@
+https://www.linkedin.com/learning/sql-tips-and-tricks-for-data-science/
+Transact-SQL (T-SQL)
+
+
+
+docker run --name MsSqlServer2022  -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=yourStrong(!)Password" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+username: sa
+password: yourStrong(!)Password
+

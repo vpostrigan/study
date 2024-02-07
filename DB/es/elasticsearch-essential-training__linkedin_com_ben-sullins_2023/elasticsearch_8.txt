@@ -1,0 +1,16 @@
+https://www.linkedin.com/learning/elasticsearch-essential-training-18773441/exploring-your-cluster?autoSkip=true&autoplay=true&resume=false&u=81641906
+
+1)
+Install ElasticSearch
+Install Kibana
+Install cerebro
+
+Start ES and kibana
+D:\program_files\es_elasticsearch-7.15.0\bin   elasticsearch.bat
+D:\program_files\es_kibana-7.10.2\bin     kibana.bat
+
+http://127.0.0.1:5601/app/dev_tools#/console
+http://127.0.0.1:9000/#!/rest?host=http:%2F%2Flocalhost:9200
+
+
+
