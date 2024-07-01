@@ -1,0 +1,22 @@
+Если вы хотите избежать проблем с кодировкой раз и на всегда с MySQL - вам нужно выполнить три условия: 
+
+1. Установить правильный collation у базы данных при создании: 
+Цитата:
+CREATE DATABASE <<put_database_name_here>> 
+CHARACTER SET 'utf8' 
+COLLATE 'utf8_general_ci'; 
+
+Ex, CREATE DATABASE wordpress CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+
+2. Каждая таблица, которая может содержать не ASCII символы должна тоже иметь кодировку UTF-8. 
+Цитата:
+CREATE TABLE <<table_name>> ( 
+field INT 
+) DEFAULT CHARSET=utf8;
+
+
+
+3. При cоединении с базой данных используете следующий uri: 
+Цитата:
+jdbc:mysql://<host>:3306/<database>?useUnicode=true&characterEncoding=utf8
