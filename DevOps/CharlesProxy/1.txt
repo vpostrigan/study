@@ -1,0 +1,12 @@
+
+SSL Certificates
+https://www.charlesproxy.com/documentation/using-charles/ssl-certificates/
+
+Charles SSL CA Certificate installation
+http://chls.pro/ssl
+
+How to use Charles proxy in IE in Windows
++ https://www.youtube.com/watch?v=1d06NUhhJ7I&t=137s
+
+Обзор Charles Proxy | Что такое Charles Proxy | Установка Charles Proxy
++ https://www.youtube.com/watch?v=quMTRqhr14o
