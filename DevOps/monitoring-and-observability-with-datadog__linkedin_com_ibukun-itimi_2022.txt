@@ -1,0 +1,32 @@
++ https://www.linkedin.com/learning/monitoring-and-observability-with-datadog   Monitoring and Observability with Datadog
+
+1. Introduction to Observability
+- What is observability?
+- What is Datadog?
+
+2. Infrastructure Monitoring
+- What is infrastructure monitoring?
+- Understanding Datadog infrastructure metrics
+
+3. Application Performance Monitoring
+- What is APM?
+- Understanding Datadog APM metrics and error tracking
+- Defining SLIs, SLOs, and error budgets with Datadog
+- Customizing APM metrics and traces on Datadog
+
+4. Logging without Limits
+- Enabling Datadog logs
+- Analyzing logs with Datadog
+- Defining a robust logging pipeline on Datadog
+- Creating custom metrics with logs
+- Correlating logs and APM metrics on Datadog
+
+5. Utilizing Datadog Metrics
+- Building Datadog dashboards
+- Setting up Datadog monitors
+- Datadog Synthetics tests
+- Datadog incidents
+
+Conclusion
+- Leveraging Datadog integrations
+- Anomaly detection with Datadog
