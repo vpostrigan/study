@@ -114,3 +114,20 @@ $ history                   последние 10 команд
 
 $ man ls                    инструкция для команды ls
 
+
+$ ls
+$ echo $?
+0                   -  код завершения команды последнего запуска
+
+
+strace - это инструмент, который позволяет отслеживать вызовы API Linux
+$ strace -f ls
+execve("/usr/bin/ls", ["ls"], 0x7fffdc1489f8 /* 28 vars */) = 0
+brk(NULL)                               = 0x565468540000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7ffd328a4d50) = -1 EINVAL (Invalid argument)
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7f8b37269000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=19315, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 19315, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f8b37264000
+close(3)
