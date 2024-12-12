@@ -1,5 +1,0 @@
-
-POST http://www.pepsico.com/Sitefinity/public/services/storyhub/storycontent.svc/type/PressRelease
-Content-Type: application/json; charset=utf-8
-
-{"page_number":1,"content_type":"PressRelease","featured":false,"sort":"Recent","filter_type":"type","filter_value":"PressRelease"}
