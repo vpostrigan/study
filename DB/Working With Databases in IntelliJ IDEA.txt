@@ -1,0 +1,15 @@
+
+Working With Databases in IntelliJ IDEA
++ https://www.youtube.com/watch?v=nv8euZ2gOys
+
+What we’ll cover:
+– Creating a simple query: various types of code completion, code snippets, expanding wildcards, and working with subqueries.
+– Using the data editor: editable result sets, bulk submit, multiple submit, transposing data, and comparing data.
+– Data import/export: import from CSV files, export to JSON or UPDATES/INSERTS, and export to other databases.
+— Navigation: searching for database objects, data, SQL code, files, settings, and more.
+— Other features: user parameters, the diff tool, and query history.
+
+
+1) Can show hits when writing SQL queries.
+
+2) Can execute two requests and then compare two files.
