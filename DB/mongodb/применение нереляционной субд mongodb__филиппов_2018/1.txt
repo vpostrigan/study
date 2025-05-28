@@ -1,0 +1,244 @@
+
+1. Обзор нереляционных баз данных
+
+- основные категории:
+1) информация хранится по принципу КлючЗначение (Key-Value)
+(хэш-таблицы, в которых каждому значению соответствует уникальный ключ)
+(Redis)
+
+2) Базы данных, являющиеся клонами СУБД BigTable (Google)
+(таблицу данных с тремя параметрами (измерениями): колонка, строка и временная метка)
+(Hadoop, Cassandra)
+
+3) Документо-ориентированные базы данных
+(напоминают базы типа Key-Value; Хранилище данных имеет структуру дерева)
+(Документы могут быть дополнительно организованы в коллекции)
+(CouchDB, Berkeley DB, MongoDB)
+
+4) Нереляционные базы данных, основанные на графах
+(Neo4j)
+
+
+2. СУБД МongoDB
+
+- Вставка нового документа:
+db.mybase.insert({title: "MySQL"})                          // единичный объект
+db.mybase.insert([{title: "MS SQL"}, {title: "Oracle"}])    // массив
+db.articles.insert({title: "MongoDB", tags: ["NoSQL", "MongoDB"]})
+db.articles.insert({title: "Redis", tags:["NoSQL", "Redis"]})
+
+Для каждого документа автоматически создается идентификатор "_id",
+ который можно задавать вручную, с единственным условием, чтобы он оставался
+ уникальным в рамках текущей базы данных.
+
+Идентификатор, который формируется по умолчанию, формируется по следующему алгоритму:
+в старших четырех байтах находится время создания записи в формате UNIXSTAMP,
+следующие три байта — идентификатор компьютера,
+следующие два — идентификатор процесса,
+последние три — локальный счетчик процесса.
+
+- Типы данных:
+string — строки должны быть представлены в кодировке UTF-8;
+числа
+   double — 8-байтные числа с плавающей точкой IEEE;
+   int — 4-байтное целое число;
+   long — 8-байтное целое число;
+   datetime — календарный тип для хранения даты и времени,
+представляющий собой 8-байтное целое число, хранящее количество миллисекунд, прошедших с 1 января 1970 года;
+
+JavaScript поддерживает только числовой тип Number, соответствующий типу double
+
+Поэтому для явной вставки целых чисел типа int и long следует использовать
+классы NumberInt() и NumberLong(), соответственно
+db.numbers.save({num: NumberLong(5)});
+
+- Для подсчета количества документов
+db.mybase.count()
+
+- извлечь результаты, можно воспользоваться методом find()
+db.mybase.find()
+{ "_id" : ObjectId("51eb8c2bb4d7d4d898b05fce"), "title" : "MySQL"}
+{ "_id" : ObjectId("51eb905ab4d7d4d898b05fcf"), "title" : "PostreSQL" }
+
+db.mybase.find({"title" : "MySQL"})
+{ "_id" : ObjectId ("51eb9bb1303d105141c7d74b"), "title" : "MySQL" }
+
+db.mybase.count({"title" : "MySQL"})
+Результат: 1
+
+- Объекты и переменные JavaScript
+var where = {}
+where['title'] = "MySQL"
+db.mybase.find(where)
+{ "_id" : ObjectId("51eba53f303d105141c7d751"), "title" : "MySQL" }
+
+
+- Регулярные выражения
+// извлечения всех записей поле title, которые начинаются с символа M
+db.mybase.find({title: /^M/});
+{ "_id" : ObjectId("51f4dae823d2a4ef32d25ec4"), "title" : "MySQL" }
+{ "_id" : ObjectId("51f4dae823d2a4ef32d25ec6"), "title" : "MongoDB" }
+
+- Сортировка результатов
+// положительное — прямая сортировка, отрицательная — обратная
+db.mybase.find({title: /^M/}).sort({title: 1});
+{ "_id" : ObjectId("51f53e56a631742542dda011"), "title" : "MS SQL" }
+{ "_id" : ObjectId("51f53e55a631742542dda010"), "title" : "MongoDB" }
+{ "_id" : ObjectId("51f53e55a631742542dda00e"), "title" : "MySQL" }
+
+db.mybase.find({title: /^M/}).sort({title: -1});
+{ "_id" : ObjectId("51f53e55a631742542dda00e"), "title" : "MySQL" }
+{ "_id" : ObjectId("51f53e55a631742542dda010"), "title" : "MongoDB" }
+{ "_id" : ObjectId("51f53e56a631742542dda011"), "title" : "MS SQL" }
+
+// Сортировать можно по нескольким полям одновременно
+db.sortexmpl.find().sort({fst: 1, snd: 1})
+{ "_id" : ObjectId("51f56e07a631742542dda01b"), "fst" : 1, "snd" : 6 }
+{ "_id" : ObjectId("51f56e07a631742542dda017"), "fst" : 1, "snd" : 12 }
+{ "_id" : ObjectId("51f56e07a631742542dda019"), "fst" : 1, "snd" : 20 }
+{ "_id" : ObjectId("51f56e07a631742542dda018"), "fst" : 2, "snd" : 2 }
+{ "_id" : ObjectId("51f56e07a631742542dda016"), "fst" : 2, "snd" : 5 }
+
+- Ограничение выборки по полям документа
+
+// По умолчанию выборка содержит все поля документа
+(второй аргумент в виде JSON-структуры, с ключами, совпадающими с названиями столбцов
+ и значениями 1, если поле должно попадать в выборку и 0, если его необходимо исключить из выборки)
+db.mybase.find({title: /^M/}, {title: 1, _id: 0}).sort({title: 1});
+{ "title" : "MS SQL" }
+{ "title" : "MongoDB" }
+{ "title" : "MySQL" }
+
+(можно только поля которые нужно исключить)
+db.mybase.find({title: /^M/}, {_id: 0}).sort({title: 1});
+{ "title" : "MS SQL" }
+{ "title" : "MongoDB" }
+{ "title" : "MySQL" }
+
+// Если в условии нет необходимости, то в качестве первого запроса метода find() передается пустой селектор:
+db.mybase.find({}, {_id: 0}).sort({title: 1});
+{ "title" : "MS SQL" }
+{ "title" : "MongoDB" }
+{ "title" : "MySQL" }
+
+// извлечь лишь одно значение
+db.mybase.findOne({title: /^M/});
+{ "_id" : ObjectId("51f4dae823d2a4ef32d25ec4"), "title" : "MySQL"}
+
+// 2 статьи из коллекции mybase.
+db.mybase.find({title: /^M/}).sort({title: 1}).limit(2);
+{ "_id" : ObjectId("51f53e56a631742542dda011"), "title" : "MS SQL" }
+{ "_id" : ObjectId("51f53e55a631742542dda010"), "title" : "MongoDB" }
+
+// извлечь содержимое следующей «страницы»:
+db.mybase.find({title: /^M/}).sort({title: 1}).skip(0).limit(2);
+{ "_id" : ObjectId("51f53e56a631742542dda011"), "title" : "MS SQL" }
+{ "_id" : ObjectId("51f53e55a631742542dda010"), "title" : "MongoDB" }
+
+db.mybase.find({title: /^M/}).sort({title: 1}).skip(2).limit(2);
+{ "_id" : ObjectId("51f53e55a631742542dda00e"), "title" : "MySQL" }
+
+- Логические операторы (AND)
+// query + title
+db.lang.find({query: "JavaScript", title: /^M/})
+{ "_id" : ObjectId("51f55286a631742542dda015"), "title" : "MongoDB", "query" : "JavaScript" }
+
+// or
+db.lang.find({$or: [{query: "SQL"}, {title: /^M/}]})
+{ "_id" : ObjectId("51f55285a631742542dda013"), "title" : "MySQL", "query" : "SQL" }
+{ "_id" : ObjectId("51f55285a631742542dda014"), "title" : "PostgreSQL", "query" : "SQL" }
+{ "_id" : ObjectId("51f55286a631742542dda015"), "title" : "MongoDB", "query" : "JavaScript" }
+
+//Таблица 1. Операторы MongoDB
+Оператор SQL       MongoDB        Описание
+<                  $lt            Меньше
+<=                 $lte           Меньше или равно
+>                  $gt            Больше
+>=                 $gte           Больше или равно
+<>                 $ne            Не равно
+NOT                $not           Отрицание
+EXISTS             $exists        Проверка существования поля
+OR                 $or            Или
+NOT OR             $nor           Не или
+RLIKE, REGEXP      $regex         Соответствие регулярному выражению
+LIKE               $elemMatch     Соответствие всех полей вложенного документа
+-                  $size          Соответствие размеру массива
+-                  $type          Соответствие, если поле имеет указанный тип
+
+db.lang.find({_id: {$gt: ObjectId("51f55285a631742542dda013")}})
+{ "_id" : ObjectId("51f55285a631742542dda014"), "title" : "PostgreSQL", "query" : "SQL" }
+{ "_id" : ObjectId("51f55286a631742542dda015"), "title" : "MongoDB", "query" : "JavaScript" }
+db.lang.find({_id: {$lt: ObjectId("51f55285a631742542dda015")}})
+{ "_id" : ObjectId("51f55285a631742542dda013"), "title" : "MySQL", "query" : "SQL" }
+{ "_id" : ObjectId("51f55285a631742542dda014"), "title" : "PostgreSQL", "query" : "SQL" }
+db.lang.find({_id: {$gt: ObjectId("51f55285a631742542dda013"), $lt: ObjectId("51f55285a631742542dda015")}})
+{ "_id" : ObjectId("51f55285a631742542dda014"), "title" : "PostgreSQL", "query" : "SQL" }
+
+// двойное условие из предыдущего примера можно оформить в виде объекта, подставляемого в JSON-структуру
+var conditions = {}
+conditions['$gt'] = ObjectId("51f55285a631742542dda013")
+ObjectId("51f88c41b49ab634fd78bf93")
+conditions['$lt'] = ObjectId("51f55285a631742542dda015")
+ObjectId("51f88c41b49ab634fd78bf95")
+db.lang.find(conditions)
+db.lang.find({_id: conditions})
+{ "_id" : ObjectId("51f55285a631742542dda014"), "title" : "PostgreSQL", "query" : "SQL" }
+
+- Работа со списками
+Оператор SQL       MongoDB        Описание
+IN                 $in          Входит в список
+NOT IN             $nin         Не входит в список
+ALL                $all         Одновременное совпадение набора элементов
+
+запрос, извлекающий записи, поле title которых совпадает с одним из значений в списке ['MongoDB', 'MySQL']:
+db.lang.find({title: {$in: ['MongoDB', 'MySQL']}})
+{ "_id" : ObjectId("51f55285a631742542dda013"), "title" : "MySQL", "query" : "SQL" }
+{ "_id" : ObjectId("51f55286a631742542dda015"), "title" : "MongoDB", "query" : "JavaScript" }
+
+Для извлечения всех записей, не входящих в список ['MongoDB', 'MySQL'] можно воспользоваться оператором:
+$nindb.lang.find({title: {$nin: ['MongoDB', 'MySQL']}})
+{ "_id" : ObjectId("51f88c41b49ab634fd78bf94"), "title" : "PostgreSQL", "query" : "SQL" }
+
+- Обновление документов
+Следующая команда добавляет в документ с названием "MongoDB" дополнительное поле nosql, со значением "true":
+db.mybase.update({"title": "MongoDB"}, {$set: {nosql: "true"}})
+db.mybase.find()
+{ "_id" : ObjectId("51eb9bb1303d105141c7d74b"), "title" : "MySQL" }
+{ "_id" : ObjectId("51eb9bb1303d105141c7d74d"), "nosql" : "true", "title" : "MongoDB" }
+
+// без $set будет обновлен весь документ
+db.mybase.update({"title": "MongoDB"}, {nosql: "true"})
+db.mybase.find()
+{ "_id" : ObjectId("51eba53f303d105141c7d751"), "title" : "MySQL" }
+{ "_id" : ObjectId("51f9582829b045085952815f"), "nosql" : "true" }
+
+// Для удаления дополнительного поля nosql вместо оператора $set следует подставить $unset
+> db.mybase.update({"title": "MongoDB"}, {$unset: {nosql: "none"}})
+> db.mybase.find({"title": "MongoDB"})
+{ "_id" : ObjectId("51eb9bb1303d105141c7d74d"), "title" : "MongoDB" }
+
+// добавить ключевое слово в массив тэгов tags базы данных articles следует воспользоваться оператором $addToSet
+// обновиться только один документ
+db.articles.update({tags: "Redis"}, {$addToSet: {tags: "Обзор"}})
+// обновить все
+db.articles.update({tags: "Redis"}, {$addToSet: {tags: "Обзор"}}, false, true)
+
+// Таблица 3. Операторы, используемые совместно с методом update()
+Оператор      Описание
+$set         Обновление или создание поля
+$unset       Удаление поля
+$inc         Увеличение значения поля на заданное число
+$pop         Удаляет последний (или первый) элемент массива
+$pushAll     Помещает несколько элементов в массив
+$push        Помещает новый элемент в массив
+$addToSet    Помещает новый элемент в массив (исключаются дубликаты)
+$pull        Удаляет из массива значение (при его наличии)
+$pullAll     Удаляет из массива все подходящие значения
+
+- Удаление документов
+// удалить документы из текущей базы данных
+db.mybase.remove()
+
+// удалить все записи с ключом nosql равным "true"
+db.mybase.remove({nosql: "true"})
+
