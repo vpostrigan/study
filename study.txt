@@ -1,6 +1,7 @@
 ﻿
 https://www.typescriptlang.org/docs/
 https://www.typescriptlang.org/docs/handbook/intro.html
+https://jestjs.io/ru/docs/getting-started
 
 // //
 
@@ -209,8 +210,11 @@ https://www.youtube.com/watch?v=f76y3Id0Ayo
 https://tomassetti.me/antlr-mega-tutorial/#chapter38
 
 
+Apache Spark for Java Developers
+https://www.youtube.com/watch?v=O4VyOXzWH3w&list=PLwIFo6ewnySUWRPlMg9XTMKblSg8zHire&index=15
 
-
+Apache Spark Tutorial - Scala - From Novice to Expert
+https://www.youtube.com/playlist?list=PLlL9SaZVnVgizWn2Gr_ssHExaQUYik2vp
 
 
 https://www.youtube.com/c/TechWorldwithNana/playlists?view=1&sort=dd&shelf_id=0
@@ -226,6 +230,15 @@ http://www.alias-i.com/lingpipe/index.html
 
 https://www.youtube.com/c/amazonwebservices
 https://www.youtube.com/watch?v=vg5onp8TU6Q&list=PLhr1KZpdzukdRxs_pGJm-qSy5LayL6W_Y
+
+
+https://www.youtube.com/watch?v=zgbK9yYjVl0   Cypress полный курс | Cypress - JavaScript | Cypress Page Object
+
+
+https://www.youtube.com/@BoostBrainCourse
++ https://www.youtube.com/watch?v=0uwMKktzixU      Java Pro-двинутый #1. Основы Maven.
+
+
 
 
 
@@ -349,11 +362,18 @@ JetBrainsTV
 https://www.youtube.com/user/JetBrainsTV/videos
 + https://www.youtube.com/watch?v=tpv5n2jWHlw   Эффективная работа с кодом в IntelliJ IDEA, или Знаете ли вы свою IDE как знаем её мы?
 IntelliJ IDEA by JetBrains
-https://www.youtube.com/c/intellijidea/videos
-(https://www.youtube.com/channel/UC4ogdcPcIAOOMJktgBMhQnQ)
+https://www.youtube.com/@intellijidea/videos  (https://www.youtube.com/channel/UC4ogdcPcIAOOMJktgBMhQnQ)
 + https://www.youtube.com/watch?v=2xOtyGUTpQU   Refactoring to Java 8
-
 + https://www.youtube.com/watch?v=P3C0iO1yqhk   Database Tools and SQL Support in IntelliJ IDEA (2012)
++ https://www.youtube.com/watch?v=59RC8gVPlvk   IntelliJ IDEA. Debugger Essentials
++ https://www.youtube.com/watch?v=wvo9aXbzvy4   IntelliJ IDEA Pro Tips: Postfix Completion
+
+
+Web Dev Simplified
+https://www.youtube.com/@WebDevSimplified/videos
++ https://www.youtube.com/watch?v=HfTXHrWMGVY   Introduction to Web Development || Setup || Part 1
++ https://www.youtube.com/watch?v=l8knG0BPr-o   How To Debug React Apps Like A Senior Developer
+
 
 Быстрый курс по SQL для начинающих
 + https://www.youtube.com/playlist?list=PL4rYLeYunVf3DCrXe4XHdKAg8UJj0yzxG
@@ -361,3 +381,4 @@ https://www.youtube.com/c/intellijidea/videos
 
 + https://www.linkedin.com/learning/practical-github-copilot       Practical GitHub Copilot
 + https://www.linkedin.com/learning/practical-github-code-search   Practical GitHub Code Search
++ https://www.linkedin.com/learning/monitoring-and-observability-with-datadog   Monitoring and Observability with Datadog
